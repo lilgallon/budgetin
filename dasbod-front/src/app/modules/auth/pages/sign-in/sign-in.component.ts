@@ -41,19 +41,25 @@ export class SignInComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    const { username, password } = this.form.value;
+    const { email, password } = this.form.value;
 
-    // stop here if form is invalid
     if (this.form.invalid) {
       return;
     }
 
+    const formData = new FormData()
+    formData.append('email', email)
+    formData.append('password', password)
+
     this._authenticationService
-      .signIn(username, password)
+      .signIn(formData)
       .subscribe({
         next: (response) => {
-          console.log(response)
-          //   this._router.navigate(['/']);
+          if (response.ok) {
+            this._router.navigate(['/']).then();
+          } else {
+            console.error(response)
+          }
         },
         error: (error) => {
           console.error(error)

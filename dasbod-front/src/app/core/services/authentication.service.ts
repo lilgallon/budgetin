@@ -1,4 +1,4 @@
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpResponse} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Injectable} from "@angular/core";
 
@@ -9,8 +9,8 @@ export class AuthenticationService {
   constructor(private readonly _client: HttpClient) {
   }
 
-  public signIn(username: string, password: string): Observable<unknown> {
+  public signIn(formData: FormData): Observable<HttpResponse<void>> {
     return this._client
-      .post('signIn', JSON.stringify({username, password}))
+      .post<void>('/api/sign-in', formData, {withCredentials: true, observe: 'response'})
   }
 }

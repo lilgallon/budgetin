@@ -8,7 +8,7 @@ import io.ktor.server.routing.*
 import io.ktor.server.routing.get
 import io.ktor.server.sessions.*
 
-data class UserSession(val name: String) : Principal
+data class UserSession(val email: String) : Principal
 
 fun Application.configureSecurity() {
     install(Sessions) {
@@ -20,10 +20,10 @@ fun Application.configureSecurity() {
 
     install(Authentication) {
         form("auth-form") {
-            userParamName = "username"
+            userParamName = "email"
             passwordParamName = "password"
             validate { credentials ->
-                if (credentials.name == "lilian" && credentials.password == "admin") {
+                if (credentials.name == "lilian@gallon.dev" && credentials.password == "admin") {
                     UserIdPrincipal(credentials.name)
                 } else {
                     null
@@ -35,7 +35,7 @@ fun Application.configureSecurity() {
         }
         session<UserSession>("auth-session") {
             validate { session ->
-                if(session.name.startsWith("lili")) {
+                if(session.email.startsWith("lili")) {
                     session
                 } else {
                     null
@@ -49,9 +49,9 @@ fun Application.configureSecurity() {
 
     routing {
         authenticate("auth-form") {
-            post("/login") {
-                val userName = call.principal<UserIdPrincipal>()?.name.toString()
-                call.sessions.set(UserSession(name = userName))
+            post("/sign-in") {
+                val email = call.principal<UserIdPrincipal>()?.name.toString()
+                call.sessions.set(UserSession(email = email))
                 call.respond(HttpStatusCode.OK)
             }
         }
@@ -59,7 +59,7 @@ fun Application.configureSecurity() {
         authenticate("auth-session") {
             get("/hello") {
                 val userSession = call.principal<UserSession>()
-                call.respondText("Hello, ${userSession?.name}!")
+                call.respondText("Hello, ${userSession?.email}!")
             }
         }
 

@@ -1,88 +1,71 @@
 package dev.gallon.plugins
 
-import io.ktor.client.*
-import io.ktor.client.engine.apache.*
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.ktor.server.routing.get
 import io.ktor.server.sessions.*
 
+data class UserSession(val name: String) : Principal
+
 fun Application.configureSecurity() {
-    authentication {
-        basic(name = "myauth1") {
-            realm = "Ktor Server"
+    install(Sessions) {
+        cookie<UserSession>("user_session") {
+            cookie.path = "/"
+            cookie.maxAgeInSeconds = 60
+        }
+    }
+
+    install(Authentication) {
+        form("auth-form") {
+            userParamName = "username"
+            passwordParamName = "password"
             validate { credentials ->
-                if (credentials.name == credentials.password) {
+                if (credentials.name == "lilian" && credentials.password == "admin") {
                     UserIdPrincipal(credentials.name)
                 } else {
                     null
                 }
             }
-        }
-
-        form(name = "myauth2") {
-            userParamName = "user"
-            passwordParamName = "password"
             challenge {
-                /**/
+                call.respond(HttpStatusCode.Unauthorized, "Credentials are not valid")
+            }
+        }
+        session<UserSession>("auth-session") {
+            validate { session ->
+                if(session.name.startsWith("lili")) {
+                    session
+                } else {
+                    null
+                }
+            }
+            challenge {
+                call.respond(HttpStatusCode.Unauthorized, "Invalid session")
             }
         }
     }
-    data class MySession(val count: Int = 0)
-    install(Sessions) {
-        cookie<MySession>("MY_SESSION") {
-            cookie.extensions["SameSite"] = "lax"
-        }
-    }
-    authentication {
-        oauth("auth-oauth-google") {
-            urlProvider = { "http://localhost:8080/callback" }
-            providerLookup = {
-                OAuthServerSettings.OAuth2ServerSettings(
-                    name = "google",
-                    authorizeUrl = "https://accounts.google.com/o/oauth2/auth",
-                    accessTokenUrl = "https://accounts.google.com/o/oauth2/token",
-                    requestMethod = HttpMethod.Post,
-                    clientId = System.getenv("GOOGLE_CLIENT_ID"),
-                    clientSecret = System.getenv("GOOGLE_CLIENT_SECRET"),
-                    defaultScopes = listOf("https://www.googleapis.com/auth/userinfo.profile")
-                )
-            }
-            client = HttpClient(Apache)
-        }
-    }
-    routing {
-        authenticate("myauth1") {
-            get("/protected/route/basic") {
-                val principal = call.principal<UserIdPrincipal>()!!
-                call.respondText("Hello ${principal.name}")
-            }
-        }
-        authenticate("myauth2") {
-            get("/protected/route/form") {
-                val principal = call.principal<UserIdPrincipal>()!!
-                call.respondText("Hello ${principal.name}")
-            }
-        }
-        get("/session/increment") {
-            val session = call.sessions.get<MySession>() ?: MySession()
-            call.sessions.set(session.copy(count = session.count + 1))
-            call.respondText("Counter is ${session.count}. Refresh to increment.")
-        }
-        authenticate("auth-oauth-google") {
-            get("login") {
-                call.respondRedirect("/callback")
-            }
 
-            get("/callback") {
-                val principal: OAuthAccessTokenResponse.OAuth2? = call.authentication.principal()
-                call.sessions.set(UserSession(principal?.accessToken.toString()))
-                call.respondRedirect("/hello")
+    routing {
+        authenticate("auth-form") {
+            post("/login") {
+                val userName = call.principal<UserIdPrincipal>()?.name.toString()
+                call.sessions.set(UserSession(name = userName))
+                call.respond(HttpStatusCode.OK)
             }
+        }
+
+        authenticate("auth-session") {
+            get("/hello") {
+                val userSession = call.principal<UserSession>()
+                call.respondText("Hello, ${userSession?.name}!")
+            }
+        }
+
+        get("/logout") {
+            call.sessions.clear<UserSession>()
+            call.respond(HttpStatusCode.OK)
         }
     }
 }
-
-class UserSession(accessToken: String)

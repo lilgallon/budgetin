@@ -1,38 +1,83 @@
-# create-svelte
+<p align="center">
+    <img src="src/assets/preview/logo.png" width="150">
+</p>
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+<p align="center">
+    <a href="https://github.com/luciano-work/angular-tailwind/stargazers">
+        <img height= "24" src="https://img.shields.io/github/stars/luciano-work/angular-tailwind?colorA=1e1e28&colorB=c9cbff&style=for-the-badge">
+    </a>
+    <a href="https://github.com/luciano-work/angular-tailwind/issues">
+        <img height= "24" src="https://img.shields.io/github/issues/luciano-work/angular-tailwind?colorA=1e1e28&colorB=f7be95&style=for-the-badge">
+    </a>
+    <a href="https://github.com/luciano-work/angular-tailwind/contributors">
+        <img height= "24" src="https://img.shields.io/github/contributors/luciano-work/angular-tailwind?colorA=1e1e28&colorB=b1e1a6&style=for-the-badge">
+    </a>
+</p>
 
-## Creating a project
+#### Motivation
 
-If you're seeing this, you've probably already done this step. Congrats!
+For me, the best strategy for learning new skills is to practice. I have created this project to learn more about Tailwind CSS using my favorite framework (Angular). I have to tell you, Tailwind is amazing!
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+<b><img src="https://cdn-icons-png.flaticon.com/512/6897/6897039.png" width="14"/> The project is not finished yet!</b>
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+See [Demo](https://at.lanno.dev) page.
 
-## Developing
+<p>
+  <img alt="Preview" src="src/assets/preview/preview.gif">
+</p>
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+#### Versions
 
-```bash
-npm run dev
+<a href="https://angular.io"><img height= "24" src= "https://img.shields.io/badge/Angular 17-DD0031?style=for-the-badge&logo=angular&logoColor=white"></a> <a href="https://tailwindcss.com"><img height= "24" src= "https://img.shields.io/badge/Tailwind 3-0ea5e9?style=for-the-badge&logo=tailwind-css&logoColor=white"></a>
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+#### Features
 
-## Building
+- [x] Sidebar
+- [x] Dark Theme
+- [x] Navbar
+- [x] Footer
+- [x] Auth Module
+- [x] Dashboard Module
+- [x] Standalone components
+- [x] Angular Signals
+- [x] Multi Theme
+- [ ] User Module
+- [ ] Guards
+- [ ] Tests E2E
+- [ ] Animations
 
-To create a production version of your app:
+#### Commands
 
-```bash
-npm run build
-```
+| command                   | What it does?                                 |
+| ------------------------- | :-------------------------------------------- |
+| `npm start`               | Starts the server in dev mode                 |
+| `npm run lint`            | Runs ESLint on project                        |
+| `npm run prettier`        | Runs prettier on entire src folder            |
+| `npm run prettier:verify` | Runs prettier-check and throws error if fails |
+| `npm run prettier:staged` | Runs prettier on only staged (changed) files  |
 
-You can preview the production build with `npm run preview`.
+#### Dependencies
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+| Package            | What it does?                                                                               | Link                                                   |
+| ------------------ | :------------------------------------------------------------------------------------------ | :----------------------------------------------------- |
+| `angular-svg-icon` | Provides a means to inline SVG files to allow for them to be easily styled by CSS and code. | [Here](https://www.npmjs.com/package/angular-svg-icon) |
+| `apexcharts`       | Modern & Interactive Open-source Charts                                                     | [Here](https://www.npmjs.com/package/apexcharts)       |
+| `ng-apexcharts`    | Angular wrapper for ApexCharts to build interactive visualizations in Angular.              | [Here](https://www.npmjs.com/package/ng-apexcharts)    |
+
+#### Dev Dependencies
+
+| Package                       | What it does?                                                                                            | Link                                                              |
+| ----------------------------- | :------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------- |
+| `prettier`                    | An opinionated code formatter                                                                            | [Here](https://www.npmjs.com/package/prettier)                    |
+| `prettier-plugin-tailwindcss` | A Prettier plugin for Tailwind CSS that automatically sorts classes based on our recommended class order | [Here](https://www.npmjs.com/package/prettier-plugin-tailwindcss) |
+| `tailwind-scrollbar`          | Tailwind plugin for styling scrollbars.                                                                  | [Here](https://www.npmjs.com/package/tailwind-scrollbar)          |
+| `tailwindcss`                 | A utility-first CSS framework for rapidly building custom user interfaces.                               | [Here](https://www.npmjs.com/package/tailwindcss)                 |
+
+#### Icons and Patterns
+
+This project use [Hero Icons](https://heroicons.com/) and [Hero Patterns](https://heropatterns.com/)
+
+#### Disclaimer
+
+The Tailwind name and logos are trademarks of Tailwind Labs Inc.
+The Angular name and logos are trademarks of Google.

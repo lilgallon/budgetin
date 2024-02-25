@@ -13,4 +13,9 @@ export class AuthenticationService {
     return this._client
       .post<void>('/api/sign-in', formData, {withCredentials: true, observe: 'response'})
   }
+
+  public signUp(formData: FormData): Observable<HttpResponse<void>> {
+    return this._client
+      .post<void>('/api/sign-up', formData, {withCredentials: true, observe: 'response'})
+  }
 }

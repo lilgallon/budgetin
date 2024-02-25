@@ -10,6 +10,10 @@ import io.ktor.server.sessions.*
 
 data class UserSession(val email: String) : Principal
 
+//TODO: use persistant DB
+data class User(val email: String, val password: String)
+val users = mutableSetOf<User>()
+
 fun Application.configureSecurity() {
     install(Sessions) {
         cookie<UserSession>("user_session") {
@@ -19,11 +23,11 @@ fun Application.configureSecurity() {
     }
 
     install(Authentication) {
-        form("auth-form") {
+        form("sign-in-form") {
             userParamName = "email"
             passwordParamName = "password"
             validate { credentials ->
-                if (credentials.name == "lilian@gallon.dev" && credentials.password == "admin") {
+                if (users.any { it.email == credentials.name && it.password == credentials.password }) {
                     UserIdPrincipal(credentials.name)
                 } else {
                     null
@@ -31,6 +35,21 @@ fun Application.configureSecurity() {
             }
             challenge {
                 call.respond(HttpStatusCode.Unauthorized, "Credentials are not valid")
+            }
+        }
+        form("sign-up-form") {
+            userParamName = "email"
+            passwordParamName = "password"
+            validate { credentials ->
+                if (users.any { it.email == credentials.name }) {
+                    null
+                } else {
+                    users.add(User(credentials.name, credentials.password))
+                    UserIdPrincipal(credentials.name)
+                }
+            }
+            challenge {
+                call.respond(HttpStatusCode.BadRequest, "Bad request")
             }
         }
         session<UserSession>("auth-session") {
@@ -48,8 +67,15 @@ fun Application.configureSecurity() {
     }
 
     routing {
-        authenticate("auth-form") {
+        authenticate("sign-in-form") {
             post("/sign-in") {
+                val email = call.principal<UserIdPrincipal>()?.name.toString()
+                call.sessions.set(UserSession(email = email))
+                call.respond(HttpStatusCode.OK)
+            }
+        }
+        authenticate("sign-up-form") {
+            post("/sign-up") {
                 val email = call.principal<UserIdPrincipal>()?.name.toString()
                 call.sessions.set(UserSession(email = email))
                 call.respond(HttpStatusCode.OK)

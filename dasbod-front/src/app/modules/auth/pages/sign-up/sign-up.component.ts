@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import {Router, RouterLink} from '@angular/router';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import { ButtonComponent } from 'src/app/shared/components/button/button.component';
+import {ButtonComponent} from 'src/app/shared/components/button/button.component';
 import {AuthenticationService} from "../../../../core/services/authentication.service";
 import {NgClass, NgIf} from "@angular/common";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-sign-up',
@@ -23,6 +24,7 @@ export class SignUpComponent implements OnInit {
     private readonly _formBuilder: FormBuilder,
     private readonly _router: Router,
     private readonly _authenticationService: AuthenticationService,
+    private readonly _toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -79,12 +81,15 @@ export class SignUpComponent implements OnInit {
     this._authenticationService.signUp(formData).subscribe({
       next: (response) => {
         if (response.ok) {
+          this._toastr.success('Glad to meet you');
           this._router.navigate(['/']).then();
         } else {
+          this._toastr.error('Could not sign up');
           console.error(response);
         }
       },
       error: (error) => {
+        this._toastr.error('Could not sign up');
         console.error(error);
       },
     });

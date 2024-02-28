@@ -5,6 +5,7 @@ import { NgClass, NgIf } from '@angular/common';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
 import { AuthenticationService } from "../../../../core/services/authentication.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-sign-in',
@@ -21,7 +22,8 @@ export class SignInComponent implements OnInit {
   constructor(
     private readonly _formBuilder: FormBuilder,
     private readonly _router: Router,
-    private readonly _authenticationService: AuthenticationService
+    private readonly _authenticationService: AuthenticationService,
+    private readonly _toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -56,12 +58,16 @@ export class SignInComponent implements OnInit {
       .subscribe({
         next: (response) => {
           if (response.ok) {
+            console.log(response)
+            this._toastr.success('Glad to meet you');
             this._router.navigate(['/']).then();
           } else {
-            console.error(response)
+            this._toastr.error('Could not sign in');
+            console.error(response);
           }
         },
         error: (error) => {
+          this._toastr.error('Could not sign in');
           console.error(error)
         }
       })

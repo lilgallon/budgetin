@@ -1,7 +1,10 @@
+'use client'
+
 import Link from "next/link"
 
 import { siteConfig } from "@/config/site"
-import { buttonVariants } from "@/components/ui/button"
+import {Button, buttonVariants} from "@/components/ui/button"
+import {useAuth0} from "@auth0/auth0-react";
 
 export default function IndexPage() {
   return (
@@ -13,16 +16,6 @@ export default function IndexPage() {
         <p className="max-w-[700px] text-lg text-muted-foreground">
           wip
         </p>
-      </div>
-      <div className="flex gap-4">
-        <Link
-          target="_blank"
-          rel="noreferrer"
-          href={siteConfig.links.github}
-          className={buttonVariants({ variant: "outline" })}
-        >
-          GitHub
-        </Link>
       </div>
     </section>
   )

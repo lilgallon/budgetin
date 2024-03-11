@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 
 
 
-export function moneyCell(value: string, className: string = "") {
+export function moneyCell(value: string, className: string = "", dynamicColor: 'no' | 'yes' | 'yes-invert' = 'no') {
     const amount = parseFloat(value)
 
     // Format the amount as a dollar amount
@@ -17,7 +17,16 @@ export function moneyCell(value: string, className: string = "") {
         currency: "EUR",
     }).format(amount)
 
-    return (<div className={"font-medium " + className}>{formatted}</div>)
+    switch (dynamicColor) {
+      case "yes":
+          className += amount > 0 ? " text-green-400" : " text-red-400";
+            break;
+      case "yes-invert":
+        className += amount > 0 ? " text-red-400" : " text-green-400"
+        break
+    }
+
+    return (<div className={"font-medium" + className}>{formatted}</div>)
 }
 
 export function sortableColumn<T>(label: string, column: Column<T>, className: string = "") {

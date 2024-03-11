@@ -102,7 +102,7 @@ const columns: ColumnDef<Category>[] = [
     {
         accessorKey: "remaining",
         header: "Remaining",
-        cell: ({row}) => moneyCell(row.getValue('remaining'))
+        cell: ({row}) => moneyCell(row.getValue('remaining'), "", "yes")
     },
 ]
 

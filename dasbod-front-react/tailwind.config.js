@@ -72,5 +72,9 @@ module.exports = {
       },
     },
   },
+  safelist: [
+    'text-green-400',
+    'text-red-400',
+  ],
   plugins: [require("tailwindcss-animate")],
 }

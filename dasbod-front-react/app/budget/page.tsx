@@ -1,7 +1,6 @@
-import Link from "next/link"
+'use client'
 
-import { siteConfig } from "@/config/site"
-import { buttonVariants } from "@/components/ui/button"
+import { TransactionsTable } from "@/components/business/budget/transactions-table"
 
 export default function BudgetPage() {
   return (
@@ -12,16 +11,8 @@ export default function BudgetPage() {
         </h1>
         <p className="max-w-[700px] text-lg text-muted-foreground">wip</p>
       </div>
-      <div className="flex gap-4">
-        <Link
-          target="_blank"
-          rel="noreferrer"
-          href={siteConfig.links.github}
-          className={buttonVariants({ variant: "outline" })}
-        >
-          GitHub
-        </Link>
-      </div>
+
+      <TransactionsTable></TransactionsTable>
     </section>
   )
 }

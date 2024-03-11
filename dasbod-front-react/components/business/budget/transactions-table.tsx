@@ -1,45 +1,21 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import {
-  CaretSortIcon,
-  ChevronDownIcon,
-  DotsHorizontalIcon, Pencil1Icon,
-  TrashIcon,
-} from "@radix-ui/react-icons"
-import {
-  ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from "@tanstack/react-table"
+import * as React from "react";
+import { CaretSortIcon, ChevronDownIcon, DotsHorizontalIcon, Pencil1Icon, TrashIcon } from "@radix-ui/react-icons";
+import { ColumnDef, ColumnFiltersState, SortingState, VisibilityState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
 
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+
+
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+
+
+
+
 
 const data: Payment[] = [
   {
@@ -48,6 +24,7 @@ const data: Payment[] = [
     category: "success",
     description: "ken99@yahoo.com",
     date: new Date(),
+    status: 'paid',
   },
   {
     id: "3u1reuv4",
@@ -55,6 +32,7 @@ const data: Payment[] = [
     category: "success",
     description: "Abe45@gmail.com",
     date: new Date(),
+    status: 'paid',
   },
   {
     id: "derv1ws0",
@@ -62,6 +40,7 @@ const data: Payment[] = [
     category: "processing",
     description: "Monserrat44@gmail.com",
     date: new Date(),
+    status: 'paid',
   },
   {
     id: "5kma53ae",
@@ -69,6 +48,7 @@ const data: Payment[] = [
     category: "success",
     description: "Silas22@gmail.com",
     date: new Date(),
+    status: 'not-paid',
   },
   {
     id: "bhqecj4p",
@@ -76,6 +56,7 @@ const data: Payment[] = [
     category: "failed",
     description: "carmella@hotmail.com",
     date: new Date(),
+    status: 'not-paid',
   },
 ]
 
@@ -84,7 +65,8 @@ export type Payment = {
   amount: number
   category: "pending" | "processing" | "success" | "failed"
   description: string
-  date: Date
+  date: Date,
+  status: 'paid' | 'not-paid',
 }
 
 export const columns: ColumnDef<Payment>[] = [
@@ -109,6 +91,21 @@ export const columns: ColumnDef<Payment>[] = [
     ),
     enableSorting: false,
     enableHiding: false,
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
+    cell: ({ row }) => {
+      const status = row.getValue("status")
+
+      if (status == 'paid') {
+        return (<Badge className="bg-green-400">Paid</Badge>)
+      } else if (status == 'not-paid') {
+        return (<Badge className="bg-red-400">Not paid</Badge>)
+      } else {
+        return (<Badge>Unknown</Badge>)
+      }
+    },
   },
   {
     accessorKey: "date",
@@ -170,6 +167,7 @@ export const columns: ColumnDef<Payment>[] = [
     },
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue("amount"))
+      const paid = parseFloat(row.getValue("paid"))
 
       // Format the amount as a dollar amount
       const formatted = new Intl.NumberFormat("fr-FR", {
@@ -177,7 +175,11 @@ export const columns: ColumnDef<Payment>[] = [
         currency: "EUR",
       }).format(amount)
 
-      return <div className="text-right font-medium">{formatted}</div>
+      return (
+        <div className="text-right font-medium">
+          {formatted}
+        </div>
+      )
     },
   },
   {
@@ -247,15 +249,16 @@ export function TransactionsTable() {
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter categories..."
+          placeholder="Filter descriptions..."
           value={
-            (table.getColumn("category")?.getFilterValue() as string) ?? ""
+            (table.getColumn("description")?.getFilterValue() as string) ?? ""
           }
           onChange={(event) =>
-            table.getColumn("category")?.setFilterValue(event.target.value)
+            table.getColumn("description")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
@@ -273,7 +276,7 @@ export function TransactionsTable() {
                     className="capitalize"
                     checked={column.getIsVisible()}
                     onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
+                      column.toggleVisibility(value)
                     }
                   >
                     {column.id}

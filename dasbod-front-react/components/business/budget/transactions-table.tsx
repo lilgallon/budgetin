@@ -1,12 +1,15 @@
 "use client"
 
 import * as React from "react"
+import { useEffect } from "react"
 import {
   CaretDownIcon,
-  CaretSortIcon, CheckCircledIcon,
+  CheckCircledIcon,
   ChevronDownIcon,
-  DotsHorizontalIcon, InfoCircledIcon,
-  Pencil1Icon, ResetIcon,
+  DotsHorizontalIcon,
+  InfoCircledIcon,
+  Pencil1Icon,
+  ResetIcon,
   TrashIcon,
 } from "@radix-ui/react-icons"
 import {
@@ -22,6 +25,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table"
 
+import { moneyCell, sortableColumn } from "@/lib/data-table"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -52,7 +56,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import {useEffect} from "react";
 
 export type Payment = {
   id: string
@@ -135,17 +138,7 @@ export const columns: ColumnDef<Payment>[] = [
   },
   {
     accessorKey: "status",
-    header: ({ column }) => {
-      return (
-          <Button
-              variant="ghost"
-              onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Status
-            <CaretSortIcon/>
-          </Button>
-      )
-    },
+    header: ({ column }) => sortableColumn("Status", column),
     cell: ({ row }) => {
       const status = row.getValue("status")
 
@@ -160,17 +153,7 @@ export const columns: ColumnDef<Payment>[] = [
   },
   {
     accessorKey: "date",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Date
-          <CaretSortIcon/>
-        </Button>
-      )
-    },
+    header: ({ column }) => sortableColumn("Date", column),
     cell: ({ row }) => (
       <div className="capitalize">
         {(row.getValue("date") as Date).toDateString()}
@@ -179,64 +162,22 @@ export const columns: ColumnDef<Payment>[] = [
   },
   {
     accessorKey: "category",
-    header: ({ column }) => {
-      return (
-          <Button
-              variant="ghost"
-              onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Category
-            <CaretSortIcon/>
-          </Button>
-      )
-    },
+    header: ({ column }) => sortableColumn("Category", column),
     cell: ({ row }) => (
       <div className="capitalize">{row.getValue("category")}</div>
     ),
   },
   {
     accessorKey: "description",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Description
-          <CaretSortIcon className="ml-2 h-4 w-4" />
-        </Button>
-      )
-    },
+    header: ({ column }) => sortableColumn("Description", column),
     cell: ({ row }) => (
       <div className="lowercase">{row.getValue("description")}</div>
     ),
   },
   {
     accessorKey: "amount",
-    header: ({ column }) => {
-      return (
-        <div className="text-right">
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Amount
-            <CaretSortIcon className="ml-2 h-4 w-4" />
-          </Button>
-        </div>
-      )
-    },
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"))
-
-      // Format the amount as a dollar amount
-      const formatted = new Intl.NumberFormat("fr-FR", {
-        style: "currency",
-        currency: "EUR",
-      }).format(amount)
-
-      return <div className="text-right font-medium">{formatted}</div>
-    },
+    header: ({ column }) => sortableColumn("Amount", column, "text-right"),
+    cell: ({ row }) => moneyCell(row.getValue("amount"), "text-right"),
   },
   {
     id: "actions",
@@ -322,11 +263,11 @@ export function TransactionsTable() {
   }
 
   const markSelectedAsPaid = () => {
-
+    // TODO
   }
 
   const markSelectAsProcessing = () => {
-
+    // TODO
   }
 
   return (

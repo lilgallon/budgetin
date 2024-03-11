@@ -1,5 +1,6 @@
-'use client'
+"use client"
 
+import { CategoriesTable } from "@/components/business/budget/categories-table"
 import { TransactionsTable } from "@/components/business/budget/transactions-table"
 
 export default function BudgetPage() {
@@ -12,6 +13,7 @@ export default function BudgetPage() {
         <p className="max-w-[700px] text-lg text-muted-foreground">wip</p>
       </div>
 
+        <CategoriesTable></CategoriesTable>
       <TransactionsTable></TransactionsTable>
     </section>
   )

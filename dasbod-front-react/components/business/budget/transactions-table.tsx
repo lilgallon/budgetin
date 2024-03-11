@@ -2,8 +2,9 @@
 
 import * as React from "react"
 import {
-  CaretSortIcon, CheckCircledIcon, CheckIcon,
-  ChevronDownIcon, Cross1Icon, CrossCircledIcon,
+  CaretDownIcon,
+  CaretSortIcon, CheckCircledIcon,
+  ChevronDownIcon,
   DotsHorizontalIcon, InfoCircledIcon,
   Pencil1Icon, ResetIcon,
   TrashIcon,
@@ -51,6 +52,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import {useEffect} from "react";
 
 export type Payment = {
   id: string
@@ -226,7 +228,6 @@ export const columns: ColumnDef<Payment>[] = [
     },
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue("amount"))
-      const paid = parseFloat(row.getValue("paid"))
 
       // Format the amount as a dollar amount
       const formatted = new Intl.NumberFormat("fr-FR", {
@@ -290,6 +291,7 @@ export function TransactionsTable() {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
+  const [rowsSelected, setRowsSelected] = React.useState<Payment[]>([])
 
   const table = useReactTable({
     data,
@@ -310,14 +312,50 @@ export function TransactionsTable() {
     },
   })
 
+  useEffect(() => {
+    setRowsSelected(Object.keys(rowSelection).map(key => data[parseInt(key)]))
+  }, [rowSelection]);
+
   const resetFilters = () => {
     table.getColumn("description")?.setFilterValue(undefined)
     table.getColumn("category")?.setFilterValue(undefined)
   }
 
+  const markSelectedAsPaid = () => {
+
+  }
+
+  const markSelectAsProcessing = () => {
+
+  }
+
   return (
     <div className="w-full">
       <div className="flex items-center py-4">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" disabled={rowsSelected.length === 0}>
+              Actions <CaretDownIcon className="ml-1"></CaretDownIcon>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-25" align="start">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuItem onClick={markSelectedAsPaid}>
+              <CheckCircledIcon className="mr-1"></CheckCircledIcon> Processing
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={markSelectAsProcessing}>
+              <InfoCircledIcon className="mr-1"></InfoCircledIcon> Paid
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <Pencil1Icon className="mr-1"></Pencil1Icon> Edit
+            </DropdownMenuItem>
+            <DropdownMenuItem className="text-red-500">
+              <TrashIcon className="mr-1"></TrashIcon> Delete
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
         <Input
           placeholder="Filter descriptions..."
           value={
@@ -326,7 +364,7 @@ export function TransactionsTable() {
           onChange={(event) =>
             table.getColumn("description")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm"
+          className="max-w-sm ml-5"
         />
         <Select
           value={
@@ -344,7 +382,7 @@ export function TransactionsTable() {
               <SelectLabel>Categories</SelectLabel>
               {categories.map((category) => {
                 return (
-                  <SelectItem value={category} className="capitalize">
+                  <SelectItem key={category} value={category} className="capitalize">
                     {category}
                   </SelectItem>
                 )

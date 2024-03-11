@@ -15,6 +15,6 @@ export const siteConfig = {
     },
   ],
   links: {
-    github: "https://github.com/shadcn/ui"
+    github: "https://github.com/shadcn/ui",
   },
 }

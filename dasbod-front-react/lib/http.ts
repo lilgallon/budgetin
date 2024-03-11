@@ -1,5 +1,5 @@
-import axios, {AxiosInstance} from "axios";
-import process from "process";
+import process from "process"
+import axios, { AxiosInstance } from "axios"
 
 /**
  * Usage Example:
@@ -21,17 +21,14 @@ import process from "process";
  * };
  */
 
-
 export namespace http {
-    const instance: AxiosInstance = axios.create({
-        baseURL: process.env.API_SERVER_URL,
-        timeout: 1000,
-    });
+  const instance: AxiosInstance = axios.create({
+    baseURL: process.env.API_SERVER_URL,
+    timeout: 1000,
+  })
 
-    export const authorized = (token: string) => {
-        instance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        return instance;
-    }
+  export const authorized = (token: string) => {
+    instance.defaults.headers.common["Authorization"] = `Bearer ${token}`
+    return instance
+  }
 }
-
-

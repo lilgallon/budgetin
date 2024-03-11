@@ -143,9 +143,17 @@ export const columns: ColumnDef<Payment>[] = [
       const status = row.getValue("status")
 
       if (status == "paid") {
-        return <Badge className="bg-green-400"><CheckCircledIcon className="mr-1"></CheckCircledIcon> Paid</Badge>
+        return (
+          <Badge className="bg-green-400">
+            <CheckCircledIcon className="mr-1"></CheckCircledIcon> Paid
+          </Badge>
+        )
       } else if (status == "processing") {
-        return <Badge className="bg-orange-400"><InfoCircledIcon className="mr-1"></InfoCircledIcon> Processing</Badge>
+        return (
+          <Badge className="bg-orange-400">
+            <InfoCircledIcon className="mr-1"></InfoCircledIcon> Processing
+          </Badge>
+        )
       } else {
         return <Badge>Unknown</Badge>
       }
@@ -188,11 +196,19 @@ export const columns: ColumnDef<Payment>[] = [
       let statusAction = <></>
       switch (payment.status) {
         case "paid":
-          statusAction = (<><InfoCircledIcon className="mr-1"></InfoCircledIcon> Processing</>);
-          break;
+          statusAction = (
+            <>
+              <InfoCircledIcon className="mr-1"></InfoCircledIcon> Processing
+            </>
+          )
+          break
         case "processing":
-          statusAction = (<><CheckCircledIcon className="mr-1"></CheckCircledIcon> Paid</>)
-          break;
+          statusAction = (
+            <>
+              <CheckCircledIcon className="mr-1"></CheckCircledIcon> Paid
+            </>
+          )
+          break
       }
 
       return (
@@ -254,8 +270,8 @@ export function TransactionsTable() {
   })
 
   useEffect(() => {
-    setRowsSelected(Object.keys(rowSelection).map(key => data[parseInt(key)]))
-  }, [rowSelection]);
+    setRowsSelected(Object.keys(rowSelection).map((key) => data[parseInt(key)]))
+  }, [rowSelection])
 
   const resetFilters = () => {
     table.getColumn("description")?.setFilterValue(undefined)
@@ -315,15 +331,19 @@ export function TransactionsTable() {
             table.getColumn("category")?.setFilterValue(value)
           }
         >
-          <SelectTrigger className="w-[180px] ml-5 capitalize" >
-            <SelectValue placeholder="Filter a category"/>
+          <SelectTrigger className="w-[180px] ml-5 capitalize">
+            <SelectValue placeholder="Filter a category" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
               <SelectLabel>Categories</SelectLabel>
               {categories.map((category) => {
                 return (
-                  <SelectItem key={category} value={category} className="capitalize">
+                  <SelectItem
+                    key={category}
+                    value={category}
+                    className="capitalize"
+                  >
                     {category}
                   </SelectItem>
                 )

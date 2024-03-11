@@ -2,22 +2,12 @@ plugins {
     alias(libs.plugins.convention.kotlin)
     alias(libs.plugins.ktor)
     alias(libs.plugins.kotlinx.serialization)
-    application
-}
-
-application {
-    mainClass.set("dev.gallon.ApplicationKt")
-
-    val isDevelopment: Boolean = project.ext.has("development")
-    applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
 }
 
 dependencies {
     implementation(libs.ktor.server.core.jvm)
     implementation(libs.ktor.server.auth.jvm)
     implementation(libs.ktor.server.auth.jwt.jvm)
-    implementation(libs.ktor.client.core.jvm)
-    implementation(libs.ktor.client.apache.jvm)
     implementation(libs.ktor.server.resources)
     implementation(libs.ktor.server.host.common.jvm)
     implementation(libs.ktor.server.status.pages.jvm)
@@ -26,7 +16,6 @@ dependencies {
     implementation(libs.ktor.server.call.logging.jvm)
     implementation(libs.ktor.server.content.negotiation.jvm)
     implementation(libs.ktor.serialization.kotlinx.json.jvm)
-    implementation(libs.ktor.server.netty.jvm)
     implementation(libs.log4j.core)
     implementation(libs.log4j.slf4j2)
     implementation(libs.log4j.kotlin)

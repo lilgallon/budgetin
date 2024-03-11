@@ -1,4 +1,4 @@
-package dev.gallon.plugins
+package dev.gallon.infra.http.ktor.plugins
 
 import io.ktor.http.*
 import io.ktor.resources.*

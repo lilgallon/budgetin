@@ -1,4 +1,4 @@
-package dev.gallon.plugins
+package dev.gallon.infra.http.ktor.plugins
 
 import com.auth0.jwk.JwkProviderBuilder
 import io.ktor.server.application.*

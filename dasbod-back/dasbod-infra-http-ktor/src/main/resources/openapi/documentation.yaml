@@ -1,0 +1,82 @@
+openapi: "3.0.3"
+info:
+  title: "dasbod API"
+  description: "dasbod API"
+  version: "1.0.0"
+servers:
+- url: "https://dasbod"
+paths:
+  /:
+    get:
+      description: ""
+      responses:
+        "200":
+          description: "OK"
+          content:
+            text/plain:
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Hello World!"
+  /api/messages/admin:
+    get:
+      description: ""
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "{\"message\": \"The API successfully recognized you as an\
+                    \ admin.\"}"
+  /api/messages/protected:
+    get:
+      description: ""
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "{\"message\": \"The API successfully validated your access\
+                    \ token.\"}"
+  /api/messages/public:
+    get:
+      description: ""
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "{\"message\": \"The API doesn't require an access token\
+                    \ to share this message.\"}"
+  /articles:
+    get:
+      description: ""
+      parameters:
+      - name: "sort"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "OK <br> Get all articles ..."
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: ""

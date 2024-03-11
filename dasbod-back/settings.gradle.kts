@@ -14,5 +14,7 @@ plugins {
 }
 
 include(
-    "app"
+    "dasbod-app",
+    "dasbod-domain",
+    "dasbod-infra-http-ktor"
 )

@@ -1,21 +1,69 @@
-"use client";
+"use client"
 
-import * as React from "react";
-import { CaretSortIcon, ChevronDownIcon, DotsHorizontalIcon, Pencil1Icon, TrashIcon } from "@radix-ui/react-icons";
-import { ColumnDef, ColumnFiltersState, SortingState, VisibilityState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
+import * as React from "react"
+import {
+  CaretSortIcon,
+  ChevronDownIcon,
+  DotsHorizontalIcon,
+  Pencil1Icon, ResetIcon,
+  TrashIcon,
+} from "@radix-ui/react-icons"
+import {
+  ColumnDef,
+  ColumnFiltersState,
+  SortingState,
+  VisibilityState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table"
 
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Input } from "@/components/ui/input"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
 
+export type Payment = {
+  id: string
+  amount: number
+  category: Category
+  description: string
+  date: Date
+  status: Status
+}
 
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-
-
-
-
+const categories = ["pending", "processing", "success", "failed"] as const
+export type Category = (typeof categories)[number]
+type Status = "paid" | "not-paid"
 
 const data: Payment[] = [
   {
@@ -24,7 +72,7 @@ const data: Payment[] = [
     category: "success",
     description: "ken99@yahoo.com",
     date: new Date(),
-    status: 'paid',
+    status: "paid",
   },
   {
     id: "3u1reuv4",
@@ -32,7 +80,7 @@ const data: Payment[] = [
     category: "success",
     description: "Abe45@gmail.com",
     date: new Date(),
-    status: 'paid',
+    status: "paid",
   },
   {
     id: "derv1ws0",
@@ -40,7 +88,7 @@ const data: Payment[] = [
     category: "processing",
     description: "Monserrat44@gmail.com",
     date: new Date(),
-    status: 'paid',
+    status: "paid",
   },
   {
     id: "5kma53ae",
@@ -48,7 +96,7 @@ const data: Payment[] = [
     category: "success",
     description: "Silas22@gmail.com",
     date: new Date(),
-    status: 'not-paid',
+    status: "not-paid",
   },
   {
     id: "bhqecj4p",
@@ -56,18 +104,9 @@ const data: Payment[] = [
     category: "failed",
     description: "carmella@hotmail.com",
     date: new Date(),
-    status: 'not-paid',
+    status: "not-paid",
   },
 ]
-
-export type Payment = {
-  id: string
-  amount: number
-  category: "pending" | "processing" | "success" | "failed"
-  description: string
-  date: Date,
-  status: 'paid' | 'not-paid',
-}
 
 export const columns: ColumnDef<Payment>[] = [
   {
@@ -98,12 +137,12 @@ export const columns: ColumnDef<Payment>[] = [
     cell: ({ row }) => {
       const status = row.getValue("status")
 
-      if (status == 'paid') {
-        return (<Badge className="bg-green-400">Paid</Badge>)
-      } else if (status == 'not-paid') {
-        return (<Badge className="bg-red-400">Not paid</Badge>)
+      if (status == "paid") {
+        return <Badge className="bg-green-400">Paid</Badge>
+      } else if (status == "not-paid") {
+        return <Badge className="bg-red-400">Not paid</Badge>
       } else {
-        return (<Badge>Unknown</Badge>)
+        return <Badge>Unknown</Badge>
       }
     },
   },
@@ -175,11 +214,7 @@ export const columns: ColumnDef<Payment>[] = [
         currency: "EUR",
       }).format(amount)
 
-      return (
-        <div className="text-right font-medium">
-          {formatted}
-        </div>
-      )
+      return <div className="text-right font-medium">{formatted}</div>
     },
   },
   {
@@ -245,6 +280,11 @@ export function TransactionsTable() {
     },
   })
 
+  const resetFilters = () => {
+    table.getColumn("description")?.setFilterValue(undefined)
+    table.getColumn("category")?.setFilterValue(undefined)
+  }
+
   return (
     <div className="w-full">
       <div className="flex items-center py-4">
@@ -258,6 +298,34 @@ export function TransactionsTable() {
           }
           className="max-w-sm"
         />
+        <Select
+          value={
+            (table.getColumn("category")?.getFilterValue() as string) ?? ""
+          }
+          onValueChange={(value) =>
+            table.getColumn("category")?.setFilterValue(value)
+          }
+        >
+          <SelectTrigger className="w-[180px] ml-5 capitalize" >
+            <SelectValue placeholder="Filter a category"/>
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Categories</SelectLabel>
+              {categories.map((category) => {
+                return (
+                  <SelectItem value={category} className="capitalize">
+                    {category}
+                  </SelectItem>
+                )
+              })}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+
+        <Button variant="outline" className="ml-5" onClick={resetFilters}>
+          <ResetIcon className="mr-1"></ResetIcon> Reset filters
+        </Button>
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -275,9 +343,7 @@ export function TransactionsTable() {
                     key={column.id}
                     className="capitalize"
                     checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(value)
-                    }
+                    onCheckedChange={(value) => column.toggleVisibility(value)}
                   >
                     {column.id}
                   </DropdownMenuCheckboxItem>

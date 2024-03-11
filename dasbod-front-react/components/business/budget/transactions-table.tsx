@@ -2,9 +2,9 @@
 
 import * as React from "react"
 import {
-  CaretSortIcon,
-  ChevronDownIcon,
-  DotsHorizontalIcon,
+  CaretSortIcon, CheckCircledIcon, CheckIcon,
+  ChevronDownIcon, Cross1Icon, CrossCircledIcon,
+  DotsHorizontalIcon, InfoCircledIcon,
   Pencil1Icon, ResetIcon,
   TrashIcon,
 } from "@radix-ui/react-icons"
@@ -63,7 +63,7 @@ export type Payment = {
 
 const categories = ["pending", "processing", "success", "failed"] as const
 export type Category = (typeof categories)[number]
-type Status = "paid" | "not-paid"
+type Status = "paid" | "processing"
 
 const data: Payment[] = [
   {
@@ -96,7 +96,7 @@ const data: Payment[] = [
     category: "success",
     description: "Silas22@gmail.com",
     date: new Date(),
-    status: "not-paid",
+    status: "processing",
   },
   {
     id: "bhqecj4p",
@@ -104,7 +104,7 @@ const data: Payment[] = [
     category: "failed",
     description: "carmella@hotmail.com",
     date: new Date(),
-    status: "not-paid",
+    status: "processing",
   },
 ]
 
@@ -133,14 +133,24 @@ export const columns: ColumnDef<Payment>[] = [
   },
   {
     accessorKey: "status",
-    header: "Status",
+    header: ({ column }) => {
+      return (
+          <Button
+              variant="ghost"
+              onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Status
+            <CaretSortIcon/>
+          </Button>
+      )
+    },
     cell: ({ row }) => {
       const status = row.getValue("status")
 
       if (status == "paid") {
-        return <Badge className="bg-green-400">Paid</Badge>
-      } else if (status == "not-paid") {
-        return <Badge className="bg-red-400">Not paid</Badge>
+        return <Badge className="bg-green-400"><CheckCircledIcon className="mr-1"></CheckCircledIcon> Paid</Badge>
+      } else if (status == "processing") {
+        return <Badge className="bg-orange-400"><InfoCircledIcon className="mr-1"></InfoCircledIcon> Processing</Badge>
       } else {
         return <Badge>Unknown</Badge>
       }
@@ -155,7 +165,7 @@ export const columns: ColumnDef<Payment>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Date
-          <CaretSortIcon className="" />
+          <CaretSortIcon/>
         </Button>
       )
     },
@@ -167,7 +177,17 @@ export const columns: ColumnDef<Payment>[] = [
   },
   {
     accessorKey: "category",
-    header: "Category",
+    header: ({ column }) => {
+      return (
+          <Button
+              variant="ghost"
+              onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Category
+            <CaretSortIcon/>
+          </Button>
+      )
+    },
     cell: ({ row }) => (
       <div className="capitalize">{row.getValue("category")}</div>
     ),
@@ -223,6 +243,16 @@ export const columns: ColumnDef<Payment>[] = [
     cell: ({ row }) => {
       const payment = row.original
 
+      let statusAction = <></>
+      switch (payment.status) {
+        case "paid":
+          statusAction = (<><InfoCircledIcon className="mr-1"></InfoCircledIcon> Processing</>);
+          break;
+        case "processing":
+          statusAction = (<><CheckCircledIcon className="mr-1"></CheckCircledIcon> Paid</>)
+          break;
+      }
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -236,7 +266,7 @@ export const columns: ColumnDef<Payment>[] = [
             <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(payment.id)}
             >
-              Paid
+              {statusAction}
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>

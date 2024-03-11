@@ -5,7 +5,7 @@
       <env name="ISSUER" value="https://lilgallon.eu.auth0.com/" />
     </envs>
     <option name="MAIN_CLASS_NAME" value="dev.gallon.ApplicationKt" />
-    <module name="dasbod-back.main" />
+    <module name="dasbod-back.app.main" />
     <shortenClasspath name="NONE" />
     <method v="2">
       <option name="Make" enabled="true" />

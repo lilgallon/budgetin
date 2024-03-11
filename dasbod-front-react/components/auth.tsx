@@ -10,7 +10,8 @@ export default function Auth({ children }: {children: React.ReactNode}) {
             clientId={process.env.AUTH0_CLIENT_ID!}
             authorizationParams={{
                 redirect_uri: process.env.AUTH0_CALLBACK_URL,
-                scope: 'openid profile email'
+                scope: 'openid profile email',
+                audience: process.env.AUTH0_AUDIENCE
             }}
         >
             {children}

@@ -13,7 +13,9 @@ fun main() {
 fun Application.module() {
     configureSecurity()
     configureHTTP()
+    configureErrors()
     configureMonitoring()
     configureSerialization()
     configureRouting()
+    configureDocs()
 }

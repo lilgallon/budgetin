@@ -1,0 +1,14 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="dasbod-back" type="JetRunConfigurationType">
+    <envs>
+      <env name="AUDIENCE" value="dasbod-api" />
+      <env name="ISSUER" value="https://lilgallon.eu.auth0.com/" />
+    </envs>
+    <option name="MAIN_CLASS_NAME" value="dev.gallon.ApplicationKt" />
+    <module name="dasbod-back.main" />
+    <shortenClasspath name="NONE" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

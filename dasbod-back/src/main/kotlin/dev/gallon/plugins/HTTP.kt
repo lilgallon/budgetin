@@ -13,10 +13,8 @@ fun Application.configureHTTP() {
         allowMethod(HttpMethod.Delete)
         allowMethod(HttpMethod.Patch)
         allowHeader(HttpHeaders.Authorization)
-        allowHeader("MyCustomHeader")
+        allowCredentials = true
+        allowNonSimpleContentTypes = true
         anyHost() // @TODO: Don't do this in production if possible. Try to limit it.
-    }
-    routing {
-        swaggerUI(path = "openapi")
     }
 }

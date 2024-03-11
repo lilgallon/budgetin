@@ -7,8 +7,6 @@ import { cn } from "@/lib/utils"
 import { SiteHeader } from "@/components/site-header"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
-import {Auth0Provider} from "@auth0/auth0-react";
-import process from "process";
 import React from "react";
 import Auth from "@/components/auth";
 

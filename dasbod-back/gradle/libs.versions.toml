@@ -7,9 +7,11 @@ log4j-kotlin = "1.2.0"
 log4j = "2.20.0"
 ktor = "2.3.8"
 auth0-jwts = "0.22.1"
+kotlinx-serialization-plugin = "1.9.22"
 kotlinx-coroutines = "1.7.3"
-kotlinx-serialization = "1.9.22"
 kotlinx-datetime = "0.6.0-RC.2"
+kotlinx-serialization = "1.6.3"
+mongodb-kotlin = "5.0.0"
 
 [plugins]
 # Our own convention plugins
@@ -21,16 +23,23 @@ convention-kotlin = { id = "conventions.kotlin", version = "unspecified" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
 ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
-kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinx-serialization" }
+kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinx-serialization-plugin" }
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
+# log
 log4j-core = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4j" }
 log4j-slf4j2 = { module = "org.apache.logging.log4j:log4j-slf4j2-impl", version.ref = "log4j" }
 log4j-kotlin = { module = "org.apache.logging.log4j:log4j-api-kotlin", version.ref = "log4j-kotlin" }
+# auth
 auth0-jwts = { module = "com.auth0:jwks-rsa", version.ref = "auth0-jwts" }
+# kotlinx
 kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
+kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinx-serialization" }
+# mongo
+mongodb-kotlin = { module = "org.mongodb:mongodb-driver-kotlin-coroutine", version.ref = "mongodb-kotlin" }
+mongodb-bson-kotlinx = { module = "org.mongodb:bson-kotlinx", version.ref = "mongodb-kotlin" }
 # ktor
 ktor-server-core-jvm = { module = "io.ktor:ktor-server-core-jvm", version.ref = "ktor" }
 ktor-server-auth-jvm = { module = "io.ktor:ktor-server-auth-jvm", version.ref = "ktor" }

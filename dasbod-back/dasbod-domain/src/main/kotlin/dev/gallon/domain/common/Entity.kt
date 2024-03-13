@@ -1,21 +1,24 @@
-package dev.gallon.domain
+package dev.gallon.domain.common
 
 import kotlinx.datetime.Instant
 
-sealed class Entity(
-    open val id: String,
-    open val metadata: Metadata
+interface EntityData
+
+data class Entity<T : EntityData>(
+    val id: String,
+    val metadata: EntityMetadata,
+    val data: T
 )
 
-data class Metadata(
+data class EntityMetadata(
     val modificationsLog: ModificationsLog,
     val owner: String
 )
 
 data class ModificationsLog(
     val created: ModificationLog,
-    val updated: ModificationLog,
-    val deleted: ModificationLog,
+    val updated: ModificationLog? = null,
+    val deleted: ModificationLog? = null
 )
 
 data class ModificationLog(

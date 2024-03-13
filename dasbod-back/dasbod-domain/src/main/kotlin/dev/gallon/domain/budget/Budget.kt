@@ -1,17 +1,17 @@
-package dev.gallon.domain
+package dev.gallon.domain.budget
 
+import dev.gallon.domain.common.EntityData
+import dev.gallon.domain.common.Reference
 import kotlinx.datetime.LocalDate
 import java.math.BigDecimal
 
 data class BudgetPlan(
-    override val id: String,
-    override val metadata: Metadata,
     val moneyAtStart: BigDecimal,
     val expectedIncome: BigDecimal,
     val startDate: LocalDate,
     val endDate: LocalDate,
     val categories: List<BudgetCategory>
-)  : Entity(id, metadata)
+) : EntityData
 
 data class BudgetCategory(
     val name: String,
@@ -19,10 +19,8 @@ data class BudgetCategory(
 )
 
 data class BudgetTransaction(
-    override val id: String,
-    override val metadata: Metadata,
     val budgetPlanRef: Reference<BudgetPlan>,
     val date: LocalDate,
     val amount: BigDecimal,
     val description: String
-) : Entity(id, metadata)
+) : EntityData

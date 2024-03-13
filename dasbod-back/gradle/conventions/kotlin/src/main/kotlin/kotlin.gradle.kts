@@ -12,8 +12,14 @@ repositories {
     google()
 }
 
+fun Project.versionCatalog(): VersionCatalog = extensions
+    .getByType<VersionCatalogsExtension>()
+    .named("libs")
+
 dependencies {
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.0-RC.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.6.3")
+    // https://github.com/gradle/gradle/issues/15383
+    // https://github.com/gradle/gradle/issues/17963
+    implementation(versionCatalog().findLibrary("kotlinx.coroutines").get().get())
+    implementation(versionCatalog().findLibrary("kotlinx.datetime").get().get())
+    implementation(versionCatalog().findLibrary("kotlinx.serialization").get().get())
 }

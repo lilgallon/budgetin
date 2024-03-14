@@ -6,21 +6,21 @@ import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
 import java.util.concurrent.TimeUnit
 
-fun validateCredentials(credential: JWTCredential): JWTPrincipal? =
+fun validateCredentials(credential: JWTCredential, audience: String): JWTPrincipal? =
     JWTPrincipal(credential.payload).takeIf {
-        credential.payload.audience.contains(System.getenv("AUDIENCE"))
+        credential.payload.audience.contains(audience)
     }
 
-fun Application.configureSecurity() {
-    val jwkProvider = JwkProviderBuilder(System.getenv("ISSUER"))
+fun Application.configureSecurity(authConfig: AuthConfig) {
+    val jwkProvider = JwkProviderBuilder(authConfig.issuer)
         .cached(10, 24, TimeUnit.HOURS)
         .rateLimited(10, 1, TimeUnit.MINUTES)
         .build()
 
     install(Authentication) {
         jwt("auth0") {
-            verifier(jwkProvider, System.getenv("ISSUER"))
-            validate { credential -> validateCredentials(credential) }
+            verifier(jwkProvider, authConfig.issuer)
+            validate { credential -> validateCredentials(credential, authConfig.audience) }
         }
     }
 }

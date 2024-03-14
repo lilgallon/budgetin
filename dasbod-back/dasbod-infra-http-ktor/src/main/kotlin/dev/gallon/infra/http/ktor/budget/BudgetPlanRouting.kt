@@ -2,6 +2,7 @@ package dev.gallon.infra.http.ktor.budget
 
 import dev.gallon.domain.budget.BudgetPlan
 import dev.gallon.domain.budget.BudgetPlanService
+import dev.gallon.infra.http.ktor.common.logger
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -18,54 +19,51 @@ import org.koin.ktor.ext.inject
 @Resource("/budgetPlans")
 class BudgetPlans {
     @Resource("{id}")
-    class Id(val id: String)
+    class Id(val parent: BudgetPlans, val id: String)
 }
 
-fun Application.configureBudgetPlanRouting() {
+fun Route.configureBudgetPlanRouting() {
+    logger.info("BudgetPlan routing init")
     val budgetPlanService by inject<BudgetPlanService>()
 
-    routing {
-//        authenticate("auth0") {
-            get<BudgetPlans> {
-                // get all
-                call.respondText("list")
-            }
-            get<BudgetPlans.Id> { request ->
-                budgetPlanService
-                    .searchOneById(request.id)
-                    ?.let { entity ->
-                        call.respond(
-                            HttpStatusCode.OK,
-                            entity
-                        )
-                    }
-                    ?: call.respond(HttpStatusCode.NotFound)
-            }
-            post<BudgetPlans> {
-                call.respond(
-                    HttpStatusCode.Created,
-                    budgetPlanService.create(
-                        data = call.receive<BudgetPlan>()
-                    )
-                )
-            }
-            put<BudgetPlans.Id> { request ->
-                call.respond(
-                    HttpStatusCode.OK,
-                    budgetPlanService.update(
-                        id = request.id,
-                        data = call.receive<BudgetPlan>()
-                    )
-                )
-            }
-            delete<BudgetPlans.Id> { request ->
-                call.respond(
-                    HttpStatusCode.OK,
-                    budgetPlanService.delete(
-                        id = request.id
-                    )
-                )
-            }
-//        }
+    get<BudgetPlans> {
+        call.respondText("list")
     }
+    get<BudgetPlans.Id> { request ->
+        budgetPlanService
+            .searchOneById(request.id)
+            ?.let { entity ->
+                call.respond(
+                    HttpStatusCode.OK,
+                    entity
+                )
+            }
+            ?: call.respond(HttpStatusCode.NotFound)
+    }
+    post<BudgetPlans> {
+        call.respond(
+            HttpStatusCode.Created,
+            budgetPlanService.create(
+                data = call.receive<BudgetPlan>()
+            )
+        )
+    }
+    put<BudgetPlans.Id> { request ->
+        call.respond(
+            HttpStatusCode.OK,
+            budgetPlanService.update(
+                id = request.id,
+                data = call.receive<BudgetPlan>()
+            )
+        )
+    }
+    delete<BudgetPlans.Id> { request ->
+        call.respond(
+            HttpStatusCode.OK,
+            budgetPlanService.delete(
+                id = request.id
+            )
+        )
+    }
+
 }

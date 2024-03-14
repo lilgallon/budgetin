@@ -12,9 +12,9 @@ class BudgetPlanRoutingKtTest {
         application {
             main()
         }
-        client.get("/budgetPlans/{id}").apply {
+        client.get("/budgetPlans/123").apply {
             println("lol $this")
-            // TODO
+            // TODO z
         }
     }
 }

@@ -1,5 +1,7 @@
 package dev.gallon
 
+import com.mongodb.kotlin.client.coroutine.MongoClient
+import com.mongodb.kotlin.client.coroutine.MongoDatabase
 import com.sksamuel.hoplite.ConfigLoaderBuilder
 import com.sksamuel.hoplite.addResourceSource
 import dev.gallon.domain.budget.BudgetPlanEntityRepository
@@ -11,7 +13,7 @@ import org.koin.dsl.module
 object AppModules {
 
     val common = module {
-        single { Clock.System }
+        single<Clock> { Clock.System }
         single {
             ConfigLoaderBuilder.default()
                 .addResourceSource("/app-config.yaml")
@@ -20,7 +22,12 @@ object AppModules {
         }
     }
 
-    val mongoRepositories = module {
+    val mongo = module {
+        single<MongoDatabase> {
+            val databaseConfig = get<AppConfig>().databaseConfig
+            MongoClient.create(databaseConfig.uri)
+                .getDatabase(databaseConfig.dbName)
+        }
         single<BudgetPlanEntityRepository> { BudgetPlanMongoRepository(get(), get()) }
     }
 

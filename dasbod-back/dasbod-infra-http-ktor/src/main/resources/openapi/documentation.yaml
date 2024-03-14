@@ -8,7 +8,7 @@ servers:
 paths:
   /budgetPlans:
     get:
-      description: "authenticate(\"auth0\") {"
+      description: ""
       responses:
         "200":
           description: "OK <br> get all"

@@ -1,4 +1,4 @@
-package dev.gallon.infra.http.ktor.plugins
+package dev.gallon.infra.http.ktor.common
 
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*

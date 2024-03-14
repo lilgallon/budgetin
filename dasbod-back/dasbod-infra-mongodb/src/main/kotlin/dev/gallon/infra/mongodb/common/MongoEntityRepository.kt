@@ -1,22 +1,17 @@
 package dev.gallon.infra.mongodb.common
 
 import com.mongodb.client.model.Updates
-import com.mongodb.kotlin.client.coroutine.MongoDatabase
+import com.mongodb.kotlin.client.coroutine.MongoCollection
 import dev.gallon.domain.common.*
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.datetime.Clock
 import org.bson.types.ObjectId
 import java.util.*
-import kotlin.reflect.KClass
 
-class MongoDbEntityRepository<D : EntityData>(
-    database: MongoDatabase,
-    clazz: KClass<D>,
+open class MongoEntityRepository<D : EntityData>(
+    private val collection: MongoCollection<Entity<D>>,
     private val clock: Clock
 ) : EntityRepository<D> {
-
-    private val entityName = clazz::class.java.simpleName.replaceFirstChar { it.lowercase(Locale.getDefault()) }
-    private val collection = database.getCollection<Entity<D>>(entityName)
 
     override suspend fun create(data: D): Entity<D> = collection
         .insertOne(
@@ -49,7 +44,7 @@ class MongoDbEntityRepository<D : EntityData>(
                 )
             )
         )
-        ?: throw IllegalStateException("[UPDATE] $entityName $id not found for update")
+        ?: throw IllegalStateException("[UPDATE] $id not found for update")
 
     override suspend fun delete(id: String): Entity<D> = collection
         .findOneAndUpdate(
@@ -61,7 +56,7 @@ class MongoDbEntityRepository<D : EntityData>(
                 )
             )
         )
-        ?: throw IllegalStateException("[DELETE] $entityName $id not found for deletion")
+        ?: throw IllegalStateException("[DELETE] $id not found for deletion")
 
     override suspend fun searchOneById(id: String): Entity<D>? = collection
         .find()

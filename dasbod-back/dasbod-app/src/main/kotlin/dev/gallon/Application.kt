@@ -1,9 +1,11 @@
 package dev.gallon
 
+import dev.gallon.infra.http.ktor.common.HttpServerConfig
 import dev.gallon.infra.http.ktor.configureKtorHttpServer
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
+import org.koin.ktor.ext.inject
 import org.koin.ktor.plugin.Koin
 
 fun main() {
@@ -13,8 +15,11 @@ fun main() {
 
 fun Application.main() {
     install(Koin) {
-        modules(AppModules.mongoRepositories)
+        modules(
+            AppModules.common + AppModules.mongoRepositories + AppModules.services
+        )
     }
 
-    configureKtorHttpServer()
+    val appConfig by inject<AppConfig>()
+    configureKtorHttpServer(appConfig.httpServerConfig)
 }

@@ -16,7 +16,6 @@ dependencies {
     implementation(libs.ktor.server.netty.jvm)
     implementation(libs.log4j.core)
     implementation(libs.log4j.slf4j2)
-    implementation(libs.koin.bom)
     implementation(libs.koin.core)
     implementation(libs.koin.ktor)
 }

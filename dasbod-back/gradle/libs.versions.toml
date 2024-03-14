@@ -1,5 +1,5 @@
 [versions]
-kotlin = "1.9.0"
+kotlin = "1.9.23"
 gradle-enterprise = "3.13.4"
 javafx = "20"
 ktlint = "11.5.1"

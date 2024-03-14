@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+
+  dasbod-mongo:
+    image: mongo:7.0.6
+    container_name: dasbod-mongo
+
+    volumes:
+      - ./mongodb/data/db/:/data/db/
+      - ./mongodb/data/log/:/var/log/mongodb/
+      - ./mongodb/scripts/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+
+    ports:
+      - "27017:27017"

@@ -13,6 +13,7 @@ kotlinx-datetime = "0.6.0-RC.2"
 kotlinx-serialization = "1.6.3"
 koin = "3.5.3"
 mongodb-kotlin = "5.0.0"
+hoplite = "2.7.5"
 
 [plugins]
 # Our own convention plugins
@@ -28,6 +29,9 @@ kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", vers
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
+# config
+hoplite-core = { module = "com.sksamuel.hoplite:hoplite-core", version.ref = "hoplite"}
+hoplite-yaml = { module = "com.sksamuel.hoplite:hoplite-yaml", version.ref = "hoplite"}
 # log
 log4j-core = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4j" }
 log4j-slf4j2 = { module = "org.apache.logging.log4j:log4j-slf4j2-impl", version.ref = "log4j" }

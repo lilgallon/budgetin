@@ -1,0 +1,2 @@
+httpServerConfig:
+  authEnabled: false

@@ -11,8 +11,15 @@ import org.bson.codecs.DecoderContext
 import org.bson.codecs.EncoderContext
 import org.bson.codecs.configuration.CodecProvider
 import org.bson.codecs.configuration.CodecRegistry
+import org.bson.codecs.kotlinx.BsonConfiguration
 import org.bson.codecs.kotlinx.KotlinSerializerCodec
 import org.bson.types.ObjectId
+
+private val entityDataCodec = KotlinSerializerCodec.create<EntityData>(
+    bsonConfiguration = BsonConfiguration(
+    classDiscriminator = "type"
+    )
+)!!
 
 class MongoEntityCodecProvider : CodecProvider {
     @Suppress("UNCHECKED_CAST")
@@ -22,9 +29,18 @@ class MongoEntityCodecProvider : CodecProvider {
         } else null
 }
 
+class MongoEntityDataCodecProvider : CodecProvider {
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : Any?> get(clazz: Class<T>?, registry: CodecRegistry): Codec<T>? =
+        // This is ugly, but it's the only way I found to make sure "_t" field is always set even on child classes
+        // For some reason, mongo does not want to use EntityData when marshalling even when we cast objects
+        if (EntityData::class.sealedSubclasses.map { it.java.simpleName }.contains(clazz?.simpleName)) {
+            entityDataCodec as Codec<T>
+        } else null
+}
+
 class MongoEntityCodec(registry: CodecRegistry) : Codec<Entity<*>> {
     private val metadataCodec: Codec<EntityMetadata> = registry[EntityMetadata::class.java]
-    private val entityDataCodec = KotlinSerializerCodec.create<EntityData>()!!
 
     override fun encode(writer: BsonWriter, entity: Entity<*>, context: EncoderContext?) {
         writer.writeStartDocument()

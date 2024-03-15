@@ -3,7 +3,6 @@ package dev.gallon.infra.db.mongo.common
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import dev.gallon.domain.entities.BudgetCategory
 import dev.gallon.domain.entities.BudgetPlan
-import dev.gallon.domain.entities.Entity
 import io.kotest.matchers.equals.shouldBeEqual
 import io.kotest.matchers.nulls.shouldNotBeNull
 import kotlinx.coroutines.runBlocking
@@ -24,11 +23,11 @@ class BudgetPlanMongoRepositoryTest {
 
     @Test
     fun crud() {
-//        val mongoDbClient = MongoClient.create(mongoDBContainer.connectionString)
-        val mongoDbClient = MongoClient.create("mongodb://localhost:27017/")
+        val mongoDbClient = MongoClient.create(mongoDBContainer.connectionString)
+        val database = mongoDbClient.getDatabase("test-crud")
 
         val repository = MongoEntityRepository(
-            mongoDbClient.getDatabase("test-crud").getCollection<BudgetPlan>(),
+            database.getCollection<BudgetPlan>(),
             Clock.System
         )
 
@@ -61,7 +60,7 @@ class BudgetPlanMongoRepositoryTest {
         val editedBudgetPlan = runBlocking {
             repository.update(
                 createdBudgetPlan.id,
-                mapOf(Entity<*>::data.name / BudgetPlan::moneyAtStart.name to 200f)
+                readBudgetPlan.data.copy(moneyAtStart = 200f)
             )
         }
         editedBudgetPlan.data shouldBeEqual createdBudgetPlan.data.copy(moneyAtStart = 200f)
@@ -72,6 +71,9 @@ class BudgetPlanMongoRepositoryTest {
         }
         deletedBudgetPlan shouldBeEqual editedBudgetPlan
 
+        runBlocking {
+            database.drop()
+        }
         mongoDbClient.close()
     }
 }

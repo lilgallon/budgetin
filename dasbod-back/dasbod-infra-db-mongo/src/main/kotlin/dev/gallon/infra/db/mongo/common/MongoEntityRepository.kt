@@ -37,6 +37,7 @@ open class MongoEntityRepository<D : EntityData>(
                 ?: throw IllegalStateException("[CREATE] Could not find entity $id after insetOne of $data")
         }
 
+    // Can be improved with typesafe data structure for updates
     override suspend fun update(id: String, updates: Map<String, Any>): Entity<D> = collection
         .findOneAndUpdate(
             idFilter(id),
@@ -49,6 +50,20 @@ open class MongoEntityRepository<D : EntityData>(
                             buildModificationLog()
                         )
                     )
+            ),
+            FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER)
+        )
+        ?: throw IllegalStateException("[UPDATE] $id not found for update")
+
+    override suspend fun update(id: String, data: D): Entity<D> = collection
+        .findOneAndUpdate(
+            idFilter(id),
+            Updates.combine(
+                Updates.set(
+                    Entity<D>::metadata / EntityMetadata::modificationsLog / ModificationsLog::updated,
+                    buildModificationLog()
+                ),
+                Updates.set(Entity<D>::data.name, data)
             ),
             FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER)
         )

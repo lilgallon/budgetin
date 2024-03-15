@@ -26,7 +26,7 @@ fun idFilter(id: String): Bson = Filters.eq("_id", ObjectId(id))
 inline fun <reified D : EntityData> MongoDatabase.getCollection(): MongoCollection<Entity<D>> =
     withCodecRegistry(
         CodecRegistries.fromRegistries(
-            CodecRegistries.fromProviders(MongoEntityCodecProvider()),
+            CodecRegistries.fromProviders(MongoEntityCodecProvider(), MongoEntityDataCodecProvider()),
             MongoClientSettings.getDefaultCodecRegistry()
         )
     ).getCollection<Entity<D>>(D::class.java.simpleName.replaceFirstChar { it.lowercase(Locale.getDefault()) })

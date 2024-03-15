@@ -1,4 +1,4 @@
-package dev.gallon.infra.mongodb.common
+package dev.gallon.infra.db.mongo.common
 
 import com.mongodb.MongoClientSettings
 import com.mongodb.client.model.Filters

@@ -19,7 +19,7 @@ dependencies {
     implementation(libs.hoplite.yaml)
 
     // mongo
-    implementation(project(":dasbod-infra-mongodb"))
+    implementation(project(":dasbod-infra-db-mongo"))
     implementation(libs.mongodb.kotlin)
 
     // ktor

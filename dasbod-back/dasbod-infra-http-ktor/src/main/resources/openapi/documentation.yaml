@@ -11,7 +11,7 @@ paths:
       description: ""
       responses:
         "200":
-          description: "OK <br> get all"
+          description: "OK"
           content:
             text/plain:
               schema:
@@ -94,9 +94,6 @@ paths:
                 $ref: "#/components/schemas/Entity_BudgetPlan"
 components:
   schemas:
-    BigDecimal:
-      type: "object"
-      properties: {}
     LocalDate:
       type: "object"
       properties: {}
@@ -106,17 +103,19 @@ components:
         name:
           type: "string"
         amount:
-          $ref: "#/components/schemas/BigDecimal"
+          type: "number"
+          format: "float"
       required:
       - "name"
-      - "amount"
     BudgetPlan:
       type: "object"
       properties:
         moneyAtStart:
-          $ref: "#/components/schemas/BigDecimal"
+          type: "number"
+          format: "float"
         expectedIncome:
-          $ref: "#/components/schemas/BigDecimal"
+          type: "number"
+          format: "float"
         startDate:
           $ref: "#/components/schemas/LocalDate"
         endDate:
@@ -126,8 +125,6 @@ components:
           items:
             $ref: "#/components/schemas/BudgetCategory"
       required:
-      - "moneyAtStart"
-      - "expectedIncome"
       - "startDate"
       - "endDate"
       - "categories"

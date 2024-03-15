@@ -17,5 +17,5 @@ include(
     "dasbod-app",
     "dasbod-domain",
     "dasbod-infra-http-ktor",
-    "dasbod-infra-mongodb",
+    "dasbod-infra-db-mongo",
 )

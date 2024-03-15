@@ -6,7 +6,7 @@ import com.sksamuel.hoplite.ConfigLoaderBuilder
 import com.sksamuel.hoplite.addResourceSource
 import dev.gallon.domain.repositories.BudgetPlanEntityRepository
 import dev.gallon.domain.services.BudgetPlanService
-import dev.gallon.infra.mongodb.budget.BudgetPlanMongoRepository
+import dev.gallon.infra.db.mongo.budget.BudgetPlanMongoRepository
 import kotlinx.datetime.Clock
 import org.koin.dsl.module
 

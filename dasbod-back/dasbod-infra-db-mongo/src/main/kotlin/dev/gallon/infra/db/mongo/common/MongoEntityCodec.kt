@@ -1,4 +1,4 @@
-package dev.gallon.infra.mongodb.common
+package dev.gallon.infra.db.mongo.common
 
 import dev.gallon.domain.entities.Entity
 import dev.gallon.domain.entities.EntityData

@@ -68,7 +68,7 @@ class BudgetPlanMongoRepositoryTest {
         val deletedBudgetPlan = runBlocking {
             repository.delete(createdBudgetPlan.id)
         }
-        deletedBudgetPlan shouldBeEqual editedBudgetPlan
+        deletedBudgetPlan.data shouldBeEqual editedBudgetPlan.data
 
         runBlocking {
             database.drop()

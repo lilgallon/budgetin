@@ -13,7 +13,6 @@ import org.testcontainers.containers.MongoDBContainer
 import org.testcontainers.junit.jupiter.Container
 
 class BudgetPlanMongoRepositoryTest {
-
     @Container
     private val mongoDBContainer: MongoDBContainer = MongoDBContainer("mongo:7.0.6")
 
@@ -28,7 +27,7 @@ class BudgetPlanMongoRepositoryTest {
 
         val repository = MongoEntityRepository(
             database.getCollection<BudgetPlan>(),
-            Clock.System
+            Clock.System,
         )
 
         val budgetPlan = BudgetPlan(
@@ -39,9 +38,9 @@ class BudgetPlanMongoRepositoryTest {
             categories = listOf(
                 BudgetCategory(
                     name = "house",
-                    amount = 100f
-                )
-            )
+                    amount = 100f,
+                ),
+            ),
         )
 
         // CREATE TEST
@@ -60,7 +59,7 @@ class BudgetPlanMongoRepositoryTest {
         val editedBudgetPlan = runBlocking {
             repository.update(
                 createdBudgetPlan.id,
-                readBudgetPlan.data.copy(moneyAtStart = 200f)
+                readBudgetPlan.data.copy(moneyAtStart = 200f),
             )
         }
         editedBudgetPlan.data shouldBeEqual createdBudgetPlan.data.copy(moneyAtStart = 200f)

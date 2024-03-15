@@ -10,13 +10,13 @@ data class BudgetPlan(
     val expectedIncome: Float,
     val startDate: LocalDate,
     val endDate: LocalDate,
-    val categories: List<BudgetCategory>
+    val categories: List<BudgetCategory>,
 ) : EntityData
 
 @Serializable
 data class BudgetCategory(
     val name: String,
-    val amount: Float
+    val amount: Float,
 )
 
 @Serializable
@@ -24,5 +24,5 @@ data class BudgetTransaction(
     val budgetPlanRef: Reference<BudgetPlan>,
     val date: LocalDate,
     val amount: Float,
-    val description: String
+    val description: String,
 ) : EntityData

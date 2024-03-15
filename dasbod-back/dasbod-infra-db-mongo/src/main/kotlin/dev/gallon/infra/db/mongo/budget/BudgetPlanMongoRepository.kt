@@ -9,5 +9,5 @@ import kotlinx.datetime.Clock
 
 class BudgetPlanMongoRepository(
     database: MongoDatabase,
-    clock: Clock
+    clock: Clock,
 ) : MongoEntityRepository<BudgetPlan>(database.getCollection(), clock), BudgetPlanEntityRepository

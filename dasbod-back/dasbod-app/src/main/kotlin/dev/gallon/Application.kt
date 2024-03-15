@@ -15,7 +15,7 @@ fun main() {
 fun Application.main() {
     install(Koin) {
         modules(
-            AppModules.common + AppModules.mongo + AppModules.services
+            AppModules.common + AppModules.mongo + AppModules.services,
         )
     }
 

@@ -4,10 +4,10 @@ import dev.gallon.infra.http.ktor.common.HttpServerConfig
 
 data class AppConfig(
     val httpServerConfig: HttpServerConfig,
-    val databaseConfig: DatabaseConfig
+    val databaseConfig: DatabaseConfig,
 )
 
 data class DatabaseConfig(
     val uri: String,
-    val dbName: String
+    val dbName: String,
 )

@@ -27,14 +27,13 @@ fun hasId(id: String): Bson = Filters.eq("_id", ObjectId(id))
 
 val isNotDeleted: Bson = Filters.exists(
     Entity<*>::metadata / EntityMetadata::modificationsLog / ModificationsLog::deleted,
-    false
+    false,
 )
 
 inline fun <reified D : EntityData> MongoDatabase.getCollection(): MongoCollection<Entity<D>> =
     withCodecRegistry(
         CodecRegistries.fromRegistries(
             CodecRegistries.fromProviders(MongoEntityCodecProvider(), MongoEntityDataCodecProvider()),
-            MongoClientSettings.getDefaultCodecRegistry()
-        )
+            MongoClientSettings.getDefaultCodecRegistry(),
+        ),
     ).getCollection<Entity<D>>(D::class.java.simpleName.replaceFirstChar { it.lowercase(Locale.getDefault()) })
-

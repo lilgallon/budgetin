@@ -10,25 +10,25 @@ sealed interface EntityData
 data class Entity<T : EntityData>(
     val id: String,
     val metadata: EntityMetadata,
-    val data: T
+    val data: T,
 )
 
 @Serializable
 data class EntityMetadata(
     val modificationsLog: ModificationsLog,
-    val owner: String
+    val owner: String,
 )
 
 @Serializable
 data class ModificationsLog(
     val created: ModificationLog,
     val updated: ModificationLog? = null,
-    val deleted: ModificationLog? = null
+    val deleted: ModificationLog? = null,
 )
 
 @Serializable
 data class ModificationLog(
     val timestamp: Instant,
     val source: String,
-    val user: String
+    val user: String,
 )

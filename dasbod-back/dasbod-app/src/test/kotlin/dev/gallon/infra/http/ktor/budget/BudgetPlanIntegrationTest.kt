@@ -15,7 +15,6 @@ import kotlinx.datetime.LocalDate
 import org.junit.jupiter.api.Test
 
 class BudgetPlanIntegrationTest {
-
     @Test
     fun crud() = testApplication {
         val client = createClient {
@@ -36,9 +35,9 @@ class BudgetPlanIntegrationTest {
             categories = listOf(
                 BudgetCategory(
                     name = "house",
-                    amount = 100f
-                )
-            )
+                    amount = 100f,
+                ),
+            ),
         )
 
         val createdEntity = client

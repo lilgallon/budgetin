@@ -12,7 +12,6 @@ import io.ktor.server.routing.post
 import io.ktor.server.routing.put
 import org.koin.ktor.ext.inject
 
-
 fun Route.configureBudgetPlanRouting() {
     logger.info("BudgetPlan routing init")
     val budgetPlanService by inject<BudgetPlanService>()
@@ -26,8 +25,8 @@ fun Route.configureBudgetPlanRouting() {
             call.respond(
                 HttpStatusCode.Created,
                 budgetPlanService.create(
-                    data = call.receive<BudgetPlan>()
-                )
+                    data = call.receive<BudgetPlan>(),
+                ),
             )
         }
 
@@ -39,7 +38,7 @@ fun Route.configureBudgetPlanRouting() {
                     ?.let { entity ->
                         call.respond(
                             HttpStatusCode.OK,
-                            entity
+                            entity,
                         )
                     }
                     ?: call.respond(HttpStatusCode.NotFound)
@@ -51,8 +50,8 @@ fun Route.configureBudgetPlanRouting() {
                     HttpStatusCode.OK,
                     budgetPlanService.update(
                         id = id,
-                        data = call.receive<BudgetPlan>()
-                    )
+                        data = call.receive<BudgetPlan>(),
+                    ),
                 )
             }
             delete {
@@ -60,11 +59,10 @@ fun Route.configureBudgetPlanRouting() {
                 call.respond(
                     HttpStatusCode.OK,
                     budgetPlanService.delete(
-                        id = id
-                    )
+                        id = id,
+                    ),
                 )
             }
         }
     }
-
 }

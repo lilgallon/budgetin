@@ -7,7 +7,7 @@ import io.ktor.server.auth.*
 import io.ktor.server.routing.*
 
 fun Application.configureKtorHttpServer(
-    config: HttpServerConfig
+    config: HttpServerConfig,
 ) {
     if (config.authConfig.enabled) {
         configureSecurity(config.authConfig)

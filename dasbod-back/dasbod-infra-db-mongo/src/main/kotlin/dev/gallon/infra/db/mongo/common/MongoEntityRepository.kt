@@ -15,21 +15,20 @@ import java.util.*
 
 open class MongoEntityRepository<D : EntityData>(
     private val collection: MongoCollection<Entity<D>>,
-    private val clock: Clock
+    private val clock: Clock,
 ) : EntityRepository<D> {
-
     override suspend fun create(data: D): Entity<D> = collection
         .insertOne(
             Entity(
                 id = ObjectId().toString(),
                 metadata = EntityMetadata(
                     modificationsLog = ModificationsLog(
-                        created = buildModificationLog()
+                        created = buildModificationLog(),
                     ),
-                    owner = "todo"
+                    owner = "todo",
                 ),
-                data = data
-            )
+                data = data,
+            ),
         )
         .let { insertOneResult ->
             val id = insertOneResult.insertedId?.asObjectId()?.value?.toString()
@@ -43,7 +42,7 @@ open class MongoEntityRepository<D : EntityData>(
         .findOneAndUpdate(
             Filters.and(
                 hasId(id),
-                isNotDeleted
+                isNotDeleted,
             ),
             Updates.combine(
                 updates
@@ -51,11 +50,11 @@ open class MongoEntityRepository<D : EntityData>(
                     .plus(
                         Updates.set(
                             Entity<D>::metadata / EntityMetadata::modificationsLog / ModificationsLog::updated,
-                            buildModificationLog()
-                        )
-                    )
+                            buildModificationLog(),
+                        ),
+                    ),
             ),
-            FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER)
+            FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER),
         )
         ?: throw IllegalStateException("[UPDATE] $id not found for update")
 
@@ -63,16 +62,16 @@ open class MongoEntityRepository<D : EntityData>(
         .findOneAndUpdate(
             Filters.and(
                 hasId(id),
-                isNotDeleted
+                isNotDeleted,
             ),
             Updates.combine(
                 Updates.set(
                     Entity<D>::metadata / EntityMetadata::modificationsLog / ModificationsLog::updated,
-                    buildModificationLog()
+                    buildModificationLog(),
                 ),
-                Updates.set(Entity<D>::data.name, data)
+                Updates.set(Entity<D>::data.name, data),
             ),
-            FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER)
+            FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER),
         )
         ?: throw IllegalStateException("[UPDATE] $id not found for update")
 
@@ -80,15 +79,15 @@ open class MongoEntityRepository<D : EntityData>(
         .findOneAndUpdate(
             Filters.and(
                 hasId(id),
-                isNotDeleted
+                isNotDeleted,
             ),
             Updates.combine(
                 Updates.set(
                     Entity<D>::metadata / EntityMetadata::modificationsLog / ModificationsLog::deleted,
-                    buildModificationLog()
-                )
+                    buildModificationLog(),
+                ),
             ),
-            FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER)
+            FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER),
         )
         ?: throw IllegalStateException("[DELETE] $id not found for deletion")
 
@@ -96,8 +95,8 @@ open class MongoEntityRepository<D : EntityData>(
         .find(
             Filters.and(
                 hasId(id),
-                isNotDeleted
-            )
+                isNotDeleted,
+            ),
         )
         .firstOrNull()
 
@@ -105,7 +104,7 @@ open class MongoEntityRepository<D : EntityData>(
         ModificationLog(
             timestamp = clock.now(),
             source = source,
-            user = user
+            user = user,
         )
     }
 }

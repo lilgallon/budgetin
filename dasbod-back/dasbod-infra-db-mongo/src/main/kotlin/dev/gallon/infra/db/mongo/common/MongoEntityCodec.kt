@@ -17,8 +17,8 @@ import org.bson.types.ObjectId
 
 private val entityDataCodec = KotlinSerializerCodec.create<EntityData>(
     bsonConfiguration = BsonConfiguration(
-    classDiscriminator = "type"
-    )
+        classDiscriminator = "type",
+    ),
 )!!
 
 class MongoEntityCodecProvider : CodecProvider {
@@ -26,7 +26,9 @@ class MongoEntityCodecProvider : CodecProvider {
     override fun <T : Any?> get(clazz: Class<T>?, registry: CodecRegistry): Codec<T>? =
         if (clazz == Entity::class.java) {
             MongoEntityCodec(registry) as Codec<T>
-        } else null
+        } else {
+            null
+        }
 }
 
 class MongoEntityDataCodecProvider : CodecProvider {
@@ -36,7 +38,9 @@ class MongoEntityDataCodecProvider : CodecProvider {
         // For some reason, mongo does not want to use EntityData when marshalling even when we cast objects
         if (EntityData::class.sealedSubclasses.map { it.java.simpleName }.contains(clazz?.simpleName)) {
             entityDataCodec as Codec<T>
-        } else null
+        } else {
+            null
+        }
 }
 
 class MongoEntityCodec(registry: CodecRegistry) : Codec<Entity<*>> {
@@ -77,8 +81,7 @@ class MongoEntityCodec(registry: CodecRegistry) : Codec<Entity<*>> {
         return Entity(
             id = id!!,
             metadata = metadata!!,
-            data = data!!
+            data = data!!,
         )
     }
 }
-

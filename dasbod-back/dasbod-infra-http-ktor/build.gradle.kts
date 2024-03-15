@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.convention.kotlin)
-    alias(libs.plugins.ktor)
     alias(libs.plugins.kotlinx.serialization)
 }
 

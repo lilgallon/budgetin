@@ -1,4 +1,7 @@
-package dev.gallon.domain.common
+package dev.gallon.domain.repositories
+
+import dev.gallon.domain.entities.Entity
+import dev.gallon.domain.entities.EntityData
 
 interface EntityRepository<D : EntityData> {
     suspend fun create(data: D): Entity<D>

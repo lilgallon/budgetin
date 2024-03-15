@@ -1,4 +1,8 @@
-package dev.gallon.domain.common
+package dev.gallon.domain.services
+
+import dev.gallon.domain.repositories.EntityRepository
+import dev.gallon.domain.entities.Entity
+import dev.gallon.domain.entities.EntityData
 
 open class EntityService<D : EntityData>(
     private val repository: EntityRepository<D>

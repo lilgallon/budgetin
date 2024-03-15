@@ -4,8 +4,8 @@ import com.mongodb.kotlin.client.coroutine.MongoClient
 import com.mongodb.kotlin.client.coroutine.MongoDatabase
 import com.sksamuel.hoplite.ConfigLoaderBuilder
 import com.sksamuel.hoplite.addResourceSource
-import dev.gallon.domain.budget.BudgetPlanEntityRepository
-import dev.gallon.domain.budget.BudgetPlanService
+import dev.gallon.domain.repositories.BudgetPlanEntityRepository
+import dev.gallon.domain.services.BudgetPlanService
 import dev.gallon.infra.mongodb.budget.BudgetPlanMongoRepository
 import kotlinx.datetime.Clock
 import org.koin.dsl.module

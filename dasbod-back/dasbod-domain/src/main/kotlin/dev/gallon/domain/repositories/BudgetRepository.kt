@@ -1,6 +1,7 @@
-package dev.gallon.domain.budget
+package dev.gallon.domain.repositories
 
-import dev.gallon.domain.common.EntityRepository
+import dev.gallon.domain.entities.BudgetPlan
+import dev.gallon.domain.entities.BudgetTransaction
 
 interface BudgetPlanEntityRepository : EntityRepository<BudgetPlan>
 

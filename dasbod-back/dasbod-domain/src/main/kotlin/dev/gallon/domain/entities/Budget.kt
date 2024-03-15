@@ -1,6 +1,5 @@
-package dev.gallon.domain.budget
+package dev.gallon.domain.entities
 
-import dev.gallon.domain.common.EntityData
 import dev.gallon.domain.common.Reference
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable

@@ -1,7 +1,7 @@
 package dev.gallon.infra.http.ktor.budget
 
-import dev.gallon.domain.budget.BudgetPlan
-import dev.gallon.domain.budget.BudgetPlanService
+import dev.gallon.domain.entities.BudgetPlan
+import dev.gallon.domain.services.BudgetPlanService
 import dev.gallon.infra.http.ktor.common.logger
 import io.ktor.http.*
 import io.ktor.resources.*

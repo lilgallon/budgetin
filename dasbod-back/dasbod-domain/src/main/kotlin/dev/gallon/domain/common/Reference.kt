@@ -1,5 +1,7 @@
 package dev.gallon.domain.common
 
+import dev.gallon.domain.entities.Entity
+import dev.gallon.domain.entities.EntityData
 import kotlinx.serialization.Serializable
 
 @Serializable

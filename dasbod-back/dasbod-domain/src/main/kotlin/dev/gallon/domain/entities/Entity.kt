@@ -1,16 +1,14 @@
-package dev.gallon.domain.common
+package dev.gallon.domain.entities
 
 import kotlinx.datetime.Instant
-import kotlinx.serialization.Contextual
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-interface EntityData
+@Serializable
+sealed interface EntityData
 
-@Serializable(with = EntitySerializer::class)
+// @Serializable(with = EntitySerializer::class)
+@Serializable
 data class Entity<T : EntityData>(
-    @SerialName("_id")
-    @Contextual
     val id: String,
     val metadata: EntityMetadata,
     val data: T

@@ -1,5 +1,8 @@
 package dev.gallon.domain.common
 
+import dev.gallon.domain.entities.Entity
+import dev.gallon.domain.entities.EntityData
+import dev.gallon.domain.entities.EntityMetadata
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.*

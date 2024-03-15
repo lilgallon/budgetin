@@ -1,9 +1,6 @@
 package dev.gallon.domain.budget
 
-import dev.gallon.domain.common.Entity
-import dev.gallon.domain.common.EntityMetadata
-import dev.gallon.domain.common.ModificationLog
-import dev.gallon.domain.common.ModificationsLog
+import dev.gallon.domain.entities.*
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone

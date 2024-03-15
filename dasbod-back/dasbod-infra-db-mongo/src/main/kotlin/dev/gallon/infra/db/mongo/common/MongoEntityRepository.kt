@@ -1,5 +1,6 @@
 package dev.gallon.infra.db.mongo.common
 
+import com.mongodb.client.model.Filters
 import com.mongodb.client.model.FindOneAndUpdateOptions
 import com.mongodb.client.model.ReturnDocument
 import com.mongodb.client.model.Updates
@@ -40,7 +41,10 @@ open class MongoEntityRepository<D : EntityData>(
     // Can be improved with typesafe data structure for updates
     override suspend fun update(id: String, updates: Map<String, Any>): Entity<D> = collection
         .findOneAndUpdate(
-            idFilter(id),
+            Filters.and(
+                hasId(id),
+                isNotDeleted
+            ),
             Updates.combine(
                 updates
                     .map { Updates.set(it.key, it.value) }
@@ -57,7 +61,10 @@ open class MongoEntityRepository<D : EntityData>(
 
     override suspend fun update(id: String, data: D): Entity<D> = collection
         .findOneAndUpdate(
-            idFilter(id),
+            Filters.and(
+                hasId(id),
+                isNotDeleted
+            ),
             Updates.combine(
                 Updates.set(
                     Entity<D>::metadata / EntityMetadata::modificationsLog / ModificationsLog::updated,
@@ -71,18 +78,27 @@ open class MongoEntityRepository<D : EntityData>(
 
     override suspend fun delete(id: String): Entity<D> = collection
         .findOneAndUpdate(
-            idFilter(id),
+            Filters.and(
+                hasId(id),
+                isNotDeleted
+            ),
             Updates.combine(
                 Updates.set(
                     Entity<D>::metadata / EntityMetadata::modificationsLog / ModificationsLog::deleted,
                     buildModificationLog()
                 )
-            )
+            ),
+            FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER)
         )
         ?: throw IllegalStateException("[DELETE] $id not found for deletion")
 
     override suspend fun searchOneById(id: String): Entity<D>? = collection
-        .find(idFilter(id))
+        .find(
+            Filters.and(
+                hasId(id),
+                isNotDeleted
+            )
+        )
         .firstOrNull()
 
     private suspend fun buildModificationLog(): ModificationLog = with(currentCallContext()) {

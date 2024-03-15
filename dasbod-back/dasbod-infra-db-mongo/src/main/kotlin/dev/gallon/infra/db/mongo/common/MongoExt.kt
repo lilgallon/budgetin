@@ -6,6 +6,8 @@ import com.mongodb.kotlin.client.coroutine.MongoCollection
 import com.mongodb.kotlin.client.coroutine.MongoDatabase
 import dev.gallon.domain.entities.Entity
 import dev.gallon.domain.entities.EntityData
+import dev.gallon.domain.entities.EntityMetadata
+import dev.gallon.domain.entities.ModificationsLog
 import org.bson.codecs.configuration.CodecRegistries
 import org.bson.conversions.Bson
 import org.bson.types.ObjectId
@@ -21,7 +23,12 @@ operator fun <A> String.div(other: KProperty<A>): String =
 operator fun String.div(other: String): String =
     "$this.$other"
 
-fun idFilter(id: String): Bson = Filters.eq("_id", ObjectId(id))
+fun hasId(id: String): Bson = Filters.eq("_id", ObjectId(id))
+
+val isNotDeleted: Bson = Filters.exists(
+    Entity<*>::metadata / EntityMetadata::modificationsLog / ModificationsLog::deleted,
+    false
+)
 
 inline fun <reified D : EntityData> MongoDatabase.getCollection(): MongoCollection<Entity<D>> =
     withCodecRegistry(

@@ -3,6 +3,8 @@ package dev.gallon.infra.mongodb.common
 import com.mongodb.client.model.Updates
 import com.mongodb.kotlin.client.coroutine.MongoCollection
 import dev.gallon.domain.common.*
+import dev.gallon.domain.entities.*
+import dev.gallon.domain.repositories.EntityRepository
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.datetime.Clock
 import org.bson.types.ObjectId

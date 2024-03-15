@@ -27,17 +27,11 @@ dependencies {
     implementation(libs.ktor.server.core.jvm)
     implementation(libs.ktor.server.netty.jvm)
 
-    // logging
-    implementation(libs.log4j.core)
-    implementation(libs.log4j.slf4j2)
-
     // di
     implementation(libs.koin.core)
     implementation(libs.koin.ktor)
 
     // test
     testImplementation(libs.ktor.server.tests.jvm)
-    testImplementation(libs.kotlin.test)
     testImplementation("io.ktor:ktor-server-test-host-jvm:2.3.8")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:1.9.22")
 }

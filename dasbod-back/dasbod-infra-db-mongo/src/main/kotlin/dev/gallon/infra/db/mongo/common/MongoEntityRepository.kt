@@ -1,5 +1,7 @@
 package dev.gallon.infra.db.mongo.common
 
+import com.mongodb.client.model.FindOneAndUpdateOptions
+import com.mongodb.client.model.ReturnDocument
 import com.mongodb.client.model.Updates
 import com.mongodb.kotlin.client.coroutine.MongoCollection
 import dev.gallon.domain.common.*
@@ -35,16 +37,20 @@ open class MongoEntityRepository<D : EntityData>(
                 ?: throw IllegalStateException("[CREATE] Could not find entity $id after insetOne of $data")
         }
 
-    override suspend fun update(id: String, data: D): Entity<D> = collection
+    override suspend fun update(id: String, updates: Map<String, Any>): Entity<D> = collection
         .findOneAndUpdate(
             idFilter(id),
             Updates.combine(
-                Updates.set(Entity<D>::data.name, data),
-                Updates.set(
-                    Entity<D>::metadata / EntityMetadata::modificationsLog / ModificationsLog::updated,
-                    buildModificationLog()
-                )
-            )
+                updates
+                    .map { Updates.set(it.key, it.value) }
+                    .plus(
+                        Updates.set(
+                            Entity<D>::metadata / EntityMetadata::modificationsLog / ModificationsLog::updated,
+                            buildModificationLog()
+                        )
+                    )
+            ),
+            FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER)
         )
         ?: throw IllegalStateException("[UPDATE] $id not found for update")
 

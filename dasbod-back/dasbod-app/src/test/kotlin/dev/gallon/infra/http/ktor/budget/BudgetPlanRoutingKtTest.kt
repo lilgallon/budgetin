@@ -3,7 +3,7 @@ package dev.gallon.infra.http.ktor.budget
 import dev.gallon.main
 import io.ktor.client.request.*
 import io.ktor.server.testing.*
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 
 class BudgetPlanRoutingKtTest {
 

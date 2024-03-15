@@ -56,6 +56,7 @@ class MongoEntityCodec(registry: CodecRegistry) : Codec<Entity<*>> {
                 "data" -> data = entityDataCodec.decode(reader, context)
             }
         }
+        reader.readEndDocument()
 
         return Entity(
             id = id!!,

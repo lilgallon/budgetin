@@ -31,7 +31,7 @@ open class MongoEntityRepository<D : EntityData>(
             )
         )
         .let { insertOneResult ->
-            val id = insertOneResult.insertedId?.toString()
+            val id = insertOneResult.insertedId?.asObjectId()?.value?.toString()
                 ?: throw IllegalStateException("[CREATE] InsertedId is null after insertOne of $data")
             searchOneById(id)
                 ?: throw IllegalStateException("[CREATE] Could not find entity $id after insetOne of $data")
@@ -67,7 +67,7 @@ open class MongoEntityRepository<D : EntityData>(
         ?: throw IllegalStateException("[DELETE] $id not found for deletion")
 
     override suspend fun searchOneById(id: String): Entity<D>? = collection
-        .find()
+        .find(idFilter(id))
         .firstOrNull()
 
     private suspend fun buildModificationLog(): ModificationLog = with(currentCallContext()) {

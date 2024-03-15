@@ -64,7 +64,7 @@ class BudgetPlanMongoRepositoryTest {
                 mapOf(Entity<*>::data.name / BudgetPlan::moneyAtStart.name to 200f)
             )
         }
-        editedBudgetPlan.data shouldBeEqual budgetPlan.copy(moneyAtStart = 200f)
+        editedBudgetPlan.data shouldBeEqual createdBudgetPlan.data.copy(moneyAtStart = 200f)
 
         // DELETE TEST
         val deletedBudgetPlan = runBlocking {

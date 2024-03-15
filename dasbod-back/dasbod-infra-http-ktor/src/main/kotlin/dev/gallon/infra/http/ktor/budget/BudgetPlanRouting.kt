@@ -12,58 +12,61 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.routing.post
 import io.ktor.server.routing.put
-import kotlinx.serialization.Serializable
 import org.koin.ktor.ext.inject
 
-@Serializable
-@Resource("/budgetPlans")
-class BudgetPlans {
-    @Resource("{id}")
-    class Id(val parent: BudgetPlans, val id: String)
-}
 
 fun Route.configureBudgetPlanRouting() {
     logger.info("BudgetPlan routing init")
     val budgetPlanService by inject<BudgetPlanService>()
 
-    get<BudgetPlans> {
-        call.respondText("list")
-    }
-    get<BudgetPlans.Id> { request ->
-        budgetPlanService
-            .searchOneById(request.id)
-            ?.let { entity ->
+    route("/budgetPlan") {
+        get {
+            call.respondText("list")
+        }
+
+        post {
+            call.respond(
+                HttpStatusCode.Created,
+                budgetPlanService.create(
+                    data = call.receive<BudgetPlan>()
+                )
+            )
+        }
+
+        route("/{id}") {
+            get {
+                val id = call.parameters["id"]!!
+                budgetPlanService
+                    .searchOneById(id)
+                    ?.let { entity ->
+                        call.respond(
+                            HttpStatusCode.OK,
+                            entity
+                        )
+                    }
+                    ?: call.respond(HttpStatusCode.NotFound)
+            }
+
+            put {
+                val id = call.parameters["id"]!!
                 call.respond(
                     HttpStatusCode.OK,
-                    entity
+                    budgetPlanService.update(
+                        id = id,
+                        data = call.receive<BudgetPlan>()
+                    )
                 )
             }
-            ?: call.respond(HttpStatusCode.NotFound)
-    }
-    post<BudgetPlans> {
-        call.respond(
-            HttpStatusCode.Created,
-            budgetPlanService.create(
-                data = call.receive<BudgetPlan>()
-            )
-        )
-    }
-    put<BudgetPlans.Id> { request ->
-        call.respond(
-            HttpStatusCode.OK,
-            budgetPlanService.update(
-                id = request.id,
-                data = call.receive<BudgetPlan>()
-            )
-        )
-    }
-    delete<BudgetPlans.Id> { request ->
-        call.respond(
-            HttpStatusCode.OK,
-            budgetPlanService.delete(
-                id = request.id
-            )
-        )
+            delete {
+                val id = call.parameters["id"]!!
+                call.respond(
+                    HttpStatusCode.OK,
+                    budgetPlanService.delete(
+                        id = id
+                    )
+                )
+            }
+        }
     }
 
 }

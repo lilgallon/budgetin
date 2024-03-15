@@ -26,12 +26,14 @@ dependencies {
     implementation(project(":dasbod-infra-http-ktor"))
     implementation(libs.ktor.server.core.jvm)
     implementation(libs.ktor.server.netty.jvm)
+    implementation(libs.ktor.serialization.kotlinx.json.jvm)
 
     // di
     implementation(libs.koin.core)
     implementation(libs.koin.ktor)
 
     // test
+    testImplementation(libs.ktor.client.content.negociation)
     testImplementation(libs.ktor.server.tests.jvm)
     testImplementation("io.ktor:ktor-server-test-host-jvm:2.3.8")
 }

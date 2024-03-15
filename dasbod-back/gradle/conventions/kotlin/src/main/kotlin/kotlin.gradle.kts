@@ -29,14 +29,14 @@ dependencies {
     implementation(lib("kotlinx.serialization"))
 
     // logging
-    implementation(lib("log4j.core"))
-    implementation(lib("log4j.slf4j2"))
+    implementation(lib("log4j.slf4j2")) // it says how log4j logs should be logged
+    implementation(lib("log4j.kotlin")) // kotlin wrapper for to log with log4j
 
     // test
-    testImplementation(lib("kotest"))
-    testImplementation(platform("org.junit:junit-bom:5.10.2"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testImplementation(lib("kotest")) // kotlin test assertion lib
+    testImplementation(platform(lib("junit.bom"))) // it aligns and manage all junit 5 dependency versions
+    testImplementation("org.junit.jupiter:junit-jupiter") // junit jupiter
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher") // launcher for junit tests
 }
 
 tasks {

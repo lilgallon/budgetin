@@ -1,7 +1,6 @@
 [versions]
 kotlin = "1.9.23"
 gradle-enterprise = "3.13.4"
-javafx = "20"
 ktlint = "11.5.1"
 log4j-kotlin = "1.2.0"
 log4j = "2.20.0"
@@ -15,6 +14,8 @@ koin = "3.5.3"
 mongodb-kotlin = "5.0.0"
 hoplite = "2.7.5"
 kotest = "5.8.1"
+testcontainers = "1.19.7"
+junit = "5.10.2"
 
 [plugins]
 # Our own convention plugins
@@ -30,14 +31,16 @@ kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", vers
 
 [libraries]
 # test
-kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 kotest = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
+testcontainers = { module = "org.testcontainers:testcontainers", version.ref = "testcontainers" }
+testcontainers-junit-jupiter = { module = "org.testcontainers:junit-jupiter", version.ref = "testcontainers" }
+testcontainers-mongodb = { module = "org.testcontainers:mongodb", version.ref = "testcontainers" }
+junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
 
 # config
 hoplite-core = { module = "com.sksamuel.hoplite:hoplite-core", version.ref = "hoplite"}
 hoplite-yaml = { module = "com.sksamuel.hoplite:hoplite-yaml", version.ref = "hoplite"}
 # log
-log4j-core = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4j" }
 log4j-slf4j2 = { module = "org.apache.logging.log4j:log4j-slf4j2-impl", version.ref = "log4j" }
 log4j-kotlin = { module = "org.apache.logging.log4j:log4j-api-kotlin", version.ref = "log4j-kotlin" }
 # koin
@@ -53,22 +56,23 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 # mongo
 mongodb-kotlin = { module = "org.mongodb:mongodb-driver-kotlin-coroutine", version.ref = "mongodb-kotlin" }
 mongodb-bson-kotlinx = { module = "org.mongodb:bson-kotlinx", version.ref = "mongodb-kotlin" }
-# ktor
+# ktor common
+ktor-serialization-kotlinx-json-jvm = { module = "io.ktor:ktor-serialization-kotlinx-json-jvm", version.ref = "ktor" }
+# ktor client
 ktor-client-core-jvm = { module = "io.ktor:ktor-client-core-jvm", version.ref = "ktor" }
 ktor-client-content-negociation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+# ktor test
 ktor-server-core-jvm = { module = "io.ktor:ktor-server-core-jvm", version.ref = "ktor" }
 ktor-server-auth-jvm = { module = "io.ktor:ktor-server-auth-jvm", version.ref = "ktor" }
 ktor-server-auth-jwt-jvm = { module = "io.ktor:ktor-server-auth-jwt-jvm", version.ref = "ktor" }
-ktor-server-resources = { module = "io.ktor:ktor-server-resources", version.ref = "ktor" }
 ktor-server-host-common-jvm = { module = "io.ktor:ktor-server-host-common-jvm", version.ref = "ktor" }
 ktor-server-status-pages-jvm = { module = "io.ktor:ktor-server-status-pages-jvm", version.ref = "ktor" }
 ktor-server-cors-jvm = { module = "io.ktor:ktor-server-cors-jvm", version.ref = "ktor" }
 ktor-server-swagger-jvm = { module = "io.ktor:ktor-server-swagger-jvm", version.ref = "ktor" }
 ktor-server-call-logging-jvm = { module = "io.ktor:ktor-server-call-logging-jvm", version.ref = "ktor" }
 ktor-server-content-negotiation-jvm = { module = "io.ktor:ktor-server-content-negotiation-jvm", version.ref = "ktor" }
-ktor-serialization-kotlinx-json-jvm = { module = "io.ktor:ktor-serialization-kotlinx-json-jvm", version.ref = "ktor" }
 ktor-server-netty-jvm = { module = "io.ktor:ktor-server-netty-jvm", version.ref = "ktor" }
-ktor-server-tests-jvm = { module = "io.ktor:ktor-server-tests-jvm", version.ref = "ktor" }
+ktor-server-tests-host-jvm = { module = "io.ktor:ktor-server-test-host-jvm", version.ref = "ktor" }
 
 # To use existing plugins in convention plugins, we must also declare them as libraries
 gradle-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }

@@ -1,13 +1,11 @@
 package dev.gallon.domain.entities
 
-import dev.gallon.domain.common.EntitySerializer
 import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
 
 @Serializable
 sealed interface EntityData
 
-//@Serializable(with = EntitySerializer::class)
 @Serializable
 data class Entity<T : EntityData>(
     val id: String,

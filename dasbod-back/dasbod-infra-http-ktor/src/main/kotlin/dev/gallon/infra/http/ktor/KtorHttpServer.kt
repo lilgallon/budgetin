@@ -16,7 +16,6 @@ fun Application.configureKtorHttpServer(
     configureErrors()
     configureMonitoring()
     configureSerialization()
-    configureCommonRouting()
     routing {
         if (config.authConfig.enabled) {
             authenticate("auth0") {

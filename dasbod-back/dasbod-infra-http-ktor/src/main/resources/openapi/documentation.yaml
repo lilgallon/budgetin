@@ -6,7 +6,7 @@ info:
 servers:
 - url: "https://dasbod"
 paths:
-  /budgetPlans:
+  /budgetPlan:
     get:
       description: ""
       responses:
@@ -34,7 +34,7 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/Entity_BudgetPlan"
-  /budgetPlans/{id}:
+  /budgetPlan/{id}:
     delete:
       description: ""
       parameters:

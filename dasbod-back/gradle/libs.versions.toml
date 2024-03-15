@@ -1,21 +1,22 @@
 [versions]
 kotlin = "1.9.23"
 gradle-enterprise = "3.13.4"
-ktlint = "11.5.1"
-log4j-kotlin = "1.2.0"
-log4j = "2.20.0"
+ktlint = "12.1.0"
+log4j-kotlin = "1.4.0"
+log4j = "3.0.0-beta2"
 ktor = "2.3.8"
 auth0-jwts = "0.22.1"
 kotlinx-serialization-plugin = "1.9.23"
-kotlinx-coroutines = "1.7.3"
+kotlinx-coroutines = "1.8.1-Beta"
 kotlinx-datetime = "0.6.0-RC.2"
 kotlinx-serialization = "1.6.3"
-koin = "3.5.3"
+koin = "3.6.0-wasm-alpha2"
 mongodb-kotlin = "5.0.0"
-hoplite = "2.7.5"
+hoplite = "2.8.0.RC3"
 kotest = "5.8.1"
 testcontainers = "1.19.7"
 junit = "5.10.2"
+version-updater = "0.51.0"
 
 [plugins]
 # Our own convention plugins
@@ -28,6 +29,7 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
 ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinx-serialization-plugin" }
+version-updater = { id = "com.github.ben-manes.versions", version.ref = "version-updater" }
 
 [libraries]
 # test
@@ -38,8 +40,8 @@ testcontainers-mongodb = { module = "org.testcontainers:mongodb", version.ref = 
 junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
 
 # config
-hoplite-core = { module = "com.sksamuel.hoplite:hoplite-core", version.ref = "hoplite"}
-hoplite-yaml = { module = "com.sksamuel.hoplite:hoplite-yaml", version.ref = "hoplite"}
+hoplite-core = { module = "com.sksamuel.hoplite:hoplite-core", version.ref = "hoplite" }
+hoplite-yaml = { module = "com.sksamuel.hoplite:hoplite-yaml", version.ref = "hoplite" }
 # log
 log4j-slf4j2 = { module = "org.apache.logging.log4j:log4j-slf4j2-impl", version.ref = "log4j" }
 log4j-kotlin = { module = "org.apache.logging.log4j:log4j-api-kotlin", version.ref = "log4j-kotlin" }

@@ -1,8 +1,12 @@
 package dev.gallon.infra.http.ktor.budget
 
+import dev.gallon.AppConfig
+import dev.gallon.DatabaseConfig
 import dev.gallon.domain.entities.BudgetCategory
 import dev.gallon.domain.entities.BudgetPlan
 import dev.gallon.domain.entities.Entity
+import dev.gallon.infra.http.ktor.common.AuthConfig
+import dev.gallon.infra.http.ktor.common.HttpServerConfig
 import dev.gallon.main
 import io.kotest.matchers.equals.shouldBeEqual
 import io.ktor.client.call.*
@@ -13,8 +17,17 @@ import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.testing.*
 import kotlinx.datetime.LocalDate
 import org.junit.jupiter.api.Test
+import org.testcontainers.containers.MongoDBContainer
+import org.testcontainers.junit.jupiter.Container
 
 class BudgetPlanIntegrationTest {
+    @Container
+    private val mongoDBContainer: MongoDBContainer = MongoDBContainer("mongo:7.0.6")
+
+    init {
+        mongoDBContainer.start()
+    }
+
     @Test
     fun crud() = testApplication {
         val client = createClient {
@@ -24,7 +37,21 @@ class BudgetPlanIntegrationTest {
         }
 
         application {
-            main()
+            main(
+                AppConfig(
+                    httpServerConfig = HttpServerConfig(
+                        authConfig = AuthConfig(
+                            enabled = false,
+                            audience = "",
+                            issuer = ""
+                        )
+                    ),
+                    databaseConfig = DatabaseConfig(
+                        uri = mongoDBContainer.connectionString,
+                        dbName = "integration-test"
+                    )
+                )
+            )
         }
 
         val budgetPlan = BudgetPlan(

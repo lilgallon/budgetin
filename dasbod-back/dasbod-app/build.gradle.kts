@@ -35,4 +35,7 @@ dependencies {
     testImplementation(libs.ktor.server.tests.host.jvm) // to start ktor server in tests
     testImplementation(libs.ktor.client.content.negociation) // for ktor to know how to serialize data
     testImplementation(libs.ktor.serialization.kotlinx.json.jvm) // to serialize using json
+    testImplementation(libs.testcontainers) // to run containers in tests
+    testImplementation(libs.testcontainers.junit.jupiter) // wrapper for tests-containers to work with junit jupiter
+    testImplementation(libs.testcontainers.mongodb) // support for mongo containers
 }

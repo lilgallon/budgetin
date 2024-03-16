@@ -13,8 +13,12 @@ import org.koin.dsl.module
 object AppModules {
     val common = module {
         single<Clock> { Clock.System }
+    }
+
+    fun configModule(appConfig: AppConfig? = null) = module {
         single {
-            ConfigLoaderBuilder.default()
+            appConfig ?: ConfigLoaderBuilder
+                .default()
                 .addResourceSource("/app-config.yaml")
                 .build()
                 .loadConfigOrThrow<AppConfig>()

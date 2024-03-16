@@ -12,10 +12,10 @@ fun main() {
         .start(wait = true)
 }
 
-fun Application.main() {
+fun Application.main(config: AppConfig? = null) {
     install(Koin) {
         modules(
-            AppModules.common + AppModules.mongo + AppModules.services,
+             AppModules.common + AppModules.configModule(config) + AppModules.mongo + AppModules.services,
         )
     }
 

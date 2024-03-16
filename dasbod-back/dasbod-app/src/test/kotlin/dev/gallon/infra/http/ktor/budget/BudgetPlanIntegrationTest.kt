@@ -43,14 +43,14 @@ class BudgetPlanIntegrationTest {
                         authConfig = AuthConfig(
                             enabled = false,
                             audience = "",
-                            issuer = ""
-                        )
+                            issuer = "",
+                        ),
                     ),
                     databaseConfig = DatabaseConfig(
                         uri = mongoDBContainer.connectionString,
-                        dbName = "integration-test"
-                    )
-                )
+                        dbName = "integration-test",
+                    ),
+                ),
             )
         }
 

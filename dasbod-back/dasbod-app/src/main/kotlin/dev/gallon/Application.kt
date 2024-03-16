@@ -15,7 +15,7 @@ fun main() {
 fun Application.main(config: AppConfig? = null) {
     install(Koin) {
         modules(
-             AppModules.common + AppModules.configModule(config) + AppModules.mongo + AppModules.services,
+            AppModules.common + AppModules.configModule(config) + AppModules.mongo + AppModules.services,
         )
     }
 

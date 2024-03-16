@@ -9,10 +9,15 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import java.util.*
 
-inline fun <reified D : EntityData> Route.configureEntityCrudRouting(service: EntityService<D>) {
+inline fun <reified D : EntityData> Route.configureEntityCrudRouting(
+    service: EntityService<D>,
+    crossinline additionalRoutesBuilder: Route.() -> Unit = {},
+) {
     val endpoint = D::class.java.simpleName.replaceFirstChar { it.lowercase(Locale.getDefault()) }
     logger.info("$endpoint routing init")
     route("/$endpoint") {
+        additionalRoutesBuilder()
+
         get {
             call.respondText("list")
         }

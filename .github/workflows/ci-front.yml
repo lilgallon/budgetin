@@ -16,6 +16,10 @@ jobs:
 
         runs-on: ubuntu-latest
 
+        defaults:
+          run:
+            working-directory: dasbod-front
+
         steps:
             - name: Use Node.js
               uses: actions/setup-node@v4
@@ -25,8 +29,7 @@ jobs:
             - name: Checkout IZIVIA OCPI toolkit library code from GH
               uses: actions/checkout@v4
 
-            - name: Change directory
-              run: cd dasbod-front
-
-            - run: npm ci
-            - run: npm run build --if-present
+            - name: Install
+              run: npm ci
+            - name: Build
+              run: npm run build --if-present

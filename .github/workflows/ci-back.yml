@@ -16,6 +16,10 @@ jobs:
 
         runs-on: ubuntu-latest
 
+        defaults:
+          run:
+            working-directory: dasbod-back
+
         steps:
             - name: Set up JDK 17
               uses: actions/setup-java@v3
@@ -25,9 +29,6 @@ jobs:
 
             - name: Checkout IZIVIA OCPI toolkit library code from GH
               uses: actions/checkout@v4
-
-            - name: Change directory
-              run: cd dasbod-back
 
             - name: Setup gradle action
               uses: gradle/gradle-build-action@v2.10.0

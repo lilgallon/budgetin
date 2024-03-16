@@ -25,7 +25,7 @@ open class MongoEntityRepository<D : EntityData>(
                     modificationsLog = ModificationsLog(
                         created = buildModificationLog(),
                     ),
-                    owner = "todo",
+                    owner = currentCallContext().user,
                 ),
                 data = data,
             ),

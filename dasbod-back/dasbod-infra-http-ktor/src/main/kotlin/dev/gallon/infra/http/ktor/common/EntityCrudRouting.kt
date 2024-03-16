@@ -1,22 +1,18 @@
-package dev.gallon.infra.http.ktor.budget
+package dev.gallon.infra.http.ktor.common
 
-import dev.gallon.domain.entities.BudgetPlan
-import dev.gallon.domain.services.BudgetPlanService
-import dev.gallon.infra.http.ktor.common.logger
+import dev.gallon.domain.entities.EntityData
+import dev.gallon.domain.services.EntityService
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import io.ktor.server.routing.post
-import io.ktor.server.routing.put
-import org.koin.ktor.ext.inject
+import java.util.*
 
-fun Route.configureBudgetPlanRouting() {
-    logger.info("BudgetPlan routing init")
-    val budgetPlanService by inject<BudgetPlanService>()
-
-    route("/budgetPlan") {
+inline fun <reified D : EntityData> Route.configureEntityCrudRouting(service: EntityService<D>) {
+    val endpoint = D::class.java.simpleName.replaceFirstChar { it.lowercase(Locale.getDefault()) }
+    logger.info("$endpoint routing init")
+    route("/$endpoint") {
         get {
             call.respondText("list")
         }
@@ -24,8 +20,8 @@ fun Route.configureBudgetPlanRouting() {
         post {
             call.respond(
                 HttpStatusCode.Created,
-                budgetPlanService.create(
-                    data = call.receive<BudgetPlan>(),
+                service.create(
+                    data = call.receive<D>(),
                 ),
             )
         }
@@ -33,7 +29,7 @@ fun Route.configureBudgetPlanRouting() {
         route("/{id}") {
             get {
                 val id = call.parameters["id"]!!
-                budgetPlanService
+                service
                     .searchOneById(id)
                     ?.let { entity ->
                         call.respond(
@@ -48,9 +44,9 @@ fun Route.configureBudgetPlanRouting() {
                 val id = call.parameters["id"]!!
                 call.respond(
                     HttpStatusCode.OK,
-                    budgetPlanService.update(
+                    service.update(
                         id = id,
-                        data = call.receive<BudgetPlan>(),
+                        data = call.receive<D>(),
                     ),
                 )
             }
@@ -58,7 +54,7 @@ fun Route.configureBudgetPlanRouting() {
                 val id = call.parameters["id"]!!
                 call.respond(
                     HttpStatusCode.OK,
-                    budgetPlanService.delete(
+                    service.delete(
                         id = id,
                     ),
                 )

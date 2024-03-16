@@ -3,8 +3,14 @@ name: Dasbod Front CI
 on:
     push:
         branches: [ "main" ]
+        paths:
+          - .github/workflows/ci-front.yml
+          - 'dasbod-front/**'
     pull_request:
         branches: [ "**" ]
+        paths:
+          - .github/workflows/ci-front.yml
+          - 'dasbod-front/**'
 
 permissions:
     contents: read

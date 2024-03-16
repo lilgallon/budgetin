@@ -3,8 +3,20 @@ name: Dasbod Back CI
 on:
     push:
         branches: [ "main" ]
+        paths:
+          - .github/workflows/ci-back.yml
+          - 'dasbod-back/**/*.kt'
+          - 'dasbod-back/**/*.kts'
+          - 'dasbod-back/gradle.properties'
+          - 'dasbod-back/gradle/**'
     pull_request:
         branches: [ "**" ]
+        paths:
+          - .github/workflows/ci-back.yml
+          - 'dasbod-back/**/*.kt'
+          - 'dasbod-back/**/*.kts'
+          - 'dasbod-back/gradle.properties'
+          - 'dasbod-back/gradle/**'
 
 permissions:
     contents: read

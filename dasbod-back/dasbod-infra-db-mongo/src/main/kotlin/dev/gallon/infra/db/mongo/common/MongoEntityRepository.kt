@@ -8,8 +8,10 @@ import com.mongodb.kotlin.client.coroutine.MongoCollection
 import dev.gallon.domain.common.*
 import dev.gallon.domain.entities.*
 import dev.gallon.domain.repositories.EntityRepository
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.datetime.Clock
+import org.bson.conversions.Bson
 import org.bson.types.ObjectId
 import java.util.*
 
@@ -99,6 +101,9 @@ open class MongoEntityRepository<D : EntityData>(
             ),
         )
         .firstOrNull()
+
+    protected fun searchMany(filter: Bson): Flow<Entity<D>> = collection
+        .find(filter)
 
     private suspend fun buildModificationLog(): ModificationLog = with(currentCallContext()) {
         ModificationLog(

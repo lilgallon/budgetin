@@ -1,7 +1,6 @@
 package dev.gallon.infra.db.mongo.common
 
 import com.mongodb.kotlin.client.coroutine.MongoClient
-import dev.gallon.domain.entities.BudgetCategory
 import dev.gallon.domain.entities.BudgetPlan
 import io.kotest.matchers.equals.shouldBeEqual
 import io.kotest.matchers.nulls.shouldNotBeNull
@@ -31,16 +30,10 @@ class BudgetPlanMongoRepositoryTest {
         )
 
         val budgetPlan = BudgetPlan(
-            moneyAtStart = 100f,
-            expectedIncome = 50f,
+            amountAtStart = 100.0,
+            expectedIncome = 50.0,
             startDate = LocalDate.parse("2024-01-01"),
             endDate = LocalDate.parse("2024-02-01"),
-            categories = listOf(
-                BudgetCategory(
-                    name = "house",
-                    amount = 100f,
-                ),
-            ),
         )
 
         // CREATE TEST
@@ -59,10 +52,10 @@ class BudgetPlanMongoRepositoryTest {
         val editedBudgetPlan = runBlocking {
             repository.update(
                 createdBudgetPlan.id,
-                readBudgetPlan.data.copy(moneyAtStart = 200f),
+                readBudgetPlan.data.copy(amountAtStart = 200.0),
             )
         }
-        editedBudgetPlan.data shouldBeEqual createdBudgetPlan.data.copy(moneyAtStart = 200f)
+        editedBudgetPlan.data shouldBeEqual createdBudgetPlan.data.copy(amountAtStart = 200.0)
 
         // DELETE TEST
         val deletedBudgetPlan = runBlocking {

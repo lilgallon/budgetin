@@ -4,9 +4,13 @@ import com.mongodb.kotlin.client.coroutine.MongoClient
 import com.mongodb.kotlin.client.coroutine.MongoDatabase
 import com.sksamuel.hoplite.ConfigLoaderBuilder
 import com.sksamuel.hoplite.addResourceSource
+import dev.gallon.domain.repositories.BudgetCategoryEntityRepository
 import dev.gallon.domain.repositories.BudgetPlanEntityRepository
+import dev.gallon.domain.repositories.BudgetTransactionEntityRepository
+import dev.gallon.domain.services.BudgetCategoryService
 import dev.gallon.domain.services.BudgetPlanService
-import dev.gallon.infra.db.mongo.budget.BudgetPlanMongoRepository
+import dev.gallon.domain.services.BudgetTransactionService
+import dev.gallon.infra.db.mongo.budget.*
 import kotlinx.datetime.Clock
 import org.koin.dsl.module
 
@@ -32,9 +36,13 @@ object AppModules {
                 .getDatabase(databaseConfig.dbName)
         }
         single<BudgetPlanEntityRepository> { BudgetPlanMongoRepository(get(), get()) }
+        single<BudgetCategoryEntityRepository> { BudgetCategoryMongoRepository(get(), get()) }
+        single<BudgetTransactionEntityRepository> { BudgetTransactionMongoRepository(get(), get()) }
     }
 
     val services = module {
         single { BudgetPlanService(get()) }
+        single { BudgetCategoryService(get()) }
+        single { BudgetTransactionService(get()) }
     }
 }

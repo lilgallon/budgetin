@@ -1,28 +1,33 @@
 package dev.gallon.domain.entities
 
-import dev.gallon.domain.common.Reference
+import dev.gallon.domain.common.Ref
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class BudgetPlan(
-    val moneyAtStart: Float,
-    val expectedIncome: Float,
+    val amountAtStart: Double,
+    val expectedIncome: Double,
     val startDate: LocalDate,
     val endDate: LocalDate,
-    val categories: List<BudgetCategory>,
 ) : EntityData
 
 @Serializable
 data class BudgetCategory(
     val name: String,
-    val amount: Float,
-)
+    val amount: Double,
+    val budgetPlanRef: Ref<BudgetPlan>,
+) : EntityData
 
 @Serializable
 data class BudgetTransaction(
-    val budgetPlanRef: Reference<BudgetPlan>,
     val date: LocalDate,
-    val amount: Float,
+    val categoryRef: Ref<BudgetCategory>,
+    val amount: Double,
     val description: String,
+    val status: BudgetTransactionStatus,
 ) : EntityData
+
+enum class BudgetTransactionStatus {
+    PAID, PROCESSING, PLANNED
+}

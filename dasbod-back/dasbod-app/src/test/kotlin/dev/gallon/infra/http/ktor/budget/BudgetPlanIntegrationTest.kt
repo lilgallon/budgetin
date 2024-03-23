@@ -2,7 +2,6 @@ package dev.gallon.infra.http.ktor.budget
 
 import dev.gallon.AppConfig
 import dev.gallon.DatabaseConfig
-import dev.gallon.domain.entities.BudgetCategory
 import dev.gallon.domain.entities.BudgetPlan
 import dev.gallon.domain.entities.Entity
 import dev.gallon.infra.http.ktor.common.AuthConfig
@@ -55,16 +54,10 @@ class BudgetPlanIntegrationTest {
         }
 
         val budgetPlan = BudgetPlan(
-            moneyAtStart = 100f,
-            expectedIncome = 50f,
+            amountAtStart = 100.0,
+            expectedIncome = 50.0,
             startDate = LocalDate.parse("2024-01-01"),
             endDate = LocalDate.parse("2024-02-01"),
-            categories = listOf(
-                BudgetCategory(
-                    name = "house",
-                    amount = 100f,
-                ),
-            ),
         )
 
         val createdEntity = client
@@ -85,16 +78,16 @@ class BudgetPlanIntegrationTest {
         val editedEntity = client
             .put("/budgetPlan/${createdEntity.id}") {
                 contentType(ContentType.Application.Json)
-                setBody(budgetPlan.copy(moneyAtStart = 200f))
+                setBody(budgetPlan.copy(amountAtStart = 200.0))
             }
             .body<Entity<BudgetPlan>>()
 
-        editedEntity.data shouldBeEqual budgetPlan.copy(moneyAtStart = 200f)
+        editedEntity.data shouldBeEqual budgetPlan.copy(amountAtStart = 200.0)
 
         val deletedEntity = client
             .delete("/budgetPlan/${createdEntity.id}") {
                 contentType(ContentType.Application.Json)
-                setBody(budgetPlan.copy(moneyAtStart = 200f))
+                setBody(budgetPlan.copy(amountAtStart = 200.0))
             }
             .body<Entity<BudgetPlan>>()
 

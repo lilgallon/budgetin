@@ -19,6 +19,7 @@ import {
 } from "@tanstack/react-table"
 
 import { moneyCell } from "@/lib/data-table"
+import { BudgetCategoryDto } from "@/lib/data/budget/budget-dtos"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
@@ -39,30 +40,42 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
-type Category = {
-  id: string
-  parentCategory?: string
-  planned: number
-  spent: number
-  remaining: number
-}
-
-const data: Category[] = [
+const data: BudgetCategoryDto[] = [
   {
-    id: "Foyer",
-    planned: 500,
-    spent: 356,
-    remaining: 500 - 356,
+    id: "1",
+    entityData: {
+      name: "Foyer",
+      amount: 500,
+      budgetPlanRef: {
+        id: "xx",
+        type: "BudgetPlan",
+      },
+    },
+    computedFields: {
+      spent: 356,
+      remaining: 500 - 356,
+      percentSpent: (100 * 356) / 500,
+    },
   },
   {
-    id: "Électricité",
-    planned: 90,
-    spent: 92,
-    remaining: 90 - 92,
+    id: "2",
+    entityData: {
+      name: "Électricité",
+      amount: 90,
+      budgetPlanRef: {
+        id: "xx",
+        type: "BudgetPlan",
+      },
+    },
+    computedFields: {
+      spent: 92,
+      remaining: 90 - 92,
+      percentSpent: (100 * 92) / 90,
+    },
   },
 ]
 
-const columns: ColumnDef<Category>[] = [
+const columns: ColumnDef<BudgetCategoryDto>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -86,21 +99,25 @@ const columns: ColumnDef<Category>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "id",
-    header: "Id",
+    id: "name",
+    accessorFn: (category) => category.entityData.name,
+    header: "Name",
   },
   {
-    accessorKey: "planned",
+    id: "planned",
+    accessorFn: (category) => category.entityData.amount,
     header: "Planned",
     cell: ({ row }) => moneyCell(row.getValue("planned")),
   },
   {
-    accessorKey: "spent",
+    id: "spent",
+    accessorFn: (category) => category.computedFields.spent,
     header: "Spent",
     cell: ({ row }) => moneyCell(row.getValue("spent")),
   },
   {
-    accessorKey: "remaining",
+    id: "remaining",
+    accessorFn: (category) => category.computedFields.remaining,
     header: "Remaining",
     cell: ({ row }) => moneyCell(row.getValue("remaining"), "", "yes"),
   },
@@ -114,7 +131,9 @@ export function CategoriesTable() {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
-  const [rowsSelected, setRowsSelected] = React.useState<Category[]>([])
+  const [rowsSelected, setRowsSelected] = React.useState<BudgetCategoryDto[]>(
+    []
+  )
 
   const table = useReactTable({
     data,
@@ -158,9 +177,9 @@ export function CategoriesTable() {
 
         <Input
           placeholder="Filter categories..."
-          value={(table.getColumn("id")?.getFilterValue() as string) ?? ""}
+          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("id")?.setFilterValue(event.target.value)
+            table.getColumn("name")?.setFilterValue(event.target.value)
           }
           className="max-w-sm ml-5"
         />

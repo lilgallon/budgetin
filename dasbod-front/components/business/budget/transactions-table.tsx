@@ -3,6 +3,7 @@
 import * as React from "react"
 import { useEffect } from "react"
 import {
+  CalendarIcon,
   CaretDownIcon,
   CheckCircledIcon,
   ChevronDownIcon,
@@ -26,6 +27,8 @@ import {
 } from "@tanstack/react-table"
 
 import { moneyCell, sortableColumn } from "@/lib/data-table"
+import { BudgetTransactionDto } from "@/lib/data/budget/budget-dtos"
+import { BudgetTransactionStatus } from "@/lib/data/budget/budget-entities"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -57,63 +60,93 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
-export type Payment = {
-  id: string
-  amount: number
-  category: Category
-  description: string
-  date: Date
-  status: Status
-}
-
 const categories = ["pending", "processing", "success", "failed"] as const
 export type Category = (typeof categories)[number]
-type Status = "paid" | "processing"
 
-const data: Payment[] = [
+const data: BudgetTransactionDto[] = [
   {
     id: "m5gr84i9",
-    amount: 316,
-    category: "success",
-    description: "ken99@yahoo.com",
-    date: new Date(),
-    status: "paid",
+    entityData: {
+      amount: 316,
+      description: "ken99@yahoo.com",
+      date: new Date().toDateString(),
+      status: "PAID",
+      categoryRef: {
+        id: "xxx",
+        type: "yyy",
+      },
+    },
+    computedFields: {
+      categoryName: "success",
+    },
   },
   {
     id: "3u1reuv4",
-    amount: 242,
-    category: "success",
-    description: "Abe45@gmail.com",
-    date: new Date(),
-    status: "paid",
+    entityData: {
+      amount: 242,
+      description: "Abe45@gmail.com",
+      date: new Date().toDateString(),
+      status: "PLANNED",
+      categoryRef: {
+        id: "xxx",
+        type: "yyy",
+      },
+    },
+    computedFields: {
+      categoryName: "success",
+    },
   },
   {
     id: "derv1ws0",
-    amount: 837,
-    category: "processing",
-    description: "Monserrat44@gmail.com",
-    date: new Date(),
-    status: "paid",
+    entityData: {
+      amount: 837,
+      description: "Monserrat44@gmail.com",
+      date: new Date().toDateString(),
+      status: "PAID",
+      categoryRef: {
+        id: "xxx",
+        type: "yyy",
+      },
+    },
+    computedFields: {
+      categoryName: "processing",
+    },
   },
   {
     id: "5kma53ae",
-    amount: 874,
-    category: "success",
-    description: "Silas22@gmail.com",
-    date: new Date(),
-    status: "processing",
+    entityData: {
+      amount: 874,
+      description: "Silas22@gmail.com",
+      date: new Date().toDateString(),
+      status: "PROCESSING",
+      categoryRef: {
+        id: "xxx",
+        type: "yyy",
+      },
+    },
+    computedFields: {
+      categoryName: "success",
+    },
   },
   {
     id: "bhqecj4p",
-    amount: 721,
-    category: "failed",
-    description: "carmella@hotmail.com",
-    date: new Date(),
-    status: "processing",
+    entityData: {
+      amount: 721,
+      description: "carmella@hotmail.com",
+      date: new Date().toDateString(),
+      status: "PLANNED",
+      categoryRef: {
+        id: "xxx",
+        type: "yyy",
+      },
+    },
+    computedFields: {
+      categoryName: "failed",
+    },
   },
 ]
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<BudgetTransactionDto>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -137,53 +170,61 @@ export const columns: ColumnDef<Payment>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "status",
+    id: "status",
+    accessorFn: (transaction) => transaction.entityData.status,
     header: ({ column }) => sortableColumn("Status", column),
     cell: ({ row }) => {
-      const status = row.getValue("status")
+      const status = row.getValue("status") as BudgetTransactionStatus
 
-      if (status == "paid") {
-        return (
-          <Badge className="bg-green-400">
-            <CheckCircledIcon className="mr-1"></CheckCircledIcon> Paid
-          </Badge>
-        )
-      } else if (status == "processing") {
-        return (
-          <Badge className="bg-orange-400">
-            <InfoCircledIcon className="mr-1"></InfoCircledIcon> Processing
-          </Badge>
-        )
-      } else {
-        return <Badge>Unknown</Badge>
+      switch (status) {
+        case "PAID":
+          return (
+            <Badge className="bg-green-400">
+              <CheckCircledIcon className="mr-1"></CheckCircledIcon> Paid
+            </Badge>
+          )
+        case "PLANNED":
+          return (
+            <Badge className="bg-gray-400">
+              <CalendarIcon className="mr-1"></CalendarIcon> Planned
+            </Badge>
+          )
+        case "PROCESSING":
+          return (
+            <Badge className="bg-orange-400">
+              <InfoCircledIcon className="mr-1"></InfoCircledIcon> Processing
+            </Badge>
+          )
+        default:
+          return <Badge>Unknown</Badge>
       }
     },
   },
   {
-    accessorKey: "date",
+    id: "date",
+    accessorFn: (transaction) => transaction.entityData.date,
     header: ({ column }) => sortableColumn("Date", column),
-    cell: ({ row }) => (
-      <div className="capitalize">
-        {(row.getValue("date") as Date).toDateString()}
-      </div>
-    ),
+    cell: ({ row }) => <div className="capitalize">{row.getValue("date")}</div>,
   },
   {
-    accessorKey: "category",
+    id: "category",
+    accessorFn: (transaction) => transaction.computedFields.categoryName,
     header: ({ column }) => sortableColumn("Category", column),
     cell: ({ row }) => (
       <div className="capitalize">{row.getValue("category")}</div>
     ),
   },
   {
-    accessorKey: "description",
+    id: "description",
+    accessorFn: (transaction) => transaction.entityData.description,
     header: ({ column }) => sortableColumn("Description", column),
     cell: ({ row }) => (
       <div className="lowercase">{row.getValue("description")}</div>
     ),
   },
   {
-    accessorKey: "amount",
+    id: "amount",
+    accessorFn: (transaction) => transaction.entityData.amount,
     header: ({ column }) => sortableColumn("Amount", column, "text-right"),
     cell: ({ row }) => moneyCell(row.getValue("amount"), "text-right"),
   },
@@ -191,21 +232,28 @@ export const columns: ColumnDef<Payment>[] = [
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const payment = row.original
+      const transaction = row.original
 
       let statusAction = <></>
-      switch (payment.status) {
-        case "paid":
+      switch (transaction.entityData.status) {
+        case "PAID":
           statusAction = (
             <>
               <InfoCircledIcon className="mr-1"></InfoCircledIcon> Processing
             </>
           )
           break
-        case "processing":
+        case "PROCESSING":
           statusAction = (
             <>
               <CheckCircledIcon className="mr-1"></CheckCircledIcon> Paid
+            </>
+          )
+          break
+        case "PLANNED":
+          statusAction = (
+            <>
+              <CalendarIcon className="mr-1"></CalendarIcon> Planned
             </>
           )
           break
@@ -221,11 +269,7 @@ export const columns: ColumnDef<Payment>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-              {statusAction}
-            </DropdownMenuItem>
+            <DropdownMenuItem>{statusAction}</DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
               <Pencil1Icon className="mr-1"></Pencil1Icon> Edit
@@ -248,7 +292,9 @@ export function TransactionsTable() {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
-  const [rowsSelected, setRowsSelected] = React.useState<Payment[]>([])
+  const [rowsSelected, setRowsSelected] = React.useState<
+    BudgetTransactionDto[]
+  >([])
 
   const table = useReactTable({
     data,

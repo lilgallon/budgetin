@@ -123,7 +123,7 @@ const columns: ColumnDef<BudgetCategoryDto>[] = [
   },
 ]
 
-export function CategoriesTable() {
+export function BudgetCategoriesTable() {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []

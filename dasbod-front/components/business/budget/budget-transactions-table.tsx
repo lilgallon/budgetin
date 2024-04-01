@@ -284,7 +284,7 @@ export const columns: ColumnDef<BudgetTransactionDto>[] = [
   },
 ]
 
-export function TransactionsTable() {
+export function BudgetTransactionsTable() {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []

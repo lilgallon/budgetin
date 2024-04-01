@@ -22,7 +22,7 @@ const data = [
   },
 ]
 
-export function CategoriesOverview() {
+export function BudgetCategoriesOverview() {
   return (
     <ResponsiveContainer width="100%" height={350}>
       <BarChart

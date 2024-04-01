@@ -21,4 +21,10 @@ export interface BudgetTransaction extends EntityData {
   status: BudgetTransactionStatus
 }
 
-export type BudgetTransactionStatus = "PAID" | "PROCESSING" | "PLANNED"
+export const budgetTransactionStatuses = [
+  "PAID",
+  "PROCESSING",
+  "PLANNED",
+] as const
+
+export type BudgetTransactionStatus = typeof budgetTransactionStatuses

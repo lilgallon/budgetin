@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 
 import { budgetCategoryFormSchema } from "@/lib/data/budget/budget-forms"
-import { Reference } from "@/lib/data/common"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -27,8 +26,8 @@ import {
 import { Input } from "@/components/ui/input"
 
 export type CategoryDialogProps = {
-  id: string
-  budgetPlanRef: Reference
+  id?: string
+  budgetPlanId: string
 }
 
 export function BudgetCategoryDialog(props: CategoryDialogProps) {
@@ -38,13 +37,13 @@ export function BudgetCategoryDialog(props: CategoryDialogProps) {
       id: props.id,
       name: "",
       amount: 0,
-      budgetPlanRef: props.budgetPlanRef,
+      budgetPlanId: props.budgetPlanId,
     },
   })
 
   function onSubmit(values: z.infer<typeof budgetCategoryFormSchema>) {
     // TODO
-    console.log(values, props.budgetPlanRef)
+    console.log(values, props.budgetPlanId)
   }
 
   return (

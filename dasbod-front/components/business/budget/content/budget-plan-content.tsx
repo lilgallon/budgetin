@@ -6,7 +6,7 @@ import { BudgetTransactionsTable } from "@/components/business/budget/budget-tra
 import { BudgetCategoryDialog } from "@/components/business/budget/dialog/budget-category-dialog"
 
 export type BudgetPlanContentProps = {
-  budgetPlanRef: Reference
+  budgetPlanId: string
 }
 
 export function BudgetPlanContent(props: BudgetPlanContentProps) {
@@ -17,7 +17,7 @@ export function BudgetPlanContent(props: BudgetPlanContentProps) {
       </h2>
       <div className="flex max-w-[980px] flex-col items-start gap-2">
         <BudgetCategoryDialog
-          budgetPlanRef={props.budgetPlanRef}
+          budgetPlanId={props.budgetPlanId}
         ></BudgetCategoryDialog>
       </div>
       <BudgetCategoriesTable></BudgetCategoriesTable>

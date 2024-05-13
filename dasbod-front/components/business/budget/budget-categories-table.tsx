@@ -46,7 +46,7 @@ const data: BudgetCategoryDto[] = [
     entityData: {
       name: "Foyer",
       amount: 500,
-      budgetPlanRef: {
+      budgetPlanId: {
         id: "xx",
         type: "BudgetPlan",
       },
@@ -62,7 +62,7 @@ const data: BudgetCategoryDto[] = [
     entityData: {
       name: "Électricité",
       amount: 90,
-      budgetPlanRef: {
+      budgetPlanId: {
         id: "xx",
         type: "BudgetPlan",
       },

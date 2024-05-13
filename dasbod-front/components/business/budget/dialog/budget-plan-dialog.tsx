@@ -1,4 +1,5 @@
 import React from "react"
+import { useAuth0 } from "@auth0/auth0-react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { CalendarIcon } from "@radix-ui/react-icons"
 import { Reference } from "@typescript-eslint/scope-manager"
@@ -10,6 +11,7 @@ import {
   budgetCategoryFormSchema,
   budgetPlanFormSchema,
 } from "@/lib/data/budget/budget-forms"
+import { http } from "@/lib/http"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
@@ -39,10 +41,11 @@ import {
 } from "@/components/ui/popover"
 
 export type BudgetPlanDialogProps = {
-  id: string
+  id?: string
 }
 
 export function BudgetPlanDialog(props: BudgetPlanDialogProps) {
+  const { getAccessTokenSilently } = useAuth0()
   const now = new Date()
   const form = useForm<z.infer<typeof budgetPlanFormSchema>>({
     resolver: zodResolver(budgetPlanFormSchema),
@@ -57,6 +60,15 @@ export function BudgetPlanDialog(props: BudgetPlanDialogProps) {
 
   function onSubmit(values: z.infer<typeof budgetPlanFormSchema>) {
     // TODO
+    getAccessTokenSilently().then((token) => {
+      http
+        .authorized(token)
+        .post("/budgetPlan", values)
+        .then((response) => {
+          console.log(response)
+        })
+    })
+
     console.log(values)
   }
 

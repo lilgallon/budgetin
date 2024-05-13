@@ -6,7 +6,7 @@ import { AxiosResponse } from "axios"
 
 import { http } from "@/lib/http"
 
-export default function BudgetPage() {
+export default function ProfilePage() {
   const { getAccessTokenSilently } = useAuth0()
 
   useEffect(() => {

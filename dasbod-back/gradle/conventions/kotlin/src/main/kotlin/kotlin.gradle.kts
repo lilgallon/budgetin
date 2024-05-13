@@ -29,6 +29,7 @@ dependencies {
     implementation(lib("kotlinx.serialization"))
 
     // logging
+    implementation(lib("log4j.core")) // it says how log4j logs should be logged
     implementation(lib("log4j.slf4j2")) // it says how log4j logs should be logged
     implementation(lib("log4j.kotlin")) // kotlin wrapper for to log with log4j
 

@@ -5,8 +5,6 @@ import { ButtonModule } from 'primeng/button';
   selector: 'app-button',
   imports: [ButtonModule],
   templateUrl: './button.component.html',
-  styleUrl: './button.component.css'
+  styleUrl: './button.component.css',
 })
-export class ButtonComponent {
-
-}
+export class ButtonComponent {}

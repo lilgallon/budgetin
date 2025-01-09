@@ -1,4 +1,8 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+} from '@angular/core';
 import { Menu } from 'primeng/menu';
 import { Badge } from 'primeng/badge';
 import { MenuItem } from 'primeng/api';
@@ -12,23 +16,22 @@ import { CommonModule } from '@angular/common';
   templateUrl: './menubar.component.html',
   styleUrl: './menubar.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class MenubarComponent {
-
   public items: MenuItem[] = [
     {
-      separator: true
-  },
-  {
+      separator: true,
+    },
+    {
       label: 'Modules',
       items: [
-          {
-              label: 'Budgetin',
-              icon: 'pi pi-wallet',
-              shortcut: '⌘+N'
-          }
-      ]
-  }
-  ]
+        {
+          label: 'Budgetin',
+          icon: 'pi pi-wallet',
+          shortcut: '⌘+N',
+        },
+      ],
+    },
+  ];
 }

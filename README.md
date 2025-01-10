@@ -21,8 +21,8 @@ Your modular dashboard
 
 - Build / test: `github actions` - https://github.com/features/actions
 - Code quality:
-  - `qodana` - https://www.jetbrains.com/qodana/
   - `sonarcloud` - https://docs.sonarsource.com/sonarcloud/
+  - `codacy` - https://www.codacy.com/
 
 ### 3.2. Backend
 
@@ -44,11 +44,10 @@ Using gradle 8 with the best practices
 
 ### 3.3. Frontend
 - Framework:
-  - `react 18` - https://react.dev/
-  - `nextjs` - https://nextjs.org/
+  - `angular 19` - https://angular.dev/ (signals, standalone components)
 - Styling / components:
   - `tailwind` - https://tailwindcss.com/
-  - `shadcn` - https://ui.shadcn.com/
+  - `primeNG` - https://primeng.org/
 - Formatting:
   - `eslint` - https://eslint.org/
   - `prettier` - https://prettier.io/

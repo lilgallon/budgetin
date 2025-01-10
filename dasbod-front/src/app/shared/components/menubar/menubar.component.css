@@ -1,0 +1,7 @@
+:host {
+  display: block;
+}
+
+.p-menu-list {
+  flex-grow: 1 !important;
+}

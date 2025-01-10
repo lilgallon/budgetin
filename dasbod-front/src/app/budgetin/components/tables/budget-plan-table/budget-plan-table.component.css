@@ -1,0 +1,5 @@
+.budget-plan-table {
+  .p-datatable-table-container {
+    overflow: visible !important;
+  }
+}

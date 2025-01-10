@@ -1,4 +1,7 @@
 <div class="flex">
-  <app-topbar class="shrink" />
-  <router-outlet class="grow" />
+  <app-topbar class="flex-none w-72" />
+  <div class="flex-grow pr-8">
+    <p-breadcrumb class="max-w-full" [model]="breadcrumb.items" [home]="breadcrumb.home" />
+    <router-outlet />
+  </div>
 </div>

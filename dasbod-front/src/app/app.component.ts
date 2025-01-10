@@ -1,18 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, LOCALE_ID } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { PrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
 import { MenubarComponent } from './shared/components/menubar/menubar.component';
+import { Breadcrumb } from 'primeng/breadcrumb';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, MenubarComponent],
+  imports: [RouterOutlet, MenubarComponent, Breadcrumb],
+  providers: [{ provide: LOCALE_ID, useValue: 'fr-FR' }],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  title = 'dasbod-front';
-
   constructor(private primeng: PrimeNG) {
     this.primeng.theme.set({
       preset: Aura,
@@ -24,4 +25,9 @@ export class AppComponent {
       },
     });
   }
+
+  public breadcrumb: { items: MenuItem[]; home: MenuItem } = {
+    items: [{ label: 'TODO' }],
+    home: { icon: 'pi pi-home', routerLink: '/' },
+  };
 }

@@ -1,0 +1,12 @@
+<div class="flex items-center justify-center gap-2">
+  <p-button *ngIf="!editing()" pRipple pInitEditableRow icon="pi pi-pencil" rounded severity="secondary"></p-button>
+  <p-button
+    *ngIf="editing()"
+    pRipple
+    pSaveEditableRow
+    icon="pi pi-check"
+    (click)="edit.emit()"
+    rounded
+    severity="primary"></p-button>
+  <p-button *ngIf="editing()" pRipple pCancelEditableRow icon="pi pi-times" rounded severity="secondary"></p-button>
+</div>

@@ -1,0 +1,38 @@
+<p-table [value]="budgetCategories()" [tableStyle]="{ 'min-width': '60rem' }" dataKey="id" editMode="row">
+  <ng-template #caption>
+    <div class="flex items-center justify-between">
+      <span class="text-xl font-bold">Categories</span>
+      <div>
+        <ng-content select="buttons"></ng-content>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #header>
+    <tr>
+      <th>Nom</th>
+      <th>Prévu</th>
+      <th>Dépensé</th>
+      <th>Restant</th>
+      <th>%</th>
+      <th>Actions</th>
+    </tr>
+  </ng-template>
+  <ng-template #body let-category let-editing="editing">
+    <tr [pEditableRow]="category">
+      <td><app-label-editable-table-column [(label)]="category.entityData.name"></app-label-editable-table-column></td>
+      <td>
+        <app-money-editable-table-column [(money)]="category.entityData.amount"></app-money-editable-table-column>
+      </td>
+      <td>{{ category.computedFields.spent | currency: 'EUR' }}</td>
+      <td>{{ category.computedFields.remaining | currency: 'EUR' }}</td>
+      <td>
+        <p-progress-bar [value]="category.computedFields.percentSpent" [showValue]="false"></p-progress-bar>
+      </td>
+      <td>
+        <app-edit-action-table-column
+          [editing]="editing"
+          (edit)="onRowEditSave(category)"></app-edit-action-table-column>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

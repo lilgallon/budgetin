@@ -1,0 +1,8 @@
+<p-cellEditor>
+  <ng-template #input>
+    <input type="text" pInputText [(ngModel)]="label" name="label" />
+  </ng-template>
+  <ng-template #output>
+    {{ label() }}
+  </ng-template>
+</p-cellEditor>

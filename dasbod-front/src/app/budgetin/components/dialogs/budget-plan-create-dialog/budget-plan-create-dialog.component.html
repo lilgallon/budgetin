@@ -1,0 +1,63 @@
+<p-dialog [(visible)]="visible" [modal]="true" [style]="{ width: '50vw' }" contentStyleClass="overflow-visible">
+  <ng-template #header>
+    <div class="inline-flex items-center justify-center gap-2">
+      <i class="pi pi-plus-circle"></i> <span class="font-bold whitespace-nowrap"> Création d'un budget</span>
+    </div>
+  </ng-template>
+  <form #form="ngForm">
+    <span class="text-surface-500 dark:text-surface-400 block mb-8"
+      >Pour définir l'argent total alloué budget, le <p-tag severity="secondary" value="montant au départ" /> sera
+      additionné avec les <p-tag severity="secondary" value="transactions prévues"
+    /></span>
+    <p-fluid class="card flex flex-wrap gap-4">
+      <p-floatlabel variant="in" class="mr-2 flex-auto">
+        <p-date-picker
+          id="range"
+          inputId="range"
+          selectionMode="range"
+          showIcon
+          iconDisplay="input"
+          name="startDate"
+          [readonlyInput]="true"
+          [ngModel]="range"
+          required
+          (ngModelChange)="onRangeChange($event)"
+          dateFormat="D d M y" />
+        <label for="range">Période</label>
+      </p-floatlabel>
+      <p-floatlabel variant="in" class="mr-2 flex-auto">
+        <p-input-number
+          [(ngModel)]="budgetPlan.amountAtStart"
+          required
+          mode="currency"
+          id="amountAtStart"
+          inputId="amountAtStart"
+          name="amountAtStart"
+          currency="EUR"
+          locale="fr-FR" />
+        <label for="amountAtStart">Montant au départ</label>
+      </p-floatlabel>
+      <p-floatlabel variant="in" class="mb-2 flex-auto">
+        <p-input-number
+          [(ngModel)]="budgetPlan.expectedIncome"
+          required
+          mode="currency"
+          id="expectedIncome"
+          inputId="expectedIncome"
+          name="expectedIncome"
+          currency="EUR"
+          locale="fr-FR" />
+        <label for="expectedIncome">Transactions prévues</label>
+      </p-floatlabel>
+    </p-fluid>
+  </form>
+  <ng-template #footer>
+    <p-button label="Annuler" [text]="true" severity="secondary" (click)="visible.set(false)" />
+    <p-button
+      label="Créer"
+      [outlined]="true"
+      severity="primary"
+      (click)="save.emit(budgetPlan)"
+      [disabled]="form.invalid" />
+  </ng-template>
+</p-dialog>

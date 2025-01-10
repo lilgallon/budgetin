@@ -1,8 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 import { Menu } from 'primeng/menu';
 import { Badge } from 'primeng/badge';
 import { MenuItem } from 'primeng/api';
@@ -14,15 +10,7 @@ import { Ripple } from 'primeng/ripple';
 
 @Component({
   selector: 'app-topbar',
-  imports: [
-    Menu,
-    Badge,
-    AvatarModule,
-    InputTextModule,
-    CommonModule,
-    RouterLink,
-    Ripple,
-  ],
+  imports: [Menu, Badge, AvatarModule, InputTextModule, CommonModule, RouterLink, Ripple],
   templateUrl: './menubar.component.html',
   styleUrl: './menubar.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

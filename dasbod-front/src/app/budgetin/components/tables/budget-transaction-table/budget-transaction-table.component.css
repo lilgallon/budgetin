@@ -1,0 +1,5 @@
+.budget-transaction-table {
+  .p-datatable-table-container {
+    overflow: visible !important;
+  }
+}

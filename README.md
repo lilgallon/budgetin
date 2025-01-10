@@ -21,8 +21,8 @@ Your modular dashboard
 
 - Build / test: `github actions` - https://github.com/features/actions
 - Code quality:
-  - `qodana` - https://www.jetbrains.com/qodana/
   - `sonarcloud` - https://docs.sonarsource.com/sonarcloud/
+  - `codacy` - https://www.codacy.com/
 
 ### 3.2. Backend
 

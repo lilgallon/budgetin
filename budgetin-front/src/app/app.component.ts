@@ -2,7 +2,7 @@ import { Component, LOCALE_ID } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { PrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
-import { MenubarComponent } from './shared/components/menubar/menubar.component';
+import { MenubarComponent } from '../shared/components/menubar/menubar.component';
 import { Breadcrumb } from 'primeng/breadcrumb';
 import { MenuItem } from 'primeng/api';
 

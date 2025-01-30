@@ -2,9 +2,7 @@
   <ng-template #header>
     <div class="inline-flex items-center justify-center gap-2">
       <i class="pi pi-plus-circle"></i>
-      <span class="font-bold whitespace-nowrap">
-        Création d'une transaction
-      </span>
+      <span class="font-bold whitespace-nowrap"> Création d'une transaction </span>
     </div>
   </ng-template>
 
@@ -15,9 +13,7 @@
     </span>
     <!-- TODO: indiquer le reste global -->
   } @else {
-    <span class="text-surface-500 dark:text-surface-400 block mb-8">
-      Sélectionnez un budget
-    </span>
+    <span class="text-surface-500 dark:text-surface-400 block mb-8"> Sélectionnez un budget </span>
   }
 
   <form #form="ngForm">
@@ -77,10 +73,13 @@
 
     <p-fluid class="card flex flex-wrap gap-4 mt-2">
       <p-floatlabel variant="in" class="mr-2 flex-auto">
-        <textarea rows="5" cols="30" pTextarea
-                  [(ngModel)]="budgetTransaction.description"
-                  name="description"
-                  id="description">
+        <textarea
+          rows="5"
+          cols="30"
+          pTextarea
+          [(ngModel)]="budgetTransaction.description"
+          name="description"
+          id="description">
         </textarea>
         <label for="description">Description</label>
       </p-floatlabel>

@@ -16,7 +16,7 @@ export class BudgetPlanService {
         },
         computedFields: {
           alreadyBudgeted: 500,
-          toBeBudgeted: 1300
+          toBeBudgeted: 1300,
         },
       } as unknown as BudgetPlanDto,
       {
@@ -29,7 +29,7 @@ export class BudgetPlanService {
         },
         computedFields: {
           alreadyBudgeted: 100,
-          toBeBudgeted: 1300
+          toBeBudgeted: 1300,
         },
       } as unknown as BudgetPlanDto,
     ]).pipe(

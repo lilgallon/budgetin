@@ -34,6 +34,6 @@ export class MenubarComponent {
     },
     {
       label: 'Visualisation',
-    }
+    },
   ];
 }

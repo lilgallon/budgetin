@@ -1,39 +1,31 @@
 <p-dialog [(visible)]="visible" [modal]="true" [style]="{ width: '50vw' }" contentStyleClass="overflow-visible">
-
   <ng-template #header>
     <div class="inline-flex items-center justify-center gap-2">
       <i class="pi pi-plus-circle"></i>
       <span class="font-bold whitespace-nowrap">
-        Création d'une catégorie pour la période du {{budgetPlan().entityData.startDate | date: 'mediumDate'}}
-        au {{budgetPlan().entityData.endDate | date: 'mediumDate'}}
+        Création d'une catégorie pour la période du {{ budgetPlan().entityData.startDate | date: 'mediumDate' }} au
+        {{ budgetPlan().entityData.endDate | date: 'mediumDate' }}
       </span>
     </div>
   </ng-template>
 
-   <span class="text-surface-500 dark:text-surface-400 block mb-4">
-     Sur la période:
-     <ul>
-       <li class="mb-1">
-         - Montant au départ: <app-money-tag [money]="budgetPlan().entityData.amountAtStart"></app-money-tag>
-       </li>
-       <li class="mb-1">
-         - Prévu: <app-money-tag [money]="budgetPlan().entityData.expectedIncome"></app-money-tag>
-       </li>
-       <li class="mb-1">
-         - Déjà budgeté: <app-money-tag [money]="budgetPlan().computedFields.alreadyBudgeted"></app-money-tag>
-       </li>
-     </ul>
-   </span>
+  <span class="text-surface-500 dark:text-surface-400 block mb-4">
+    Sur la période:
+    <ul>
+      <li class="mb-1">
+        - Montant au départ: <app-money-tag [money]="budgetPlan().entityData.amountAtStart"></app-money-tag>
+      </li>
+      <li class="mb-1">- Prévu: <app-money-tag [money]="budgetPlan().entityData.expectedIncome"></app-money-tag></li>
+      <li class="mb-1">
+        - Déjà budgeté: <app-money-tag [money]="budgetPlan().computedFields.alreadyBudgeted"></app-money-tag>
+      </li>
+    </ul>
+  </span>
 
   <form #form="ngForm">
     <p-fluid class="card flex flex-wrap gap-4">
       <p-floatlabel variant="in" class="mr-2 flex-auto">
-        <input type="text"
-           pInputText
-           [(ngModel)]="budgetCategory.name"
-           required
-           id="name"
-           name="name" />
+        <input type="text" pInputText [(ngModel)]="budgetCategory.name" required id="name" name="name" />
         <label for="name">Nom</label>
       </p-floatlabel>
 
@@ -53,7 +45,9 @@
   </form>
 
   <span class="text-surface-500 dark:text-surface-400 block mt-4">
-    Il reste <app-money-tag [money]="budgetPlan().computedFields.toBeBudgeted - budgetCategory.amount"></app-money-tag> à budgeter
+    Il reste
+    <app-money-tag [money]="budgetPlan().computedFields.toBeBudgeted - budgetCategory.amount"></app-money-tag> à
+    budgeter
   </span>
 
   <ng-template #footer>

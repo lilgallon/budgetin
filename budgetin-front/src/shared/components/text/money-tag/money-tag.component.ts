@@ -13,11 +13,12 @@ export class MoneyTagComponent {
   public money = input.required<number>();
   public severity = computed<Severity>(() => {
     if (this.money() > 0) {
-      return 'success'
-    } if (this.money() === 0) {
-      return 'secondary'
-    } else {
-      return 'danger'
+      return 'success';
     }
-  })
+    if (this.money() === 0) {
+      return 'secondary';
+    } else {
+      return 'danger';
+    }
+  });
 }

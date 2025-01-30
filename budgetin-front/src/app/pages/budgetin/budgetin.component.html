@@ -36,13 +36,15 @@
 </app-budget-plan-create-dialog>
 
 @if (selectedBudgetPlan !== undefined) {
-  <app-budget-category-create-dialog [(visible)]="showBudgetCategoryDialog"
-                                     [budgetPlan]="selectedBudgetPlan!"
-                                     (save)="createBudgetCategory($event)">
+  <app-budget-category-create-dialog
+    [(visible)]="showBudgetCategoryDialog"
+    [budgetPlan]="selectedBudgetPlan!"
+    (save)="createBudgetCategory($event)">
   </app-budget-category-create-dialog>
 }
 
-<app-budget-transaction-create-dialog [(visible)]="showBudgetTransactionDialog"
-                                      [budgetCategories]="budgetCategories"
-                                      (save)="createBudgetTransaction($event)">
+<app-budget-transaction-create-dialog
+  [(visible)]="showBudgetTransactionDialog"
+  [budgetCategories]="budgetCategories"
+  (save)="createBudgetTransaction($event)">
 </app-budget-transaction-create-dialog>

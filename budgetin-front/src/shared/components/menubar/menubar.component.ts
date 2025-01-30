@@ -22,15 +22,18 @@ export class MenubarComponent {
       separator: true,
     },
     {
-      label: 'Modules',
+      label: 'Données',
       items: [
         {
-          label: 'Budgetin',
-          icon: 'pi pi-wallet',
+          label: 'Données',
+          icon: 'pi pi-database',
           shortcut: '⌘+N',
           routerLink: ['/budgetin'],
         },
       ],
     },
+    {
+      label: 'Visualisation',
+    }
   ];
 }

@@ -9,8 +9,11 @@ import { BudgetPlanTableComponent } from '../../components/tables/budget-plan-ta
 import { BudgetCategoryTableComponent } from '../../components/tables/budget-category-table/budget-category-table.component';
 import { Button } from 'primeng/button';
 import { BudgetPlanCreateDialogComponent } from '../../components/dialogs/budget-plan-create-dialog/budget-plan-create-dialog.component';
-import { BudgetPlan } from '../../models/budget-entities';
+import { BudgetCategory, BudgetPlan } from '../../models/budget-entities';
 import { BudgetCategoryChartComponent } from '../../components/charts/budget-category-chart/budget-category-chart.component';
+import {
+  BudgetCategoryCreateDialogComponent
+} from '../../components/dialogs/budget-category-create-dialog/budget-category-create-dialog.component';
 
 @Component({
   selector: 'app-budgetin',
@@ -21,6 +24,7 @@ import { BudgetCategoryChartComponent } from '../../components/charts/budget-cat
     Button,
     BudgetPlanCreateDialogComponent,
     BudgetCategoryChartComponent,
+    BudgetCategoryCreateDialogComponent,
   ],
   templateUrl: './budgetin.component.html',
   styleUrl: './budgetin.component.css',
@@ -45,6 +49,9 @@ export class BudgetinComponent implements OnInit, OnDestroy {
   public budgetCategories: BudgetCategoryDto[] = [];
   public budgetTransactions: BudgetTransactionDto[] = [];
 
+  // State
+  public selectedBudgetPlan?: BudgetPlanDto;
+
   public ngOnInit(): void {
     this.fetchBudgetPlansSubscription = this.budgetPlanService
       .fetchBudgetPlans()
@@ -58,6 +65,7 @@ export class BudgetinComponent implements OnInit, OnDestroy {
   }
 
   public onBudgetPlanSelect(budgetPlan: BudgetPlanDto): void {
+    this.selectedBudgetPlan = budgetPlan;
     this.fetchBudgetCategoriesAndTransactionsSubscription = forkJoin({
       categories: this.budgetCategoryService.fetchBudgetCategoriesByBudgetPlanId(budgetPlan.id),
       transactions: this.budgetTransactionService.fetchTransactionsByBudgetPlanId(budgetPlan.id),
@@ -78,5 +86,9 @@ export class BudgetinComponent implements OnInit, OnDestroy {
 
   public createBudgetPlan(budgetPlan: BudgetPlan): void {
     console.log('TODO, CREATE', budgetPlan);
+  }
+
+  public createBudgetCategory(budgetCategory: BudgetCategory): void {
+    console.log('TODO, CREATE', budgetCategory);
   }
 }

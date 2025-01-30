@@ -11,11 +11,16 @@ export interface BudgetDto {
 
 // Entities DTOs
 
-export type BudgetPlanDto = Dto<BudgetPlan, unknown>;
+export type BudgetPlanDto = Dto<BudgetPlan, BudgetPlanComputedFields>;
 export type BudgetCategoryDto = Dto<BudgetCategory, BudgetCategoryComputedFields>;
 export type BudgetTransactionDto = Dto<BudgetTransaction, BudgetTransactionComputedFields>;
 
 // Computed Fields
+
+export interface BudgetPlanComputedFields extends ComputedFields {
+  alreadyBudgeted: number;
+  toBeBudgeted: number;
+}
 
 export interface BudgetCategoryComputedFields extends ComputedFields {
   spent: number;

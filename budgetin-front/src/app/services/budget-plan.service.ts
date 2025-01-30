@@ -14,7 +14,10 @@ export class BudgetPlanService {
           startDate: new Date(2025, 1, 1).toISOString(),
           endDate: new Date(2025, 1, 20).toISOString(),
         },
-        computedFields: {},
+        computedFields: {
+          alreadyBudgeted: 500,
+          toBeBudgeted: 1300
+        },
       } as unknown as BudgetPlanDto,
       {
         id: 'budgetplan-id2',
@@ -24,7 +27,10 @@ export class BudgetPlanService {
           startDate: new Date(2025, 2, 1).toISOString(),
           endDate: new Date(2025, 2, 28).toISOString(),
         },
-        computedFields: {},
+        computedFields: {
+          alreadyBudgeted: 100,
+          toBeBudgeted: 1300
+        },
       } as unknown as BudgetPlanDto,
     ]).pipe(
       map(list => {

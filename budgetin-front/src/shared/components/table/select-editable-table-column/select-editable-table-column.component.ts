@@ -17,9 +17,7 @@ export class SelectEditableTableColumnComponent {
   public choice = model<Selectable | string>();
   public readableChoice = computed<string | undefined>(() => {
     if (typeof this.choice() === 'string') {
-      console.log('c STR', this.choices());
       if (typeof this.choices()[0] === 'object') {
-        console.log('cs OBJ');
         return (this.choices() as Selectable[]).find(choice => choice.id === this.choice())?.label;
       } else {
         return this.choice() as string;

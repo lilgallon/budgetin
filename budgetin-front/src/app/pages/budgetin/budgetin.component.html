@@ -41,3 +41,8 @@
                                      (save)="createBudgetCategory($event)">
   </app-budget-category-create-dialog>
 }
+
+<app-budget-transaction-create-dialog [(visible)]="showBudgetTransactionDialog"
+                                      [budgetCategories]="budgetCategories"
+                                      (save)="createBudgetTransaction($event)">
+</app-budget-transaction-create-dialog>

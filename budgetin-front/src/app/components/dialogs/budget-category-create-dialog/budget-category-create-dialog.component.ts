@@ -8,23 +8,12 @@ import { FloatLabel } from 'primeng/floatlabel';
 import { InputNumber } from 'primeng/inputnumber';
 import { InputText } from 'primeng/inputtext';
 import { Button } from 'primeng/button';
-import { CurrencyPipe, DatePipe } from '@angular/common';
-import { Tag } from 'primeng/tag';
+import { DatePipe } from '@angular/common';
 import { MoneyTagComponent } from '../../../../shared/components/text/money-tag/money-tag.component';
 
 @Component({
   selector: 'app-budget-category-create-dialog',
-  imports: [
-    Dialog,
-    FormsModule,
-    Fluid,
-    FloatLabel,
-    InputNumber,
-    InputText,
-    Button,
-    DatePipe,
-    MoneyTagComponent,
-  ],
+  imports: [Dialog, FormsModule, Fluid, FloatLabel, InputNumber, InputText, Button, DatePipe, MoneyTagComponent],
   templateUrl: './budget-category-create-dialog.component.html',
   styleUrl: './budget-category-create-dialog.component.css',
 })
@@ -34,10 +23,10 @@ export class BudgetCategoryCreateDialogComponent implements OnInit {
   public save = output<BudgetCategory>();
 
   public budgetCategory: BudgetCategory = {
-    name: '',
-    budgetPlanId: '',
+    name: undefined,
+    budgetPlanId: undefined,
     amount: 0,
-  };
+  } as unknown as BudgetCategory;
 
   public ngOnInit(): void {
     this.budgetCategory.budgetPlanId = this.budgetPlan().id;

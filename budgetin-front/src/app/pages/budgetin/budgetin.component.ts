@@ -9,11 +9,14 @@ import { BudgetPlanTableComponent } from '../../components/tables/budget-plan-ta
 import { BudgetCategoryTableComponent } from '../../components/tables/budget-category-table/budget-category-table.component';
 import { Button } from 'primeng/button';
 import { BudgetPlanCreateDialogComponent } from '../../components/dialogs/budget-plan-create-dialog/budget-plan-create-dialog.component';
-import { BudgetCategory, BudgetPlan } from '../../models/budget-entities';
+import { BudgetCategory, BudgetPlan, BudgetTransaction } from '../../models/budget-entities';
 import { BudgetCategoryChartComponent } from '../../components/charts/budget-category-chart/budget-category-chart.component';
 import {
   BudgetCategoryCreateDialogComponent
 } from '../../components/dialogs/budget-category-create-dialog/budget-category-create-dialog.component';
+import {
+  BudgetTransactionCreateDialogComponent
+} from '../../components/dialogs/budget-transaction-create-dialog/budget-transaction-create-dialog.component';
 
 @Component({
   selector: 'app-budgetin',
@@ -25,6 +28,7 @@ import {
     BudgetPlanCreateDialogComponent,
     BudgetCategoryChartComponent,
     BudgetCategoryCreateDialogComponent,
+    BudgetTransactionCreateDialogComponent,
   ],
   templateUrl: './budgetin.component.html',
   styleUrl: './budgetin.component.css',
@@ -51,6 +55,7 @@ export class BudgetinComponent implements OnInit, OnDestroy {
 
   // State
   public selectedBudgetPlan?: BudgetPlanDto;
+  public selectedBudgetCategory?: BudgetCategoryDto;
 
   public ngOnInit(): void {
     this.fetchBudgetPlansSubscription = this.budgetPlanService
@@ -90,5 +95,9 @@ export class BudgetinComponent implements OnInit, OnDestroy {
 
   public createBudgetCategory(budgetCategory: BudgetCategory): void {
     console.log('TODO, CREATE', budgetCategory);
+  }
+
+  public createBudgetTransaction(budgetTransaction: BudgetTransaction): void {
+    console.log('TODO, CREATE', budgetTransaction);
   }
 }

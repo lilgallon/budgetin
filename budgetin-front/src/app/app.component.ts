@@ -14,7 +14,7 @@ import { MenuItem } from 'primeng/api';
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  constructor(private primeng: PrimeNG) {
+  constructor(private readonly primeng: PrimeNG) {
     this.primeng.theme.set({
       preset: Aura,
       options: {

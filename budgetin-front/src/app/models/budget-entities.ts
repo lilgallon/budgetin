@@ -1,4 +1,4 @@
-import { EntityData } from '../../models/common';
+import { EntityData } from './common';
 
 export interface BudgetPlan extends EntityData {
   amountAtStart: number;

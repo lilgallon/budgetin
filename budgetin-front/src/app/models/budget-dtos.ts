@@ -1,6 +1,6 @@
 // Main DTOs
 
-import { ComputedFields, Dto } from '../../models/common';
+import { ComputedFields, Dto } from './common';
 import { BudgetCategory, BudgetPlan, BudgetTransaction } from './budget-entities';
 
 export interface BudgetDto {

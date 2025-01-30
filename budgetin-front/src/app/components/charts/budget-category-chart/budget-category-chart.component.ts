@@ -29,9 +29,9 @@ export class BudgetCategoryChartComponent implements OnInit {
     };
   });
   public basicOptions: unknown;
-  private platformId = inject(PLATFORM_ID);
+  private readonly platformId = inject(PLATFORM_ID);
 
-  constructor(private cd: ChangeDetectorRef) {}
+  constructor(private readonly cd: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.initChart();

@@ -1,0 +1,8 @@
+<p-cellEditor>
+  <ng-template #input>
+    <p-date-picker selectionMode="single" name="date" [(ngModel)]="date" dateFormat="D d M y" />
+  </ng-template>
+  <ng-template #output>
+    {{ date() | date: 'mediumDate' }}
+  </ng-template>
+</p-cellEditor>

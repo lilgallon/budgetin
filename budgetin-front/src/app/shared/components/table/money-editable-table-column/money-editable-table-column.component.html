@@ -1,0 +1,8 @@
+<p-cellEditor>
+  <ng-template #input>
+    <p-input-number [(ngModel)]="money" required mode="currency" name="money" currency="EUR" locale="fr-FR" />
+  </ng-template>
+  <ng-template #output>
+    {{ money() | currency: 'EUR' : 'symbol' : '1.2-2' : 'fr-FR' }}
+  </ng-template>
+</p-cellEditor>

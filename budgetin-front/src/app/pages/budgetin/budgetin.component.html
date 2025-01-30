@@ -1,0 +1,36 @@
+<app-budget-plan-table
+  [budgetPlans]="budgetPlans"
+  (budgetPlanSelect)="onBudgetPlanSelect($event)"
+  (budgetPlanUnselect)="onBudgetPlanUnselect()">
+  <ng-container ngProjectAs="buttons">
+    <p-button size="small" icon="pi pi-plus" class="pr-2" label="Créer" (onClick)="showBudgetPlanDialog = true" />
+    <p-button size="small" icon="pi pi-refresh" label="Rafraichir" />
+  </ng-container>
+</app-budget-plan-table>
+
+@if (budgetCategories.length > 0) {
+  <app-budget-category-chart [budgetCategories]="budgetCategories"></app-budget-category-chart>
+  <app-budget-category-table [budgetCategories]="budgetCategories">
+    <ng-container ngProjectAs="buttons">
+      <p-button size="small" icon="pi pi-plus" class="pr-2" label="Créer" (onClick)="showBudgetCategoryDialog = true" />
+      <p-button size="small" icon="pi pi-refresh" label="Rafraichir" />
+    </ng-container>
+  </app-budget-category-table>
+}
+
+@if (budgetTransactions.length > 0) {
+  <app-budget-transaction-table [budgetTransactions]="budgetTransactions" [budgetCategories]="budgetCategories">
+    <ng-container ngProjectAs="buttons">
+      <p-button
+        size="small"
+        icon="pi pi-plus"
+        class="pr-2"
+        label="Créer"
+        (onClick)="showBudgetTransactionDialog = true" />
+      <p-button size="small" icon="pi pi-refresh" label="Rafraichir" />
+    </ng-container>
+  </app-budget-transaction-table>
+}
+
+<app-budget-plan-create-dialog [(visible)]="showBudgetPlanDialog" (save)="createBudgetPlan($event)">
+</app-budget-plan-create-dialog>

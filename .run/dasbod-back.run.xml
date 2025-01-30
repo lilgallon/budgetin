@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="dasbod-back" type="JetRunConfigurationType">
+  <configuration default="false" name="budgetin-back" type="JetRunConfigurationType">
     <option name="MAIN_CLASS_NAME" value="dev.gallon.ApplicationKt" />
-    <module name="dasbod-back.dasbod-app.main" />
+    <module name="budgetin-back.budgetin-app.main" />
     <shortenClasspath name="NONE" />
     <method v="2">
       <option name="Make" enabled="true" />

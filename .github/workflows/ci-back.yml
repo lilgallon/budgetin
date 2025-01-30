@@ -1,22 +1,22 @@
-name: Dasbod Back CI
+name: Budgetin Back CI
 
 on:
     push:
         branches: [ "main" ]
         paths:
           - .github/workflows/ci-back.yml
-          - 'dasbod-back/**/*.kt'
-          - 'dasbod-back/**/*.kts'
-          - 'dasbod-back/gradle.properties'
-          - 'dasbod-back/gradle/**'
+          - 'budgetin-back/**/*.kt'
+          - 'budgetin-back/**/*.kts'
+          - 'budgetin-back/gradle.properties'
+          - 'budgetin-back/gradle/**'
     pull_request:
         branches: [ "**" ]
         paths:
           - .github/workflows/ci-back.yml
-          - 'dasbod-back/**/*.kt'
-          - 'dasbod-back/**/*.kts'
-          - 'dasbod-back/gradle.properties'
-          - 'dasbod-back/gradle/**'
+          - 'budgetin-back/**/*.kt'
+          - 'budgetin-back/**/*.kts'
+          - 'budgetin-back/gradle.properties'
+          - 'budgetin-back/gradle/**'
 
 permissions:
     contents: read
@@ -24,13 +24,13 @@ permissions:
 jobs:
     build:
 
-        concurrency: dasbod-back-ci
+        concurrency: budgetin-back-ci
 
         runs-on: ubuntu-latest
 
         defaults:
           run:
-            working-directory: dasbod-back
+            working-directory: budgetin-back
 
         steps:
             - name: Set up JDK 17

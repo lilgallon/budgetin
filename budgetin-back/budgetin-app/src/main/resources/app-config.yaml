@@ -1,0 +1,8 @@
+httpServerConfig:
+  authConfig:
+    enabled: false
+    audience: budgetin-api
+    issuer: https://lilgallon.eu.auth0.com/
+databaseConfig:
+  uri: mongodb://localhost:27017
+  dbName: budgetin

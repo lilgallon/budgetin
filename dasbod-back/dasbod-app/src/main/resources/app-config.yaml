@@ -1,8 +1,0 @@
-httpServerConfig:
-  authConfig:
-    enabled: false
-    audience: dasbod-api
-    issuer: https://lilgallon.eu.auth0.com/
-databaseConfig:
-  uri: mongodb://localhost:27017
-  dbName: dasbod

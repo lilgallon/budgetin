@@ -1,16 +1,16 @@
-name: Dasbod Front CI
+name: Budgetin Front CI
 
 on:
     push:
         branches: [ "main" ]
         paths:
           - .github/workflows/ci-front.yml
-          - 'dasbod-front/**'
+          - '../../budgetin-front/**'
     pull_request:
         branches: [ "**" ]
         paths:
           - .github/workflows/ci-front.yml
-          - 'dasbod-front/**'
+          - '../../budgetin-front/**'
 
 permissions:
     contents: read
@@ -18,13 +18,13 @@ permissions:
 jobs:
     build:
 
-        concurrency: dasbod-front-ci
+        concurrency: budgetin-front-ci
 
         runs-on: ubuntu-latest
 
         defaults:
           run:
-            working-directory: dasbod-front
+            working-directory: budgetin-front
 
         steps:
             - name: Use Node.js

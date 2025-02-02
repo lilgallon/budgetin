@@ -1,13 +1,15 @@
 <p-cellEditor>
   <ng-template #input>
-    <p-select
-      [options]="choices()"
-      [(ngModel)]="choice"
-      name="choice"
-      optionLabel="label"
-      optionValue="id"
-      [placeholder]="placeholder()"
-      class="w-full md:w-56" />
+    <form>
+      <p-select
+        [options]="choices()"
+        [(ngModel)]="choice"
+        name="choice"
+        optionLabel="label"
+        optionValue="id"
+        [placeholder]="placeholder()"
+        class="w-full md:w-56" />
+    </form>
   </ng-template>
   <ng-template #output>
     <ng-container *ngTemplateOutlet="selectable || defaultSelectableTemplate; context: { $implicit: choice() }">

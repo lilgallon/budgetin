@@ -1,4 +1,4 @@
-import { Component, input, output, ViewEncapsulation } from '@angular/core';
+import { Component, input, model, output, ViewEncapsulation } from '@angular/core';
 import { TableModule, TableRowSelectEvent } from 'primeng/table';
 import { BudgetPlanDto } from '../../../models/budget-dtos';
 import { FormsModule } from '@angular/forms';
@@ -24,6 +24,7 @@ export class BudgetPlanTableComponent {
   public budgetPlanEdit = output<BudgetPlanDto>();
   public budgetPlanSelect = output<BudgetPlanDto>();
   public budgetPlanUnselect = output();
+  public selection = model<BudgetPlanDto[]>([]);
 
   public onRowSelect(event: TableRowSelectEvent): void {
     this.budgetPlanSelect.emit(event.data);

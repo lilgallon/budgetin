@@ -1,9 +1,10 @@
 <p-table
+  size="small"
+  class="budget-transaction-table"
   [value]="budgetTransactions()"
   [tableStyle]="{ 'min-width': '60rem' }"
   dataKey="id"
-  editMode="row"
-  class="budget-transaction-table">
+  editMode="row">
   <ng-template #caption>
     <div class="flex items-center justify-between">
       <span class="text-xl font-bold">Transactions</span>
@@ -24,7 +25,9 @@
   </ng-template>
   <ng-template #body let-transaction let-editing="editing">
     <tr [pEditableRow]="transaction">
-      <td><app-date-editable-table-column [(date)]="transaction.entityData.date"></app-date-editable-table-column></td>
+      <td>
+        <app-date-editable-table-column [(date)]="transaction.entityData.date"></app-date-editable-table-column>
+      </td>
       <td>
         <app-money-editable-table-column [(money)]="transaction.entityData.amount"></app-money-editable-table-column>
       </td>

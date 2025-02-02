@@ -1,5 +1,7 @@
 <p-table
+  size="small"
   class="budget-plan-table"
+  [selection]="selection()"
   [value]="budgetPlans()"
   [tableStyle]="{ 'min-width': '60rem' }"
   dataKey="id"
@@ -26,8 +28,12 @@
   </ng-template>
   <ng-template #body let-plan let-editing="editing">
     <tr [pSelectableRow]="plan" [pEditableRow]="plan">
-      <td><app-date-editable-table-column [(date)]="plan.entityData.startDate"></app-date-editable-table-column></td>
-      <td><app-date-editable-table-column [(date)]="plan.entityData.endDate"></app-date-editable-table-column></td>
+      <td>
+        <app-date-editable-table-column [(date)]="plan.entityData.startDate"></app-date-editable-table-column>
+      </td>
+      <td>
+        <app-date-editable-table-column [(date)]="plan.entityData.endDate"></app-date-editable-table-column>
+      </td>
       <td>
         <app-money-editable-table-column [(money)]="plan.entityData.amountAtStart"></app-money-editable-table-column>
       </td>

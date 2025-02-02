@@ -1,4 +1,4 @@
-import { Component, computed, input, model, output } from '@angular/core';
+import { Component, computed, effect, input, model, OnDestroy, output, signal } from '@angular/core';
 import { BudgetCategoryDto } from '../../../models/budget-dtos';
 import { BudgetTransaction, BudgetTransactionStatuses } from '../../../models/budget-entities';
 import { Dialog } from 'primeng/dialog';
@@ -30,12 +30,20 @@ import { MoneyTagComponent } from '../../../../shared/components/text/money-tag/
   templateUrl: './budget-transaction-create-dialog.component.html',
   styleUrl: './budget-transaction-create-dialog.component.css',
 })
-export class BudgetTransactionCreateDialogComponent {
+export class BudgetTransactionCreateDialogComponent implements OnDestroy {
   public budgetCategories = input.required<BudgetCategoryDto[]>();
   public visible = model<boolean>(false);
   public save = output<BudgetTransaction>();
   public budgetCategoriesChoices = computed(() => {
     return buildCategoriesSelectables(this.budgetCategories());
+  });
+  public selectedBudgetCategoryId = signal<string | undefined>(undefined);
+  public selectedBudgetCategory: BudgetCategoryDto | undefined;
+  public onSelectedCategoryChange = effect(() => {
+    this.budgetTransaction.categoryId = this.selectedBudgetCategoryId() as unknown as string;
+    this.selectedBudgetCategory = this.budgetCategories().find(
+      category => category.id === this.selectedBudgetCategoryId()
+    );
   });
 
   public budgetTransaction: BudgetTransaction = {
@@ -47,4 +55,8 @@ export class BudgetTransactionCreateDialogComponent {
   } as unknown as BudgetTransaction;
 
   protected readonly BudgetTransactionStatuses = BudgetTransactionStatuses;
+
+  public ngOnDestroy(): void {
+    this.onSelectedCategoryChange.destroy();
+  }
 }

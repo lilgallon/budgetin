@@ -51,12 +51,18 @@ export class BudgetinComponent implements OnInit, OnDestroy {
 
   // State
   public selectedBudgetPlan?: BudgetPlanDto;
-  public selectedBudgetCategory?: BudgetCategoryDto;
 
   public ngOnInit(): void {
     this.fetchBudgetPlansSubscription = this.budgetPlanService
       .fetchBudgetPlans()
-      .pipe(tap(plans => (this.budgetPlans = plans)))
+      .pipe(
+        tap(plans => (this.budgetPlans = plans)),
+        tap(plans => {
+          if (plans.length > 0) {
+            this.onBudgetPlanSelect(plans[0]);
+          }
+        })
+      )
       .subscribe();
   }
 

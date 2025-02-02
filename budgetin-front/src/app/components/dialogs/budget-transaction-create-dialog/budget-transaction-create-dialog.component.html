@@ -6,19 +6,19 @@
     </div>
   </ng-template>
 
-  @if (budgetTransaction.categoryId) {
+  @if (selectedBudgetCategory) {
     <span class="text-surface-500 dark:text-surface-400 block mb-8">
-      Sur le budget xxx, il restera
-      <app-money-tag [money]="budgetTransaction.amount"></app-money-tag>
+      Sur le budget {{ selectedBudgetCategory.entityData.name }}, il restera
+      <app-money-tag
+        [money]="selectedBudgetCategory.computedFields.remaining - budgetTransaction.amount"></app-money-tag>
     </span>
-    <!-- TODO: indiquer le reste global -->
   } @else {
     <span class="text-surface-500 dark:text-surface-400 block mb-8"> Sélectionnez un budget </span>
   }
 
   <form #form="ngForm">
     <p-fluid class="card flex flex-wrap gap-4">
-      <p-floatlabel variant="in" class="mr-2 flex-auto">
+      <p-floatlabel variant="in" class="mr-2 flex-1">
         <p-date-picker
           id="date"
           inputId="date"
@@ -33,7 +33,7 @@
         <label for="date">Date</label>
       </p-floatlabel>
 
-      <p-floatlabel variant="in" class="mr-2 flex-auto">
+      <p-floatlabel variant="in" class="mr-2 flex-1">
         <p-input-number
           [(ngModel)]="budgetTransaction.amount"
           required
@@ -46,20 +46,20 @@
         <label for="amount">Montant</label>
       </p-floatlabel>
 
-      <p-floatlabel variant="in" class="mr-2 flex-auto">
+      <p-floatlabel variant="in" class="mr-2 flex-1">
         <p-select
           id="category"
           name="category"
           optionLabel="label"
           optionValue="id"
           required
-          [(ngModel)]="budgetTransaction.categoryId"
+          [(ngModel)]="selectedBudgetCategoryId"
           [options]="budgetCategoriesChoices()">
         </p-select>
         <label for="category">Catégorie</label>
       </p-floatlabel>
 
-      <p-floatlabel variant="in" class="mr-2 flex-auto">
+      <p-floatlabel variant="in" class="mr-2 flex-1">
         <p-select
           id="status"
           name="status"

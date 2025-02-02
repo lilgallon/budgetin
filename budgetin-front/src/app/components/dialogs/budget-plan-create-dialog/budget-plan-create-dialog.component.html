@@ -6,11 +6,11 @@
   </ng-template>
   <form #form="ngForm">
     <span class="text-surface-500 dark:text-surface-400 block mb-8"
-      >Pour définir l'argent total alloué budget, le <p-tag severity="secondary" value="montant au départ" /> sera
+    >Pour définir l'argent total alloué budget, le <p-tag severity="secondary" value="montant au départ" /> sera
       additionné avec les <p-tag severity="secondary" value="transactions prévues"
-    /></span>
+      /></span>
     <p-fluid class="card flex flex-wrap gap-4">
-      <p-floatlabel variant="in" class="mr-2 flex-auto">
+      <p-floatlabel variant="in" class="mr-2 flex-1">
         <p-date-picker
           id="range"
           inputId="range"
@@ -25,7 +25,7 @@
           dateFormat="D d M y" />
         <label for="range">Période</label>
       </p-floatlabel>
-      <p-floatlabel variant="in" class="mr-2 flex-auto">
+      <p-floatlabel variant="in" class="mr-2 flex-2">
         <p-input-number
           [(ngModel)]="budgetPlan.amountAtStart"
           required
@@ -37,7 +37,7 @@
           locale="fr-FR" />
         <label for="amountAtStart">Montant au départ</label>
       </p-floatlabel>
-      <p-floatlabel variant="in" class="mb-2 flex-auto">
+      <p-floatlabel variant="in" class="mb-2 flex-2">
         <p-input-number
           [(ngModel)]="budgetPlan.expectedIncome"
           required

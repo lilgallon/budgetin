@@ -5,7 +5,6 @@ import dev.gallon.domain.entities.BudgetPlan
 import dev.gallon.domain.entities.BudgetTransaction
 import dev.gallon.infra.http.ktor.common.ComputedFields
 import dev.gallon.infra.http.ktor.common.Dto
-import dev.gallon.infra.http.ktor.common.isRefOf
 
 data class BudgetDto(
     val plan: BudgetPlanDto,
@@ -16,9 +15,24 @@ data class BudgetDto(
 data class BudgetPlanDto(
     override val id: String,
     override val entityData: BudgetPlan,
+    override val computedFields: BudgetPlanComputedFields?
 ) : Dto<BudgetPlan, BudgetPlanComputedFields>(id, entityData, null)
 
-class BudgetPlanComputedFields : ComputedFields
+fun BudgetPlanDto.withComputedFieldsUsing(allBudgetCategoriesDtos: List<BudgetCategoryDto>): BudgetPlanDto = allBudgetCategoriesDtos
+    .sumOf { it.entityData.amount }
+    .let { alreadyBudgeted ->
+        copy(
+            computedFields = BudgetPlanComputedFields(
+                alreadyBudgeted = alreadyBudgeted,
+                toBeBudgeted = entityData.amountAtStart - alreadyBudgeted
+            )
+        )
+    }
+
+data class BudgetPlanComputedFields(
+    val alreadyBudgeted: Double,
+    val toBeBudgeted: Double,
+) : ComputedFields
 
 data class BudgetCategoryDto(
     override val id: String,
@@ -28,7 +42,7 @@ data class BudgetCategoryDto(
 
 fun BudgetCategoryDto.withComputedFieldsUsing(allTransactionsDtos: List<BudgetTransactionDto>): BudgetCategoryDto =
     allTransactionsDtos
-        .filter { transactionDto -> transactionDto.entityData.categoryRef.isRefOf(this) }
+        .filter { transactionDto -> transactionDto.entityData.categoryId == id }
         .let { transactionsDtos ->
             val spent = transactionsDtos.sumOf { it.entityData.amount }
 
@@ -59,7 +73,7 @@ fun BudgetTransactionDto.withComputedFieldsUsing(
     copy(
         computedFields = BudgetTransactionComputedFields(
             categoryName = allBudgetCategoriesDtos
-                .firstOrNull { categoryDto -> entityData.categoryRef.isRefOf(categoryDto) }
+                .firstOrNull { categoryDto -> entityData.categoryId == categoryDto.id }
                 ?.entityData
                 ?.name
                 ?: "Unknown",

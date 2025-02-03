@@ -1,6 +1,5 @@
 package dev.gallon.domain.entities
 
-import dev.gallon.domain.common.Ref
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
 
@@ -16,13 +15,13 @@ data class BudgetPlan(
 data class BudgetCategory(
     val name: String,
     val amount: Double,
-    val budgetPlanRef: Ref<BudgetPlan>,
+    val budgetPlanId: String,
 ) : EntityData
 
 @Serializable
 data class BudgetTransaction(
     val date: LocalDate,
-    val categoryRef: Ref<BudgetCategory>,
+    val categoryId: String,
     val amount: Double,
     val description: String,
     val status: BudgetTransactionStatus,

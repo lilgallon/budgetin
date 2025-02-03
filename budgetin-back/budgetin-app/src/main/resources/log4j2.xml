@@ -14,5 +14,6 @@
         </Root>
         <Logger name="org.eclipse.jetty" level="INFO"/>
         <Logger name="io.netty" level="INFO"/>
+        <Logger name="org.mongodb.driver" level="INFO"/>
     </Loggers>
 </Configuration>

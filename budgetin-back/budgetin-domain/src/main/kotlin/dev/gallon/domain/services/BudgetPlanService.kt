@@ -1,6 +1,5 @@
 package dev.gallon.domain.services
 
-import dev.gallon.domain.common.Ref
 import dev.gallon.domain.entities.BudgetCategory
 import dev.gallon.domain.entities.BudgetPlan
 import dev.gallon.domain.entities.BudgetTransaction
@@ -17,14 +16,14 @@ class BudgetPlanService(
 class BudgetCategoryService(
     private val repository: BudgetCategoryEntityRepository,
 ) : EntityService<BudgetCategory>(repository) {
-    suspend fun searchManyByBudgetPlanRef(budgetPlanRef: Ref<BudgetPlan>): Flow<Entity<BudgetCategory>> =
-        repository.searchManyByBudgetPlanRef(budgetPlanRef)
+    suspend fun searchManyByBudgetPlanId(budgetPlanId: String): Flow<Entity<BudgetCategory>> =
+        repository.searchManyByBudgetPlanId(budgetPlanId)
 }
 
 class BudgetTransactionService(
     private val repository: BudgetTransactionEntityRepository,
 ) : EntityService<BudgetTransaction>(repository) {
-    suspend fun searchManyByCategoriesRefs(
-        budgetCategoriesRefs: List<Ref<BudgetCategory>>,
-    ): Flow<Entity<BudgetTransaction>> = repository.searchManyByCategoriesRefs(budgetCategoriesRefs)
+    suspend fun searchManyByCategoriesIds(
+        budgetCategoriesIds: List<String>,
+    ): Flow<Entity<BudgetTransaction>> = repository.searchManyByCategoriesIds(budgetCategoriesIds)
 }

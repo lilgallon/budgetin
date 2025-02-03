@@ -40,19 +40,19 @@ fun Route.configureBudgetRouting() {
             }
 
             val categories: List<BudgetCategoryDto> = budgetCategoryService
-                .searchManyByBudgetPlanRef(budgetPlanDto!!.ref())
+                .searchManyByBudgetPlanId(budgetPlanDto!!.id)
                 .toList()
                 .map { it.toDto() }
 
             val transactions: List<BudgetTransactionDto> = budgetTransactionService
-                .searchManyByCategoriesRefs(categories.map { it.ref() })
+                .searchManyByCategoriesIds(categories.map { it.id })
                 .toList()
                 .map { it.toDto() }
 
             call.respond(
                 HttpStatusCode.OK,
                 BudgetDto(
-                    plan = budgetPlanDto,
+                    plan = budgetPlanDto.withComputedFieldsUsing(categories),
                     categories = categories.map { it.withComputedFieldsUsing(transactions) },
                     transactions = transactions.map { it.withComputedFieldsUsing(categories) },
                 ),

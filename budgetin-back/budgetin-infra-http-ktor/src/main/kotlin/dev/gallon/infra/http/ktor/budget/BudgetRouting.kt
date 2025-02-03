@@ -12,13 +12,21 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
 import org.koin.ktor.ext.inject
 
 fun Route.configureBudgetRouting() {
     // Entities - for individual CRUD
     val budgetPlanService by inject<BudgetPlanService>()
-    configureEntityCrudRouting<BudgetPlan>(budgetPlanService)
+    configureEntityCrudRouting<BudgetPlan>(budgetPlanService) {
+        get {
+            call.respond(
+                HttpStatusCode.OK,
+                budgetPlanService.searchMany().map { it.toDto() }
+            )
+        }
+    }
 
     val budgetCategoryService by inject<BudgetCategoryService>()
     configureEntityCrudRouting<BudgetCategory>(budgetCategoryService)

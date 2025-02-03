@@ -102,6 +102,9 @@ open class MongoEntityRepository<D : EntityData>(
         )
         .firstOrNull()
 
+    override suspend fun searchMany(): Flow<Entity<D>> = collection
+        .find()
+
     protected fun searchMany(filter: Bson): Flow<Entity<D>> = collection
         .find(filter)
 

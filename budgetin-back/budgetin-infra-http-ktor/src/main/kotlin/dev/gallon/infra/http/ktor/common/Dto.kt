@@ -2,7 +2,9 @@ package dev.gallon.infra.http.ktor.common
 
 import dev.gallon.domain.entities.Entity
 import dev.gallon.domain.entities.EntityData
+import kotlinx.serialization.Serializable
 
+@Serializable
 open class Dto<D : EntityData, out C : ComputedFields>(
     open val id: String,
     open val entityData: D,

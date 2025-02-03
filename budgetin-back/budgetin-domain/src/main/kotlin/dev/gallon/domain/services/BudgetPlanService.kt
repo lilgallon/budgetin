@@ -10,8 +10,11 @@ import dev.gallon.domain.repositories.BudgetTransactionEntityRepository
 import kotlinx.coroutines.flow.Flow
 
 class BudgetPlanService(
-    repository: BudgetPlanEntityRepository,
-) : EntityService<BudgetPlan>(repository)
+    private val repository: BudgetPlanEntityRepository,
+) : EntityService<BudgetPlan>(repository) {
+    suspend fun searchMany(): Flow<Entity<BudgetPlan>> =
+        repository.searchMany()
+}
 
 class BudgetCategoryService(
     private val repository: BudgetCategoryEntityRepository,

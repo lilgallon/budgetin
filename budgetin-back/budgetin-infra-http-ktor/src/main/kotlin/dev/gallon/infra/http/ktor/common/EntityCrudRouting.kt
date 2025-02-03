@@ -18,10 +18,6 @@ inline fun <reified D : EntityData> Route.configureEntityCrudRouting(
     route("/$endpoint") {
         additionalRoutesBuilder()
 
-        get {
-            call.respondText("list")
-        }
-
         post {
             call.respond(
                 HttpStatusCode.Created,

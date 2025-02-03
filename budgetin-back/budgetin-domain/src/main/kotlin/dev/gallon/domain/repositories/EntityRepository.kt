@@ -2,6 +2,7 @@ package dev.gallon.domain.repositories
 
 import dev.gallon.domain.entities.Entity
 import dev.gallon.domain.entities.EntityData
+import kotlinx.coroutines.flow.Flow
 
 interface EntityRepository<D : EntityData> {
     suspend fun create(data: D): Entity<D>
@@ -13,4 +14,6 @@ interface EntityRepository<D : EntityData> {
     suspend fun delete(id: String): Entity<D>
 
     suspend fun searchOneById(id: String): Entity<D>?
+
+    suspend fun searchMany(): Flow<Entity<D>>
 }

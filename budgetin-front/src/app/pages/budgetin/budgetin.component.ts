@@ -92,7 +92,14 @@ export class BudgetinComponent implements OnInit, OnDestroy {
   }
 
   public createBudgetPlan(budgetPlan: BudgetPlan): void {
-    console.log('TODO, CREATE', budgetPlan);
+    this.budgetPlanService.createBudgetPlan(budgetPlan).subscribe({
+      next: (createdBudgetPlan) => {
+        console.info('created', createdBudgetPlan);
+      },
+      error: (error: unknown) => {
+        console.error('error', error);
+      }
+    })
   }
 
   public createBudgetCategory(budgetCategory: BudgetCategory): void {

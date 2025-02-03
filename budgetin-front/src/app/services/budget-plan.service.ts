@@ -1,45 +1,24 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { BudgetPlanDto } from '../models/budget-dtos';
-import { map, Observable, of } from 'rxjs';
+import { map, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { BudgetPlan } from '../models/budget-entities';
 
 @Injectable({ providedIn: 'root' })
 export class BudgetPlanService {
+  private readonly httpClient = inject(HttpClient);
+
   public fetchBudgetPlans(): Observable<BudgetPlanDto[]> {
-    return of([
-      {
-        id: 'budgetplan-id',
-        entityData: {
-          amountAtStart: 123,
-          expectedIncome: 2000,
-          startDate: new Date(2025, 1, 1).toISOString(),
-          endDate: new Date(2025, 1, 20).toISOString(),
-        },
-        computedFields: {
-          alreadyBudgeted: 500,
-          toBeBudgeted: 1300,
-        },
-      } as unknown as BudgetPlanDto,
-      {
-        id: 'budgetplan-id2',
-        entityData: {
-          amountAtStart: 400,
-          expectedIncome: 1000,
-          startDate: new Date(2025, 2, 1).toISOString(),
-          endDate: new Date(2025, 2, 28).toISOString(),
-        },
-        computedFields: {
-          alreadyBudgeted: 100,
-          toBeBudgeted: 1300,
-        },
-      } as unknown as BudgetPlanDto,
-    ]).pipe(
-      map(list => {
-        return list.map(dto => {
-          dto.entityData.startDate = new Date(dto.entityData.startDate);
-          dto.entityData.endDate = new Date(dto.entityData.endDate);
-          return dto;
-        });
-      })
-    );
+    return this.httpClient.get<BudgetPlanDto[]>('budgetPlan').pipe(map(dtos => dtos.map(dto => this.mapTypes(dto))));
+  }
+
+  public createBudgetPlan(budgetPlan: BudgetPlan): Observable<BudgetPlanDto> {
+    return this.httpClient.post<BudgetPlanDto>('budgetPlan', budgetPlan).pipe(map(dto => this.mapTypes(dto)));
+  }
+
+  private mapTypes(budgetPlanDto: BudgetPlanDto): BudgetPlanDto {
+    budgetPlanDto.entityData.startDate = new Date(budgetPlanDto.entityData.startDate);
+    budgetPlanDto.entityData.endDate = new Date(budgetPlanDto.entityData.endDate);
+    return budgetPlanDto;
   }
 }

@@ -7,11 +7,11 @@ import { Breadcrumb } from 'primeng/breadcrumb';
 import { MenuItem } from 'primeng/api';
 
 @Component({
-  selector: 'app-root',
   imports: [RouterOutlet, MenubarComponent, Breadcrumb],
   providers: [{ provide: LOCALE_ID, useValue: 'fr-FR' }],
-  templateUrl: './app.component.html',
+  selector: 'app-root',
   styleUrl: './app.component.css',
+  templateUrl: './app.component.html',
 })
 export class AppComponent {
   constructor(private readonly primeng: PrimeNG) {

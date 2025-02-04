@@ -3,6 +3,7 @@ package dev.gallon.infra.http.ktor.budget
 import dev.gallon.domain.entities.BudgetCategory
 import dev.gallon.domain.entities.BudgetPlan
 import dev.gallon.domain.entities.BudgetTransaction
+import dev.gallon.domain.entities.Entity
 import dev.gallon.domain.services.BudgetCategoryService
 import dev.gallon.domain.services.BudgetPlanService
 import dev.gallon.domain.services.BudgetTransactionService
@@ -22,59 +23,78 @@ fun Route.configureBudgetRouting() {
     val budgetCategoryService by inject<BudgetCategoryService>()
     val budgetTransactionService by inject<BudgetTransactionService>()
 
-    configureEntityCrudRouting<BudgetPlan>(budgetPlanService) {
-        get {
-            val plans: List<BudgetPlanDto> = budgetPlanService.searchMany()
-                .toList()
-                .map { it.toDto() }
-            val categories: Map<String, List<BudgetCategoryDto>> = budgetCategoryService
-                .searchManyByBudgetPlanIds(plans.map { it.id })
-                .toList()
-                .map { it.toDto() }
-                .groupBy { it.data.budgetPlanId }
+    configureEntityCrudRouting<BudgetPlan, BudgetPlanDto>(budgetPlanService,
+        toDto = {
+            toDto().withComputedFieldsUsing(
+                allBudgetCategories = budgetCategoryService
+                    .searchManyByBudgetPlanIds(budgetPlanIds = listOf(id))
+                    .toList()
+            )
+        },
+        additionalRoutesBuilder = {
+            get {
+                val plans: List<BudgetPlanDto> = budgetPlanService.searchMany()
+                    .toList()
+                    .map { it.toDto() }
+                val categories: Map<String, List<Entity<BudgetCategory>>> = budgetCategoryService
+                    .searchManyByBudgetPlanIds(plans.map { it.id })
+                    .toList()
+                    .groupBy { it.data.budgetPlanId }
 
-            call.respond(
-                HttpStatusCode.OK,
-                plans.asFlow().map {
-                    it.withComputedFieldsUsing(categories[it.id].orEmpty())
-                },
+                call.respond(
+                    HttpStatusCode.OK,
+                    plans.asFlow().map {
+                        it.withComputedFieldsUsing(categories[it.id].orEmpty())
+                    },
+                )
+            }
+        }
+    )
+
+    configureEntityCrudRouting<BudgetCategory, BudgetCategoryDto>(
+        service = budgetCategoryService,
+        toDto = {
+            toDto().withComputedFieldsUsing(
+                allTransactions = budgetTransactionService.searchManyByCategoriesIds(listOf(id)).toList()
             )
         }
-    }
+    )
 
-    configureEntityCrudRouting<BudgetCategory>(budgetCategoryService)
-
-    configureEntityCrudRouting<BudgetTransaction>(budgetTransactionService)
+    configureEntityCrudRouting<BudgetTransaction, BudgetTransactionDto>(
+        service = budgetTransactionService,
+        toDto = {
+            toDto().withComputedFieldsUsing(
+                allBudgetCategories = listOf(budgetCategoryService.searchOneById(data.categoryId)!!)
+            )
+        }
+    )
 
     // DTOs - for data display
     route("/budget") {
         get("/{id}") {
             val budgetPlanId = call.parameters["id"]!!
 
-            val budgetPlanDto: BudgetPlanDto? = budgetPlanService
+            val budgetPlanDto: Entity<BudgetPlan>? = budgetPlanService
                 .searchOneById(budgetPlanId)
-                ?.toDto()
 
             if (budgetPlanDto == null) {
                 call.respond(HttpStatusCode.NotFound)
             }
 
-            val categories: List<BudgetCategoryDto> = budgetCategoryService
+            val categories: List<Entity<BudgetCategory>> = budgetCategoryService
                 .searchManyByBudgetPlanIds(listOf(budgetPlanDto!!.id))
                 .toList()
-                .map { it.toDto() }
 
-            val transactions: List<BudgetTransactionDto> = budgetTransactionService
+            val transactions: List<Entity<BudgetTransaction>> = budgetTransactionService
                 .searchManyByCategoriesIds(categories.map { it.id })
                 .toList()
-                .map { it.toDto() }
 
             call.respond(
                 HttpStatusCode.OK,
                 BudgetDto(
-                    plan = budgetPlanDto.withComputedFieldsUsing(categories),
-                    categories = categories.map { it.withComputedFieldsUsing(transactions) },
-                    transactions = transactions.map { it.withComputedFieldsUsing(categories) },
+                    plan = budgetPlanDto.toDto().withComputedFieldsUsing(categories),
+                    categories = categories.map { it.toDto().withComputedFieldsUsing(transactions) },
+                    transactions = transactions.map { it.toDto().withComputedFieldsUsing(categories) },
                 ),
             )
         }

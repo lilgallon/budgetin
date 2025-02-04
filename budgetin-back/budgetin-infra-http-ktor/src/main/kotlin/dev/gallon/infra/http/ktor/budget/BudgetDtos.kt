@@ -8,6 +8,7 @@ import dev.gallon.infra.http.ktor.common.ComputedFields
 import dev.gallon.infra.http.ktor.common.Dto
 import kotlinx.serialization.Serializable
 
+@Serializable
 data class BudgetDto(
     val plan: BudgetPlanDto,
     val categories: List<BudgetCategoryDto>,
@@ -33,7 +34,7 @@ fun Entity<BudgetPlan>.toDto(): BudgetPlanDto = BudgetPlanDto(
     computedFields = null
 )
 
-fun BudgetPlanDto.withComputedFieldsUsing(allBudgetCategoriesDtos: List<BudgetCategoryDto>): BudgetPlanDto = allBudgetCategoriesDtos
+fun BudgetPlanDto.withComputedFieldsUsing(allBudgetCategories: List<Entity<BudgetCategory>>): BudgetPlanDto = allBudgetCategories
     .sumOf { it.data.amount }
     .let { alreadyBudgeted ->
         copy(
@@ -58,8 +59,8 @@ data class BudgetCategoryComputedFields(
     val percentSpent: Double,
 ) : ComputedFields
 
-fun BudgetCategoryDto.withComputedFieldsUsing(allTransactionsDtos: List<BudgetTransactionDto>): BudgetCategoryDto =
-    allTransactionsDtos
+fun BudgetCategoryDto.withComputedFieldsUsing(allTransactions: List<Entity<BudgetTransaction>>): BudgetCategoryDto =
+    allTransactions
         .filter { transactionDto -> transactionDto.data.categoryId == id }
         .let { transactionsDtos ->
             val spent = transactionsDtos.sumOf { it.data.amount }
@@ -92,11 +93,11 @@ data class BudgetTransactionComputedFields(
 ) : ComputedFields
 
 fun BudgetTransactionDto.withComputedFieldsUsing(
-    allBudgetCategoriesDtos: List<BudgetCategoryDto>,
+    allBudgetCategories: List<Entity<BudgetCategory>>,
 ): BudgetTransactionDto =
     copy(
         computedFields = BudgetTransactionComputedFields(
-            categoryName = allBudgetCategoriesDtos
+            categoryName = allBudgetCategories
                 .firstOrNull { categoryDto -> data.categoryId == categoryDto.id }
                 ?.data
                 ?.name

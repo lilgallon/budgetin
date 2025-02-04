@@ -1,5 +1,4 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { BudgetCategoryDto, BudgetPlanDto, BudgetTransactionDto } from '../../models/budget-dtos';
 import { BudgetPlanService } from '../../services/budget-plan.service';
 import { forkJoin, Subscription, tap } from 'rxjs';
 import { BudgetCategoryService } from '../../services/budget-category.service';
@@ -9,10 +8,12 @@ import { BudgetPlanTableComponent } from '../../components/tables/budget-plan-ta
 import { BudgetCategoryTableComponent } from '../../components/tables/budget-category-table/budget-category-table.component';
 import { Button } from 'primeng/button';
 import { BudgetPlanCreateDialogComponent } from '../../components/dialogs/budget-plan-create-dialog/budget-plan-create-dialog.component';
-import { BudgetCategory, BudgetPlan, BudgetTransaction } from '../../models/budget-entities';
 import { BudgetCategoryChartComponent } from '../../components/charts/budget-category-chart/budget-category-chart.component';
 import { BudgetCategoryCreateDialogComponent } from '../../components/dialogs/budget-category-create-dialog/budget-category-create-dialog.component';
 import { BudgetTransactionCreateDialogComponent } from '../../components/dialogs/budget-transaction-create-dialog/budget-transaction-create-dialog.component';
+import { BudgetPlan, BudgetPlanEntityData } from '../../models/budget-plan.models';
+import { BudgetCategory, BudgetCategoryEntityData } from '../../models/budget-category.models';
+import { BudgetTransaction, BudgetTransactionEntityData } from '../../models/budget-transaction.models';
 
 @Component({
   selector: 'app-budgetin',
@@ -45,12 +46,12 @@ export class BudgetinComponent implements OnInit, OnDestroy {
   public showBudgetTransactionDialog = false;
 
   // Data
-  public budgetPlans: BudgetPlanDto[] = [];
-  public budgetCategories: BudgetCategoryDto[] = [];
-  public budgetTransactions: BudgetTransactionDto[] = [];
+  public budgetPlans: BudgetPlan[] = [];
+  public budgetCategories: BudgetCategory[] = [];
+  public budgetTransactions: BudgetTransaction[] = [];
 
   // State
-  public selectedBudgetPlan?: BudgetPlanDto;
+  public selectedBudgetPlan?: BudgetPlan;
 
   public ngOnInit(): void {
     this.fetchBudgetPlansSubscription = this.budgetPlanService
@@ -71,7 +72,7 @@ export class BudgetinComponent implements OnInit, OnDestroy {
     this.fetchBudgetCategoriesAndTransactionsSubscription?.unsubscribe();
   }
 
-  public onBudgetPlanSelect(budgetPlan: BudgetPlanDto): void {
+  public onBudgetPlanSelect(budgetPlan: BudgetPlan): void {
     this.selectedBudgetPlan = budgetPlan;
     this.fetchBudgetCategoriesAndTransactionsSubscription = forkJoin({
       categories: this.budgetCategoryService.fetchBudgetCategoriesByBudgetPlanId(budgetPlan.id),
@@ -91,7 +92,7 @@ export class BudgetinComponent implements OnInit, OnDestroy {
     this.budgetTransactions = [];
   }
 
-  public createBudgetPlan(budgetPlan: BudgetPlan): void {
+  public createBudgetPlan(budgetPlan: BudgetPlanEntityData): void {
     this.budgetPlanService.createBudgetPlan(budgetPlan).subscribe({
       next: (createdBudgetPlan) => {
         console.info('created', createdBudgetPlan);
@@ -102,11 +103,11 @@ export class BudgetinComponent implements OnInit, OnDestroy {
     })
   }
 
-  public createBudgetCategory(budgetCategory: BudgetCategory): void {
+  public createBudgetCategory(budgetCategory: BudgetCategoryEntityData): void {
     console.log('TODO, CREATE', budgetCategory);
   }
 
-  public createBudgetTransaction(budgetTransaction: BudgetTransaction): void {
+  public createBudgetTransaction(budgetTransaction: BudgetTransactionEntityData): void {
     console.log('TODO, CREATE', budgetTransaction);
   }
 }

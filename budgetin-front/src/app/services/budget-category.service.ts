@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { BudgetCategoryDto } from '../models/budget-dtos';
+import { BudgetCategory } from '../models/budget-category.models';
 
 @Injectable({ providedIn: 'root' })
 export class BudgetCategoryService {
-  public fetchBudgetCategoriesByBudgetPlanId(budgetPlanId: string): Observable<BudgetCategoryDto[]> {
+  public fetchBudgetCategoriesByBudgetPlanId(budgetPlanId: string): Observable<BudgetCategory[]> {
     return of([
       {
         id: 'car-id',

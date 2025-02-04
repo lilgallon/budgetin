@@ -1,7 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { ChangeDetectorRef, Component, computed, inject, input, OnInit, PLATFORM_ID } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
-import { BudgetCategoryDto } from '../../../models/budget-dtos';
+import { BudgetCategory } from '../../../models/budget-category.models';
 
 @Component({
   selector: 'app-budget-category-chart',
@@ -10,7 +10,7 @@ import { BudgetCategoryDto } from '../../../models/budget-dtos';
   styleUrl: './budget-category-chart.component.css',
 })
 export class BudgetCategoryChartComponent implements OnInit {
-  public budgetCategories = input<BudgetCategoryDto[]>([]);
+  public budgetCategories = input<BudgetCategory[]>([]);
   public basicData = computed(() => {
     const labels = this.budgetCategories().map(category => category.entityData.name);
     const data = this.budgetCategories().map(category => category.computedFields.remaining);

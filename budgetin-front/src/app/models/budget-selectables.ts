@@ -1,11 +1,11 @@
 import { Selectable } from '../../shared/models/selectable';
-import { BudgetCategoryDto } from './budget-dtos';
+import { BudgetCategory } from './budget-category.models';
 
-export function buildCategoriesSelectables(categories: BudgetCategoryDto[]): Selectable[] {
+export function buildCategoriesSelectables(categories: BudgetCategory[]): Selectable[] {
   return categories.map(category => buildCategorySelectable(category));
 }
 
-export function buildCategorySelectable(category: BudgetCategoryDto): Selectable {
+export function buildCategorySelectable(category: BudgetCategory): Selectable {
   return {
     id: category.id,
     label: category.entityData.name,

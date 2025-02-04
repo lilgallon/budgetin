@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { BudgetTransactionDto } from '../models/budget-dtos';
+import { BudgetTransaction } from '../models/budget-transaction.models';
 
 @Injectable({ providedIn: 'root' })
 export class BudgetTransactionService {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public fetchTransactionsByBudgetPlanId(budgetPlanId: string): Observable<BudgetTransactionDto[]> {
+  public fetchTransactionsByBudgetPlanId(budgetPlanId: string): Observable<BudgetTransaction[]> {
     return of([
       {
         id: '1000',

@@ -1,6 +1,4 @@
 import { Component, computed, effect, input, model, OnDestroy, output, signal } from '@angular/core';
-import { BudgetCategoryDto } from '../../../models/budget-dtos';
-import { BudgetTransaction, BudgetTransactionStatuses } from '../../../models/budget-entities';
 import { Dialog } from 'primeng/dialog';
 import { FormsModule } from '@angular/forms';
 import { Button } from 'primeng/button';
@@ -12,6 +10,8 @@ import { DatePicker } from 'primeng/datepicker';
 import { InputNumber } from 'primeng/inputnumber';
 import { Textarea } from 'primeng/textarea';
 import { MoneyTagComponent } from '../../../../shared/components/text/money-tag/money-tag.component';
+import { BudgetCategory } from '../../../models/budget-category.models';
+import { BudgetTransactionEntityData, BudgetTransactionStatuses } from '../../../models/budget-transaction.models';
 
 @Component({
   selector: 'app-budget-transaction-create-dialog',
@@ -31,14 +31,14 @@ import { MoneyTagComponent } from '../../../../shared/components/text/money-tag/
   styleUrl: './budget-transaction-create-dialog.component.css',
 })
 export class BudgetTransactionCreateDialogComponent implements OnDestroy {
-  public budgetCategories = input.required<BudgetCategoryDto[]>();
+  public budgetCategories = input.required<BudgetCategory[]>();
   public visible = model<boolean>(false);
-  public save = output<BudgetTransaction>();
+  public save = output<BudgetTransactionEntityData>();
   public budgetCategoriesChoices = computed(() => {
     return buildCategoriesSelectables(this.budgetCategories());
   });
   public selectedBudgetCategoryId = signal<string | undefined>(undefined);
-  public selectedBudgetCategory: BudgetCategoryDto | undefined;
+  public selectedBudgetCategory: BudgetCategory | undefined;
   public onSelectedCategoryChange = effect(() => {
     this.budgetTransaction.categoryId = this.selectedBudgetCategoryId() as unknown as string;
     this.selectedBudgetCategory = this.budgetCategories().find(
@@ -46,13 +46,13 @@ export class BudgetTransactionCreateDialogComponent implements OnDestroy {
     );
   });
 
-  public budgetTransaction: BudgetTransaction = {
+  public budgetTransaction: BudgetTransactionEntityData = {
     date: new Date(),
     categoryId: undefined,
     amount: 0,
     description: undefined,
     status: 'PAID',
-  } as unknown as BudgetTransaction;
+  } as unknown as BudgetTransactionEntityData;
 
   protected readonly BudgetTransactionStatuses = BudgetTransactionStatuses;
 

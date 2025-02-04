@@ -6,7 +6,7 @@ export type EntityData = object;
 
 export interface Entity<D extends EntityData, C extends ComputedFields> {
   id: string;
-  entityData: D;
+  data: D;
   computedFields: C;
 }
 
@@ -17,6 +17,6 @@ export type ComputedFieldsDto = object;
 
 export interface EntityDto<D extends EntityDataDto | EntityData, C extends ComputedFieldsDto | ComputedFields> {
   id: string;
-  entityData: D;
+  data: D;
   computedFields: C;
 }

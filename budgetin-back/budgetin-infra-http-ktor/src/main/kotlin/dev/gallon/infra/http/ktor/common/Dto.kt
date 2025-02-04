@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 open class Dto<D : EntityData, out C : ComputedFields>(
     open val id: String,
-    open val entityData: D,
+    open val data: D,
     open val computedFields: C? = null,
 )
 
@@ -16,5 +16,5 @@ interface ComputedFields
 @Suppress("UNCHECKED_CAST")
 fun <D : Dto<T, C>, T : EntityData, C : ComputedFields> Entity<T>.toDto(): D = Dto<T, C>(
     id = id,
-    entityData = data,
+    data = data,
 ) as D

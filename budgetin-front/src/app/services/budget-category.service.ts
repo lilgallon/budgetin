@@ -8,7 +8,7 @@ export class BudgetCategoryService {
     return of([
       {
         id: 'car-id',
-        entityData: {
+        data: {
           name: 'Voiture',
           amount: 100,
           budgetPlanId: budgetPlanId,
@@ -21,7 +21,7 @@ export class BudgetCategoryService {
       },
       {
         id: 'house-id',
-        entityData: {
+        data: {
           name: 'Loyer',
           amount: 1300,
           budgetPlanId: budgetPlanId,

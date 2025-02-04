@@ -7,6 +7,8 @@ import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { suffixInterceptor } from './interceptors/suffix.interceptor';
+import { MessageService } from 'primeng/api';
+import { errorInterceptor } from './interceptors/error.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -14,12 +16,13 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes, withComponentInputBinding()),
     provideAnimationsAsync(),
     provideHttpClient(
-      withInterceptors([suffixInterceptor])
+      withInterceptors([suffixInterceptor, errorInterceptor])
     ),
     providePrimeNG({
       theme: {
         preset: Aura,
       },
     }),
+    MessageService
   ],
 };

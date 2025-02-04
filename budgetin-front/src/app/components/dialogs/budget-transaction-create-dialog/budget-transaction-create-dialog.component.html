@@ -8,7 +8,7 @@
 
   @if (selectedBudgetCategory) {
     <span class="text-surface-500 dark:text-surface-400 block mb-8">
-      Sur le budget {{ selectedBudgetCategory.entityData.name }}, il restera
+      Sur le budget {{ selectedBudgetCategory.data.name }}, il restera
       <app-money-tag
         [money]="selectedBudgetCategory.computedFields.remaining - budgetTransaction.amount"></app-money-tag>
     </span>

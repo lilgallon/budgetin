@@ -26,23 +26,23 @@
   <ng-template #body let-transaction let-editing="editing">
     <tr [pEditableRow]="transaction">
       <td>
-        <app-date-editable-table-column [(date)]="transaction.entityData.date"></app-date-editable-table-column>
+        <app-date-editable-table-column [(date)]="transaction.data.date"></app-date-editable-table-column>
       </td>
       <td>
-        <app-money-editable-table-column [(money)]="transaction.entityData.amount"></app-money-editable-table-column>
+        <app-money-editable-table-column [(money)]="transaction.data.amount"></app-money-editable-table-column>
       </td>
       <td>
         <app-label-editable-table-column
-          [(label)]="transaction.entityData.description"></app-label-editable-table-column>
+          [(label)]="transaction.data.description"></app-label-editable-table-column>
       </td>
       <td>
         <app-select-editable-table-column
-          [(choice)]="transaction.entityData.categoryId"
+          [(choice)]="transaction.data.categoryId"
           [choices]="selectableCategories()"></app-select-editable-table-column>
       </td>
       <td>
         <app-select-editable-table-column
-          [(choice)]="transaction.entityData.status"
+          [(choice)]="transaction.data.status"
           [choices]="BudgetTransactionStatuses">
           <ng-template #selectable let-selectable>
             <p-tag [value]="selectable" [severity]="getSeverity(selectable)" />

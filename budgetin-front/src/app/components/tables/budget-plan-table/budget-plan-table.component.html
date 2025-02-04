@@ -29,16 +29,16 @@
   <ng-template #body let-plan let-editing="editing">
     <tr [pSelectableRow]="plan" [pEditableRow]="plan">
       <td>
-        <app-date-editable-table-column [(date)]="plan.entityData.startDate"></app-date-editable-table-column>
+        <app-date-editable-table-column [(date)]="plan.data.startDate"></app-date-editable-table-column>
       </td>
       <td>
-        <app-date-editable-table-column [(date)]="plan.entityData.endDate"></app-date-editable-table-column>
+        <app-date-editable-table-column [(date)]="plan.data.endDate"></app-date-editable-table-column>
       </td>
       <td>
-        <app-money-editable-table-column [(money)]="plan.entityData.amountAtStart"></app-money-editable-table-column>
+        <app-money-editable-table-column [(money)]="plan.data.amountAtStart"></app-money-editable-table-column>
       </td>
       <td>
-        <app-money-editable-table-column [(money)]="plan.entityData.expectedIncome"></app-money-editable-table-column>
+        <app-money-editable-table-column [(money)]="plan.data.expectedIncome"></app-money-editable-table-column>
       </td>
       <td>
         <app-edit-action-table-column [editing]="editing" (edit)="budgetPlanEdit.emit(plan)"></app-edit-action-table-column>

@@ -9,7 +9,7 @@ export class BudgetTransactionService {
     return of([
       {
         id: '1000',
-        entityData: {
+        data: {
           date: new Date(),
           amount: 65,
           description: 'essence',
@@ -22,7 +22,7 @@ export class BudgetTransactionService {
       },
       {
         id: '2000',
-        entityData: {
+        data: {
           date: new Date(),
           amount: 65,
           description: 'essence 2',

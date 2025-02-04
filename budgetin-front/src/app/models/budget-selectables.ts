@@ -8,6 +8,6 @@ export function buildCategoriesSelectables(categories: BudgetCategory[]): Select
 export function buildCategorySelectable(category: BudgetCategory): Selectable {
   return {
     id: category.id,
-    label: category.entityData.name,
+    label: category.data.name,
   };
 }

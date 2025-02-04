@@ -43,11 +43,11 @@ export abstract class BudgetPlanMapper {
   static toBusiness(dto: BudgetPlanDto): BudgetPlan {
     return {
       id: dto.id,
-      entityData: {
-        amountAtStart: dto.entityData.amountAtStart,
-        expectedIncome: dto.entityData.expectedIncome,
-        startDate: new Date(dto.entityData.startDate),
-        endDate: new Date(dto.entityData.endDate),
+      data: {
+        amountAtStart: dto.data.amountAtStart,
+        expectedIncome: dto.data.expectedIncome,
+        startDate: new Date(dto.data.startDate),
+        endDate: new Date(dto.data.endDate),
       },
       computedFields: {
         ...dto.computedFields,

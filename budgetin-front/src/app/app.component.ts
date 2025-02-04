@@ -5,9 +5,10 @@ import Aura from '@primeng/themes/aura';
 import { MenubarComponent } from '../shared/components/menubar/menubar.component';
 import { Breadcrumb } from 'primeng/breadcrumb';
 import { MenuItem } from 'primeng/api';
+import { Toast } from 'primeng/toast';
 
 @Component({
-  imports: [RouterOutlet, MenubarComponent, Breadcrumb],
+  imports: [RouterOutlet, MenubarComponent, Breadcrumb, Toast],
   providers: [{ provide: LOCALE_ID, useValue: 'fr-FR' }],
   selector: 'app-root',
   styleUrl: './app.component.css',

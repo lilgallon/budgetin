@@ -49,12 +49,12 @@ export abstract class BudgetTransactionMapper {
   static toBusiness(dto: BudgetTransactionDto): BudgetTransaction {
     return {
       id: dto.id,
-      entityData: {
-        date: new Date(dto.entityData.date),
-        categoryId: dto.entityData.categoryId,
-        amount: dto.entityData.amount,
-        description: dto.entityData.description,
-        status: dto.entityData.status,
+      data: {
+        date: new Date(dto.data.date),
+        categoryId: dto.data.categoryId,
+        amount: dto.data.amount,
+        description: dto.data.description,
+        status: dto.data.status,
       },
       computedFields: {
         ...dto.computedFields,

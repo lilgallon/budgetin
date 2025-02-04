@@ -3,8 +3,8 @@
     <div class="inline-flex items-center justify-center gap-2">
       <i class="pi pi-plus-circle"></i>
       <span class="font-bold whitespace-nowrap">
-        Création d'une catégorie pour la période du {{ budgetPlan().entityData.startDate | date: 'mediumDate' }} au
-        {{ budgetPlan().entityData.endDate | date: 'mediumDate' }}
+        Création d'une catégorie pour la période du {{ budgetPlan().data.startDate | date: 'mediumDate' }} au
+        {{ budgetPlan().data.endDate | date: 'mediumDate' }}
       </span>
     </div>
   </ng-template>
@@ -13,9 +13,9 @@
     Sur la période:
     <ul>
       <li class="mb-1">
-        - Montant au départ: <app-money-tag [money]="budgetPlan().entityData.amountAtStart"></app-money-tag>
+        - Montant au départ: <app-money-tag [money]="budgetPlan().data.amountAtStart"></app-money-tag>
       </li>
-      <li class="mb-1">- Prévu: <app-money-tag [money]="budgetPlan().entityData.expectedIncome"></app-money-tag></li>
+      <li class="mb-1">- Prévu: <app-money-tag [money]="budgetPlan().data.expectedIncome"></app-money-tag></li>
       <li class="mb-1">
         - Déjà budgeté: <app-money-tag [money]="budgetPlan().computedFields.alreadyBudgeted"></app-money-tag>
       </li>

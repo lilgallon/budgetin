@@ -14,6 +14,7 @@ import { BudgetTransactionCreateDialogComponent } from '../../components/dialogs
 import { BudgetPlan, BudgetPlanEntityData } from '../../models/budget-plan.models';
 import { BudgetCategory, BudgetCategoryEntityData } from '../../models/budget-category.models';
 import { BudgetTransaction, BudgetTransactionEntityData } from '../../models/budget-transaction.models';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-budgetin',
@@ -32,6 +33,7 @@ import { BudgetTransaction, BudgetTransactionEntityData } from '../../models/bud
 })
 export class BudgetinComponent implements OnInit, OnDestroy {
   // Injections
+  private readonly toastService: ToastService = inject(ToastService);
   private readonly budgetPlanService: BudgetPlanService = inject(BudgetPlanService);
   private readonly budgetCategoryService: BudgetCategoryService = inject(BudgetCategoryService);
   private readonly budgetTransactionService: BudgetTransactionService = inject(BudgetTransactionService);
@@ -93,25 +95,21 @@ export class BudgetinComponent implements OnInit, OnDestroy {
   }
 
   public createBudgetPlan(budgetPlan: BudgetPlanEntityData): void {
-    this.budgetPlanService.createBudgetPlan(budgetPlan).subscribe({
-      next: (createdBudgetPlan) => {
-        console.info('created', createdBudgetPlan);
-      },
-      error: (error: unknown) => {
-        console.error('error', error);
-      }
-    })
+    this.budgetPlanService.createBudgetPlan(budgetPlan).subscribe(createdBudgetPlan => {
+      this.toastService.success(
+        `Création du budget ${createdBudgetPlan.data.startDate.toLocaleDateString()}`,
+        'Création réussie'
+      );
+    });
   }
 
   public editBudgetPlan(budgetPlan: BudgetPlan): void {
-    this.budgetPlanService.updateBudgetPlan(budgetPlan.id, budgetPlan.entityData).subscribe({
-      next: (editedBudgetPlan) => {
-        console.info('edited', editedBudgetPlan);
-      },
-      error: (error: unknown) => {
-        console.error('error', error);
-      }
-    })
+    this.budgetPlanService.updateBudgetPlan(budgetPlan.id, budgetPlan.data).subscribe(editedBudgetPlan => {
+      this.toastService.success(
+        `Modification du budget ${editedBudgetPlan.data.startDate.toLocaleDateString()}`,
+        'Modification réussie'
+      );
+    });
   }
 
   public createBudgetCategory(budgetCategory: BudgetCategoryEntityData): void {
@@ -121,5 +119,4 @@ export class BudgetinComponent implements OnInit, OnDestroy {
   public createBudgetTransaction(budgetTransaction: BudgetTransactionEntityData): void {
     console.log('TODO, CREATE', budgetTransaction);
   }
-
 }

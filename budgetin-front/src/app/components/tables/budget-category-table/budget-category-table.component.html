@@ -19,9 +19,9 @@
   </ng-template>
   <ng-template #body let-category let-editing="editing">
     <tr [pEditableRow]="category">
-      <td><app-label-editable-table-column [(label)]="category.entityData.name"></app-label-editable-table-column></td>
+      <td><app-label-editable-table-column [(label)]="category.data.name"></app-label-editable-table-column></td>
       <td>
-        <app-money-editable-table-column [(money)]="category.entityData.amount"></app-money-editable-table-column>
+        <app-money-editable-table-column [(money)]="category.data.amount"></app-money-editable-table-column>
       </td>
       <td>{{ category.computedFields.spent | currency: 'EUR' }}</td>
       <td>{{ category.computedFields.remaining | currency: 'EUR' }}</td>

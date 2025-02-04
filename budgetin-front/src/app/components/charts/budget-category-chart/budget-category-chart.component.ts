@@ -12,7 +12,7 @@ import { BudgetCategory } from '../../../models/budget-category.models';
 export class BudgetCategoryChartComponent implements OnInit {
   public budgetCategories = input<BudgetCategory[]>([]);
   public basicData = computed(() => {
-    const labels = this.budgetCategories().map(category => category.entityData.name);
+    const labels = this.budgetCategories().map(category => category.data.name);
     const data = this.budgetCategories().map(category => category.computedFields.remaining);
     const documentStyle = getComputedStyle(document.documentElement);
 

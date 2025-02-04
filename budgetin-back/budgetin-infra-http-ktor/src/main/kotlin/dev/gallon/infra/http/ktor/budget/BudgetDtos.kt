@@ -14,17 +14,17 @@ data class BudgetDto(
 
 data class BudgetPlanDto(
     override val id: String,
-    override val entityData: BudgetPlan,
+    override val data: BudgetPlan,
     override val computedFields: BudgetPlanComputedFields?
-) : Dto<BudgetPlan, BudgetPlanComputedFields>(id, entityData, null)
+) : Dto<BudgetPlan, BudgetPlanComputedFields>(id, data, null)
 
 fun BudgetPlanDto.withComputedFieldsUsing(allBudgetCategoriesDtos: List<BudgetCategoryDto>): BudgetPlanDto = allBudgetCategoriesDtos
-    .sumOf { it.entityData.amount }
+    .sumOf { it.data.amount }
     .let { alreadyBudgeted ->
         copy(
             computedFields = BudgetPlanComputedFields(
                 alreadyBudgeted = alreadyBudgeted,
-                toBeBudgeted = entityData.amountAtStart - alreadyBudgeted
+                toBeBudgeted = data.amountAtStart - alreadyBudgeted
             )
         )
     }
@@ -36,21 +36,21 @@ data class BudgetPlanComputedFields(
 
 data class BudgetCategoryDto(
     override val id: String,
-    override val entityData: BudgetCategory,
+    override val data: BudgetCategory,
     override val computedFields: BudgetCategoryComputedFields?,
-) : Dto<BudgetCategory, BudgetCategoryComputedFields>(id, entityData, computedFields)
+) : Dto<BudgetCategory, BudgetCategoryComputedFields>(id, data, computedFields)
 
 fun BudgetCategoryDto.withComputedFieldsUsing(allTransactionsDtos: List<BudgetTransactionDto>): BudgetCategoryDto =
     allTransactionsDtos
-        .filter { transactionDto -> transactionDto.entityData.categoryId == id }
+        .filter { transactionDto -> transactionDto.data.categoryId == id }
         .let { transactionsDtos ->
-            val spent = transactionsDtos.sumOf { it.entityData.amount }
+            val spent = transactionsDtos.sumOf { it.data.amount }
 
             copy(
                 computedFields = BudgetCategoryComputedFields(
                     spent = spent,
-                    remaining = entityData.amount - spent,
-                    percentSpent = spent * 100.0 / entityData.amount,
+                    remaining = data.amount - spent,
+                    percentSpent = spent * 100.0 / data.amount,
                 ),
             )
         }
@@ -63,9 +63,9 @@ data class BudgetCategoryComputedFields(
 
 data class BudgetTransactionDto(
     override val id: String,
-    override val entityData: BudgetTransaction,
+    override val data: BudgetTransaction,
     override val computedFields: BudgetTransactionComputedFields?,
-) : Dto<BudgetTransaction, BudgetTransactionComputedFields>(id, entityData, computedFields)
+) : Dto<BudgetTransaction, BudgetTransactionComputedFields>(id, data, computedFields)
 
 fun BudgetTransactionDto.withComputedFieldsUsing(
     allBudgetCategoriesDtos: List<BudgetCategoryDto>,
@@ -73,8 +73,8 @@ fun BudgetTransactionDto.withComputedFieldsUsing(
     copy(
         computedFields = BudgetTransactionComputedFields(
             categoryName = allBudgetCategoriesDtos
-                .firstOrNull { categoryDto -> entityData.categoryId == categoryDto.id }
-                ?.entityData
+                .firstOrNull { categoryDto -> data.categoryId == categoryDto.id }
+                ?.data
                 ?.name
                 ?: "Unknown",
         ),

@@ -23,6 +23,7 @@
       <th>Date fin</th>
       <th>Montant de départ</th>
       <th>Revenu prévu</th>
+      <th>Reste à planifier</th>
       <th>Actions</th>
     </tr>
   </ng-template>
@@ -39,6 +40,13 @@
       </td>
       <td>
         <app-money-editable-table-column [(money)]="plan.data.expectedIncome"></app-money-editable-table-column>
+      </td>
+      <td>
+        <p-progress-bar [value]="plan.computedFields.toBeBudgeted">
+            <ng-template #content let-value>
+              <span>{{value}}/{{ plan.computedFields.alreadyBudgeted + plan.computedFields.toBeBudgeted }}</span>
+            </ng-template>
+        </p-progress-bar>
       </td>
       <td>
         <app-edit-action-table-column [editing]="editing" (edit)="budgetPlanEdit.emit(plan)"></app-edit-action-table-column>

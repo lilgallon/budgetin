@@ -5,6 +5,7 @@ import { DateEditableTableColumnComponent } from '../../../../shared/components/
 import { MoneyEditableTableColumnComponent } from '../../../../shared/components/table/money-editable-table-column/money-editable-table-column.component';
 import { EditActionTableColumnComponent } from '../../../../shared/components/table/edit-action-table-column/edit-action-table-column.component';
 import { BudgetPlan } from '../../../models/budget-plan.models';
+import { ProgressBar } from 'primeng/progressbar';
 
 @Component({
   selector: 'app-budget-plan-table',
@@ -14,6 +15,7 @@ import { BudgetPlan } from '../../../models/budget-plan.models';
     DateEditableTableColumnComponent,
     MoneyEditableTableColumnComponent,
     EditActionTableColumnComponent,
+    ProgressBar,
   ],
   templateUrl: './budget-plan-table.component.html',
   styleUrl: './budget-plan-table.component.css',

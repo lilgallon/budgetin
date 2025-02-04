@@ -6,6 +6,7 @@ import dev.gallon.domain.entities.BudgetTransaction
 import dev.gallon.domain.entities.Entity
 import dev.gallon.domain.repositories.BudgetTransactionEntityRepository
 import dev.gallon.infra.db.mongo.common.MongoEntityRepository
+import dev.gallon.infra.db.mongo.common.div
 import dev.gallon.infra.db.mongo.common.getCollection
 import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.Clock
@@ -17,6 +18,6 @@ class BudgetTransactionMongoRepository(
     override suspend fun searchManyByCategoriesIds(
         budgetCategoriesIds: List<String>,
     ): Flow<Entity<BudgetTransaction>> = searchMany(
-        Filters.`in`(BudgetTransaction::categoryId.name, budgetCategoriesIds),
+        Filters.`in`(Entity<BudgetTransaction>::data / BudgetTransaction::categoryId, budgetCategoriesIds),
     )
 }

@@ -25,6 +25,8 @@ operator fun String.div(other: String): String =
 
 fun hasId(id: String): Bson = Filters.eq("_id", ObjectId(id))
 
+fun hasId(ids: List<String>): Bson = Filters.`in`("_id", ids.map(::ObjectId))
+
 val isNotDeleted: Bson = Filters.exists(
     Entity<*>::metadata / EntityMetadata::modificationsLog / ModificationsLog::deleted,
     false,

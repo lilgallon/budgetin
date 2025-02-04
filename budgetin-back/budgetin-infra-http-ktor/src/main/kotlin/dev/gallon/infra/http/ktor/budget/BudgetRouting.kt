@@ -74,15 +74,15 @@ fun Route.configureBudgetRouting() {
         get("/{id}") {
             val budgetPlanId = call.parameters["id"]!!
 
-            val budgetPlanDto: Entity<BudgetPlan>? = budgetPlanService
+            val plan: Entity<BudgetPlan>? = budgetPlanService
                 .searchOneById(budgetPlanId)
 
-            if (budgetPlanDto == null) {
+            if (plan == null) {
                 call.respond(HttpStatusCode.NotFound)
             }
 
             val categories: List<Entity<BudgetCategory>> = budgetCategoryService
-                .searchManyByBudgetPlanIds(listOf(budgetPlanDto!!.id))
+                .searchManyByBudgetPlanIds(listOf(plan!!.id))
                 .toList()
 
             val transactions: List<Entity<BudgetTransaction>> = budgetTransactionService
@@ -92,7 +92,7 @@ fun Route.configureBudgetRouting() {
             call.respond(
                 HttpStatusCode.OK,
                 BudgetDto(
-                    plan = budgetPlanDto.toDto().withComputedFieldsUsing(categories),
+                    plan = plan.toDto().withComputedFieldsUsing(categories),
                     categories = categories.map { it.toDto().withComputedFieldsUsing(transactions) },
                     transactions = transactions.map { it.toDto().withComputedFieldsUsing(categories) },
                 ),

@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { BudgetPlan, BudgetPlanDto, BudgetPlanEntityData } from '../models/budget-plan.models';
+import { BudgetPlan, BudgetPlanDto, BudgetPlanEntityData, BudgetPlanMapper } from '../models/budget-plan.models';
 
 @Injectable({ providedIn: 'root' })
 export class BudgetPlanService {
@@ -10,12 +10,18 @@ export class BudgetPlanService {
   public fetchBudgetPlans(): Observable<BudgetPlan[]> {
     return this.httpClient
       .get<BudgetPlanDto[]>('budgetPlan')
-      .pipe(map(dtos => dtos.map(dto => dto.toBusiness())));
+      .pipe(map(dtos => dtos.map(dto => BudgetPlanMapper.toBusiness(dto))));
   }
 
   public createBudgetPlan(budgetPlan: BudgetPlanEntityData): Observable<BudgetPlan> {
     return this.httpClient
-      .post<BudgetPlanDto>('budgetPlan', budgetPlan.toDto())
-      .pipe(map(dto => dto.toBusiness()));
+      .post<BudgetPlanDto>('budgetPlan', BudgetPlanMapper.toDto(budgetPlan))
+      .pipe(map(dto => BudgetPlanMapper.toBusiness(dto)));
+  }
+
+  public updateBudgetPlan(id: string, budgetPlan: BudgetPlanEntityData): Observable<BudgetPlan> {
+    return this.httpClient
+      .put<BudgetPlanDto>(`budgetPlan/${id}`, BudgetPlanMapper.toDto(budgetPlan))
+      .pipe(map(dto => BudgetPlanMapper.toBusiness(dto)));
   }
 }

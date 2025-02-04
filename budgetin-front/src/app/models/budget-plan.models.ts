@@ -30,11 +30,28 @@ export interface BudgetPlanEntityDataDto extends EntityData {
 
 // Mappers
 
-export function planToDto(plan: BudgetPlanEntityData): BudgetPlanEntityDataDto {
-  return {
-    amountAtStart: plan.amountAtStart,
-    expectedIncome: plan.expectedIncome,
-    startDate: dateToDto(plan.startDate),
-    endDate: dateToDto(plan.endDate),
+export abstract class BudgetPlanMapper {
+  static toDto(domain: BudgetPlanEntityData): BudgetPlanEntityDataDto {
+    return {
+      amountAtStart: domain.amountAtStart,
+      expectedIncome: domain.expectedIncome,
+      startDate: dateToDto(domain.startDate),
+      endDate: dateToDto(domain.endDate),
+    };
+  }
+
+  static toBusiness(dto: BudgetPlanDto): BudgetPlan {
+    return {
+      id: dto.id,
+      entityData: {
+        amountAtStart: dto.entityData.amountAtStart,
+        expectedIncome: dto.entityData.expectedIncome,
+        startDate: new Date(dto.entityData.startDate),
+        endDate: new Date(dto.entityData.endDate),
+      },
+      computedFields: {
+        ...dto.computedFields,
+      },
+    };
   }
 }

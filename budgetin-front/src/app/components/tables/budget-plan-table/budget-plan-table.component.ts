@@ -33,9 +33,4 @@ export class BudgetPlanTableComponent {
   public onRowUnselect(): void {
     this.budgetPlanUnselect.emit();
   }
-
-  onRowEditSave(plan: BudgetPlan): void {
-    // todo: UPDATE
-    console.log(plan);
-  }
 }

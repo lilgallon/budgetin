@@ -21,3 +21,17 @@ export interface BudgetCategoryComputedFields extends ComputedFields {
 export type BudgetCategoryDto = EntityDto<BudgetCategoryEntityData, BudgetCategoryComputedFields>;
 
 // Mappers
+
+export abstract class BudgetCategoryMapper {
+  static toDto(domain: BudgetCategoryEntityData): BudgetCategoryEntityData {
+    return {
+      ...domain,
+    };
+  }
+
+  static toBusiness(dto: BudgetCategoryDto): BudgetCategory {
+    return {
+      ...dto,
+    };
+  }
+}

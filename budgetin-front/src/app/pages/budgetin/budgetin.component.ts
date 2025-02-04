@@ -103,6 +103,17 @@ export class BudgetinComponent implements OnInit, OnDestroy {
     })
   }
 
+  public editBudgetPlan(budgetPlan: BudgetPlan): void {
+    this.budgetPlanService.updateBudgetPlan(budgetPlan.id, budgetPlan.entityData).subscribe({
+      next: (editedBudgetPlan) => {
+        console.info('edited', editedBudgetPlan);
+      },
+      error: (error: unknown) => {
+        console.error('error', error);
+      }
+    })
+  }
+
   public createBudgetCategory(budgetCategory: BudgetCategoryEntityData): void {
     console.log('TODO, CREATE', budgetCategory);
   }
@@ -110,4 +121,5 @@ export class BudgetinComponent implements OnInit, OnDestroy {
   public createBudgetTransaction(budgetTransaction: BudgetTransactionEntityData): void {
     console.log('TODO, CREATE', budgetTransaction);
   }
+
 }

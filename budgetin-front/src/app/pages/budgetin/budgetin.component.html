@@ -1,6 +1,7 @@
 <app-budget-plan-table
   [budgetPlans]="budgetPlans"
   [selection]="selectedBudgetPlan ? [selectedBudgetPlan] : []"
+  (budgetPlanEdit)="editBudgetPlan($event)"
   (budgetPlanSelect)="onBudgetPlanSelect($event)"
   (budgetPlanUnselect)="onBudgetPlanUnselect()">
   <ng-container ngProjectAs="buttons">

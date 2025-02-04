@@ -41,7 +41,7 @@
         <app-money-editable-table-column [(money)]="plan.entityData.expectedIncome"></app-money-editable-table-column>
       </td>
       <td>
-        <app-edit-action-table-column [editing]="editing" (edit)="onRowEditSave(plan)"></app-edit-action-table-column>
+        <app-edit-action-table-column [editing]="editing" (edit)="budgetPlanEdit.emit(plan)"></app-edit-action-table-column>
       </td>
     </tr>
   </ng-template>

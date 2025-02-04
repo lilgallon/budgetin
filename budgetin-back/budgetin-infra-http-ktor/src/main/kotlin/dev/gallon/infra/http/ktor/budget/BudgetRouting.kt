@@ -19,19 +19,22 @@ import org.koin.ktor.ext.inject
 fun Route.configureBudgetRouting() {
     // Entities - for individual CRUD
     val budgetPlanService by inject<BudgetPlanService>()
+    val budgetCategoryService by inject<BudgetCategoryService>()
+    val budgetTransactionService by inject<BudgetTransactionService>()
+
     configureEntityCrudRouting<BudgetPlan>(budgetPlanService) {
         get {
             call.respond(
                 HttpStatusCode.OK,
-                budgetPlanService.searchMany().map { it.toDto() }
+                budgetPlanService.searchMany().map {
+                    it.toDto()
+                }
             )
         }
     }
 
-    val budgetCategoryService by inject<BudgetCategoryService>()
     configureEntityCrudRouting<BudgetCategory>(budgetCategoryService)
 
-    val budgetTransactionService by inject<BudgetTransactionService>()
     configureEntityCrudRouting<BudgetTransaction>(budgetTransactionService)
 
     // DTOs - for data display

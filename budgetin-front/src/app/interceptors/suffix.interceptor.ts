@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 export function suffixInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
   return next(
     req.clone({
-      url: `api/${req.url}`
+      url: `/api/${req.url}`
     })
   );
 }

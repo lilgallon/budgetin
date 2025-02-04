@@ -19,8 +19,8 @@ class BudgetPlanService(
 class BudgetCategoryService(
     private val repository: BudgetCategoryEntityRepository,
 ) : EntityService<BudgetCategory>(repository) {
-    suspend fun searchManyByBudgetPlanId(budgetPlanId: String): Flow<Entity<BudgetCategory>> =
-        repository.searchManyByBudgetPlanId(budgetPlanId)
+    suspend fun searchManyByBudgetPlanIds(budgetPlanIds: List<String>): Flow<Entity<BudgetCategory>> =
+        repository.searchManyByBudgetPlanIds(budgetPlanIds)
 }
 
 class BudgetTransactionService(

@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 interface BudgetPlanEntityRepository : EntityRepository<BudgetPlan>
 
 interface BudgetCategoryEntityRepository : EntityRepository<BudgetCategory> {
-    suspend fun searchManyByBudgetPlanId(budgetPlanId: String): Flow<Entity<BudgetCategory>>
+    suspend fun searchManyByBudgetPlanIds(budgetPlanIds: List<String>): Flow<Entity<BudgetCategory>>
 }
 
 interface BudgetTransactionEntityRepository : EntityRepository<BudgetTransaction> {

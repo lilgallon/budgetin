@@ -7,11 +7,11 @@ import dev.gallon.domain.services.BudgetCategoryService
 import dev.gallon.domain.services.BudgetPlanService
 import dev.gallon.domain.services.BudgetTransactionService
 import dev.gallon.infra.http.ktor.common.configureEntityCrudRouting
-import dev.gallon.infra.http.ktor.common.toDto
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
 import org.koin.ktor.ext.inject
@@ -24,11 +24,20 @@ fun Route.configureBudgetRouting() {
 
     configureEntityCrudRouting<BudgetPlan>(budgetPlanService) {
         get {
+            val plans: List<BudgetPlanDto> = budgetPlanService.searchMany()
+                .toList()
+                .map { it.toDto() }
+            val categories: Map<String, List<BudgetCategoryDto>> = budgetCategoryService
+                .searchManyByBudgetPlanIds(plans.map { it.id })
+                .toList()
+                .map { it.toDto() }
+                .groupBy { it.data.budgetPlanId }
+
             call.respond(
                 HttpStatusCode.OK,
-                budgetPlanService.searchMany().map {
-                    it.toDto()
-                }
+                plans.asFlow().map {
+                    it.withComputedFieldsUsing(categories[it.id].orEmpty())
+                },
             )
         }
     }
@@ -51,7 +60,7 @@ fun Route.configureBudgetRouting() {
             }
 
             val categories: List<BudgetCategoryDto> = budgetCategoryService
-                .searchManyByBudgetPlanId(budgetPlanDto!!.id)
+                .searchManyByBudgetPlanIds(listOf(budgetPlanDto!!.id))
                 .toList()
                 .map { it.toDto() }
 

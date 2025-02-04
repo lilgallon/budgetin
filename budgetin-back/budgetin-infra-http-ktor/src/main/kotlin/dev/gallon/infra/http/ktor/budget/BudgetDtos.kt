@@ -3,8 +3,10 @@ package dev.gallon.infra.http.ktor.budget
 import dev.gallon.domain.entities.BudgetCategory
 import dev.gallon.domain.entities.BudgetPlan
 import dev.gallon.domain.entities.BudgetTransaction
+import dev.gallon.domain.entities.Entity
 import dev.gallon.infra.http.ktor.common.ComputedFields
 import dev.gallon.infra.http.ktor.common.Dto
+import kotlinx.serialization.Serializable
 
 data class BudgetDto(
     val plan: BudgetPlanDto,
@@ -12,11 +14,24 @@ data class BudgetDto(
     val transactions: List<BudgetTransactionDto>,
 )
 
+@Serializable
 data class BudgetPlanDto(
     override val id: String,
     override val data: BudgetPlan,
     override val computedFields: BudgetPlanComputedFields?
-) : Dto<BudgetPlan, BudgetPlanComputedFields>(id, data, null)
+) : Dto<BudgetPlan, BudgetPlanComputedFields>()
+
+@Serializable
+data class BudgetPlanComputedFields(
+    val alreadyBudgeted: Double,
+    val toBeBudgeted: Double,
+) : ComputedFields
+
+fun Entity<BudgetPlan>.toDto(): BudgetPlanDto = BudgetPlanDto(
+    id = id,
+    data = data,
+    computedFields = null
+)
 
 fun BudgetPlanDto.withComputedFieldsUsing(allBudgetCategoriesDtos: List<BudgetCategoryDto>): BudgetPlanDto = allBudgetCategoriesDtos
     .sumOf { it.data.amount }
@@ -29,16 +44,19 @@ fun BudgetPlanDto.withComputedFieldsUsing(allBudgetCategoriesDtos: List<BudgetCa
         )
     }
 
-data class BudgetPlanComputedFields(
-    val alreadyBudgeted: Double,
-    val toBeBudgeted: Double,
-) : ComputedFields
-
+@Serializable
 data class BudgetCategoryDto(
     override val id: String,
     override val data: BudgetCategory,
     override val computedFields: BudgetCategoryComputedFields?,
-) : Dto<BudgetCategory, BudgetCategoryComputedFields>(id, data, computedFields)
+) : Dto<BudgetCategory, BudgetCategoryComputedFields>()
+
+@Serializable
+data class BudgetCategoryComputedFields(
+    val spent: Double,
+    val remaining: Double,
+    val percentSpent: Double,
+) : ComputedFields
 
 fun BudgetCategoryDto.withComputedFieldsUsing(allTransactionsDtos: List<BudgetTransactionDto>): BudgetCategoryDto =
     allTransactionsDtos
@@ -55,17 +73,23 @@ fun BudgetCategoryDto.withComputedFieldsUsing(allTransactionsDtos: List<BudgetTr
             )
         }
 
-data class BudgetCategoryComputedFields(
-    val spent: Double,
-    val remaining: Double,
-    val percentSpent: Double,
-) : ComputedFields
+fun Entity<BudgetCategory>.toDto(): BudgetCategoryDto = BudgetCategoryDto(
+    id = id,
+    data = data,
+    computedFields = null
+)
 
+@Serializable
 data class BudgetTransactionDto(
     override val id: String,
     override val data: BudgetTransaction,
     override val computedFields: BudgetTransactionComputedFields?,
-) : Dto<BudgetTransaction, BudgetTransactionComputedFields>(id, data, computedFields)
+) : Dto<BudgetTransaction, BudgetTransactionComputedFields>()
+
+@Serializable
+data class BudgetTransactionComputedFields(
+    val categoryName: String,
+) : ComputedFields
 
 fun BudgetTransactionDto.withComputedFieldsUsing(
     allBudgetCategoriesDtos: List<BudgetCategoryDto>,
@@ -80,6 +104,8 @@ fun BudgetTransactionDto.withComputedFieldsUsing(
         ),
     )
 
-data class BudgetTransactionComputedFields(
-    val categoryName: String,
-) : ComputedFields
+fun Entity<BudgetTransaction>.toDto(): BudgetTransactionDto = BudgetTransactionDto(
+    id = id,
+    data = data,
+    computedFields = null
+)

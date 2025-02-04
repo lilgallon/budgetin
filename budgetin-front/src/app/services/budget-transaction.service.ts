@@ -1,38 +1,26 @@
-import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { BudgetTransaction } from '../models/budget-transaction.models';
+import { inject, Injectable } from '@angular/core';
+import { map, Observable } from 'rxjs';
+import {
+  BudgetTransaction,
+  BudgetTransactionDto,
+  BudgetTransactionEntityData,
+  BudgetTransactionMapper,
+} from '../models/budget-transaction.models';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class BudgetTransactionService {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public fetchTransactionsByBudgetPlanId(budgetPlanId: string): Observable<BudgetTransaction[]> {
-    return of([
-      {
-        id: '1000',
-        data: {
-          date: new Date(),
-          amount: 65,
-          description: 'essence',
-          categoryId: 'car-id',
-          status: 'PAID',
-        },
-        computedFields: {
-          categoryName: 'Voiture',
-        },
-      },
-      {
-        id: '2000',
-        data: {
-          date: new Date(),
-          amount: 65,
-          description: 'essence 2',
-          categoryId: 'car-id',
-          status: 'PROCESSING',
-        },
-        computedFields: {
-          categoryName: 'Voiture',
-        },
-      },
-    ]);
+  private readonly httpClient = inject(HttpClient);
+
+  public createBudgetCategory(budgetTransaction: BudgetTransactionEntityData): Observable<BudgetTransaction> {
+    return this.httpClient
+      .post<BudgetTransactionDto>('budgetTransaction', BudgetTransactionMapper.toDto(budgetTransaction))
+      .pipe(map(dto => BudgetTransactionMapper.toBusiness(dto)));
+  }
+
+  public updateBudgetTransaction(id: string, budgetTransaction: BudgetTransactionEntityData): Observable<BudgetTransaction> {
+    return this.httpClient
+      .put<BudgetTransactionDto>(`budgetTransaction/${id}`, BudgetTransactionMapper.toDto(budgetTransaction))
+      .pipe(map(dto => BudgetTransactionMapper.toBusiness(dto)));
   }
 }

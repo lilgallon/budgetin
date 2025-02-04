@@ -9,17 +9,17 @@
   </ng-container>
 </app-budget-plan-table>
 
-@if (budgetCategories.length > 0) {
+@if (selectedBudgetPlan) {
   <app-budget-category-chart [budgetCategories]="budgetCategories"></app-budget-category-chart>
-  <app-budget-category-table [budgetCategories]="budgetCategories">
+  <app-budget-category-table [budgetCategories]="budgetCategories" (budgetCategoryUpdate)="editBudgetCategory($event)">
     <ng-container ngProjectAs="buttons">
       <p-button size="small" icon="pi pi-plus" class="pr-2" label="Créer" (onClick)="showBudgetCategoryDialog = true" />
     </ng-container>
   </app-budget-category-table>
 }
 
-@if (budgetTransactions.length > 0) {
-  <app-budget-transaction-table [budgetTransactions]="budgetTransactions" [budgetCategories]="budgetCategories">
+@if (selectedBudgetPlan) {
+  <app-budget-transaction-table [budgetTransactions]="budgetTransactions" [budgetCategories]="budgetCategories" (budgetTransactionUpdate)="editBudgetTransaction($event)">
     <ng-container ngProjectAs="buttons">
       <p-button
         size="small"

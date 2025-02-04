@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { CurrencyPipe } from '@angular/common';
 import { ProgressBar } from 'primeng/progressbar';
@@ -22,9 +22,5 @@ import { BudgetCategory } from '../../../models/budget-category.models';
 })
 export class BudgetCategoryTableComponent {
   public budgetCategories = input<BudgetCategory[]>([]);
-
-  public onRowEditSave(category: BudgetCategory): void {
-    // todo: UPDATE
-    console.log(category);
-  }
+  public budgetCategoryUpdate = output<BudgetCategory>();
 }

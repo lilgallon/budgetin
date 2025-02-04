@@ -1,6 +1,6 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { BudgetPlanService } from '../../services/budget-plan.service';
-import { forkJoin, Subscription, tap } from 'rxjs';
+import { Subscription, tap } from 'rxjs';
 import { BudgetCategoryService } from '../../services/budget-category.service';
 import { BudgetTransactionService } from '../../services/budget-transaction.service';
 import { BudgetTransactionTableComponent } from '../../components/tables/budget-transaction-table/budget-transaction-table.component';
@@ -15,6 +15,7 @@ import { BudgetPlan, BudgetPlanEntityData } from '../../models/budget-plan.model
 import { BudgetCategory, BudgetCategoryEntityData } from '../../models/budget-category.models';
 import { BudgetTransaction, BudgetTransactionEntityData } from '../../models/budget-transaction.models';
 import { ToastService } from '../../services/toast.service';
+import { BudgetPlanAggregateService } from '../../services/budget-plan-aggregate.service';
 
 @Component({
   selector: 'app-budgetin',
@@ -34,6 +35,7 @@ import { ToastService } from '../../services/toast.service';
 export class BudgetinComponent implements OnInit, OnDestroy {
   // Injections
   private readonly toastService: ToastService = inject(ToastService);
+  private readonly budgetPlanAggregateService: BudgetPlanAggregateService = inject(BudgetPlanAggregateService);
   private readonly budgetPlanService: BudgetPlanService = inject(BudgetPlanService);
   private readonly budgetCategoryService: BudgetCategoryService = inject(BudgetCategoryService);
   private readonly budgetTransactionService: BudgetTransactionService = inject(BudgetTransactionService);
@@ -76,14 +78,13 @@ export class BudgetinComponent implements OnInit, OnDestroy {
 
   public onBudgetPlanSelect(budgetPlan: BudgetPlan): void {
     this.selectedBudgetPlan = budgetPlan;
-    this.fetchBudgetCategoriesAndTransactionsSubscription = forkJoin({
-      categories: this.budgetCategoryService.fetchBudgetCategoriesByBudgetPlanId(budgetPlan.id),
-      transactions: this.budgetTransactionService.fetchTransactionsByBudgetPlanId(budgetPlan.id),
-    })
+
+    this.budgetPlanAggregateService
+      .fetchBudgetPlanAggregate(budgetPlan.id)
       .pipe(
-        tap(({ categories, transactions }) => {
-          this.budgetCategories = categories;
-          this.budgetTransactions = transactions;
+        tap(aggregate => {
+          this.budgetCategories = aggregate.categories;
+          this.budgetTransactions = aggregate.transactions;
         })
       )
       .subscribe();
@@ -95,11 +96,16 @@ export class BudgetinComponent implements OnInit, OnDestroy {
   }
 
   public createBudgetPlan(budgetPlan: BudgetPlanEntityData): void {
-    this.budgetPlanService.createBudgetPlan(budgetPlan).subscribe(createdBudgetPlan => {
-      this.toastService.success(
-        `Création du budget ${createdBudgetPlan.data.startDate.toLocaleDateString()}`,
-        'Création réussie'
-      );
+    this.budgetPlanService.createBudgetPlan(budgetPlan).subscribe({
+      next: createdBudgetPlan => {
+        this.toastService.success(
+          `Création du budget ${createdBudgetPlan.data.startDate.toLocaleDateString()}`,
+          'Création réussie'
+        );
+      },
+      complete: () => {
+        this.showBudgetPlanDialog = false;
+      }
     });
   }
 
@@ -113,10 +119,49 @@ export class BudgetinComponent implements OnInit, OnDestroy {
   }
 
   public createBudgetCategory(budgetCategory: BudgetCategoryEntityData): void {
-    console.log('TODO, CREATE', budgetCategory);
+    this.budgetCategoryService.createBudgetCategory(budgetCategory).subscribe({
+      next: createdBudgetCategory => {
+        this.toastService.success(`Création de la catégorie ${createdBudgetCategory.data.name}`, 'Création réussie');
+      },
+      complete: () => {
+        this.showBudgetCategoryDialog = false;
+      }
+    });
+  }
+
+  public editBudgetCategory(budgetCategory: BudgetCategory): void {
+    this.budgetCategoryService
+      .updateBudgetCategory(budgetCategory.id, budgetCategory.data)
+      .subscribe(editedBudgetCategory => {
+        this.toastService.success(
+          `Modification de la catégorie ${editedBudgetCategory.data.name}`,
+          'Modification réussie'
+        );
+      });
   }
 
   public createBudgetTransaction(budgetTransaction: BudgetTransactionEntityData): void {
-    console.log('TODO, CREATE', budgetTransaction);
+    this.budgetTransactionService.createBudgetCategory(budgetTransaction).subscribe({
+      next: createdBudgetTransaction => {
+        this.toastService.success(
+          `Création de la transaction ${createdBudgetTransaction.data.description}`,
+          'Création réussie'
+        );
+      },
+      complete: () => {
+        this.showBudgetTransactionDialog = false;
+      }
+    });
+  }
+
+  public editBudgetTransaction(budgetTransaction: BudgetTransaction): void {
+    this.budgetTransactionService
+      .updateBudgetTransaction(budgetTransaction.id, budgetTransaction.data)
+      .subscribe(editedBudgetTransaction => {
+        this.toastService.success(
+          `Modification de la transaction ${editedBudgetTransaction.data.description}`,
+          'Modification réussie'
+        );
+      });
   }
 }

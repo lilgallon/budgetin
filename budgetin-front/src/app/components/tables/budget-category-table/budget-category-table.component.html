@@ -31,7 +31,7 @@
       <td>
         <app-edit-action-table-column
           [editing]="editing"
-          (edit)="onRowEditSave(category)"></app-edit-action-table-column>
+          (edit)="budgetCategoryUpdate.emit(category)"></app-edit-action-table-column>
       </td>
     </tr>
   </ng-template>

@@ -1,4 +1,4 @@
-import { Component, computed, input, ViewEncapsulation } from '@angular/core';
+import { Component, computed, input, output, ViewEncapsulation } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { FormsModule } from '@angular/forms';
 import { Tag } from 'primeng/tag';
@@ -35,6 +35,7 @@ import { BudgetCategory } from '../../../models/budget-category.models';
 export class BudgetTransactionTableComponent {
   public budgetTransactions = input<BudgetTransaction[]>([]);
   public budgetCategories = input<BudgetCategory[]>([]);
+  public budgetTransactionUpdate = output<BudgetTransaction>();
   public selectableCategories = computed<Selectable[]>(() => buildCategoriesSelectables(this.budgetCategories()));
 
   public getSeverity(status: BudgetTransactionStatus) {
@@ -46,11 +47,6 @@ export class BudgetTransactionTableComponent {
       case 'PLANNED':
         return 'contrast';
     }
-  }
-
-  public onRowEditSave(transaction: BudgetTransaction): void {
-    // todo: UPDATE
-    console.log(transaction);
   }
 
   protected readonly BudgetTransactionStatuses = BudgetTransactionStatuses.map(x => {

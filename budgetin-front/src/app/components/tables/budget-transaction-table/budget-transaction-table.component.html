@@ -52,7 +52,7 @@
       <td>
         <app-edit-action-table-column
           [editing]="editing"
-          (edit)="onRowEditSave(transaction)"></app-edit-action-table-column>
+          (edit)="budgetTransactionUpdate.emit(transaction)"></app-edit-action-table-column>
       </td>
     </tr>
   </ng-template>
